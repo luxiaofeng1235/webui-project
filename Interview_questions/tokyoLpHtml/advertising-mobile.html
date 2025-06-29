@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advertising page mobile</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            height: 100vh; /* 使页面高度占满视口 */
+            display: flex;
+            flex-direction: column;
+        }
+        ul li a {
+            color: #2c3649;
+            font-weight: bold;
+            text-decoration: none;
+            font-size: 13px;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: #f8f9fa;
+        }
+
+        .logo img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+        }
+
+        nav ul li {
+            margin-left: 10px;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 50px 0;
+        }
+
+        .hero img {
+            width: 200px;
+        }
+        .hero h1 {
+            font-size: 60px;
+            color: yellow;
+        }
+
+        .course-tabs button {
+            margin: 5px;
+            padding: 10px 20px;
+            background-color: #f8f9fa;
+            border: none;
+            cursor: pointer;
+            border-radius: 999px; /* 让按钮变成弧形 */
+            font-weight: bold;
+            color: #fff;
+        }
+
+        .course-tabs .course-tabs-other {
+            background-color: #dfdfdf;
+        }
+
+        .payment-plan table {
+            border-collapse: collapse;
+            width:100%;
+            float: right;
+            margin-bottom: 20px;
+        }
+
+        .payment-plan table th, .payment-plan table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        .courses {
+            display: flex;
+            justify-content: space-between;
+            padding: 50px;
+        }
+
+        .courses .left, .courses .right {
+            width: 50%;
+        }
+
+        .middle-image {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            color: #2c3649;
+            font-size: 32px;
+            font-weight: bold;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+            pointer-events: none;
+            white-space: nowrap;
+        }
+
+        footer {
+            width: 100%; /* 或者指定具体宽度 */
+            /*height: 200px; /* 根据需要设置高度 */*/
+            overflow: hidden; /* 防止溢出 */
+            margin-top: 20px;
+        }
+
+        .showInfo {
+            color: #000;
+            font-weight: bold;
+            height: 21px;
+        }
+
+        .intro {
+            text-align: center;
+            height: 24px;
+        }
+
+        @media (max-width: 768px) {
+            .courses {
+                flex-direction: column;
+                padding: 20px; /* 调整间距 */
+            }
+
+            .courses .left, .courses .right {
+                width: 100%;
+            }
+
+            .hero h1 {
+                font-size: 40px; /* 调整标题字体大小 */
+            }
+
+            .hero img {
+                max-width: 100%; /* 图片自适应宽度 */
+            }
+
+            .course-tabs button {
+                width: 100%; /* 按钮全宽 */
+                margin: 10px 0; /* 上下间距 */
+            }
+        }
+
+   .table-general{
+    color:#e83f24;font-weight: bold;
+}
+.payment-plan .table-another{
+    text-align: right;
+}
+    </style>
+</head>
+<body>
+<div class="content" id="scrollable">
+    <header>
+        <div class="logo">
+            <img src="images/logo.png" alt="Logo">
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#">初めての方へ</a></li>
+                <li><a href="#">料金案内</a></li>
+                <li><a href="#">コース紹介</a></li>
+                <li><a href="#">インタビュー</a></li>
+                <li><a href="#">運営会社</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div style="display: flex; justify-content: space-between;">
+            <div style="margin-top: -50px;">
+                <img src="images/ellipse 3.png" alt="Reshared Logo" style="max-width: 100%; height: auto;">
+            </div>
+
+               <style>
+                    .image-container {
+                        position: relative;
+                        display: inline-block;
+                        text-align: center;
+
+                    }
+                    .image-container img {
+                        width: 100%; /* 图片宽度可以根据需要调整 */
+                        height: auto; /* 保持图片宽高比 */
+                        display: block; /* 去除图片底部空白间隙 */
+                    }
+
+                    .centered-text {
+                        position: absolute;
+                        top: 25%;
+                        left: 50%;
+                        transform: translate(-50%, -50%);
+                        color: #000; /* 文字颜色可以根据需要调整 */
+                        font-size: 24px; /* 字体大小可以根据需要调整 */
+                        font-weight: bold;
+                    }
+                </style>
+            <div class="image-container">
+                <img src="images/pices.png" alt="Sample Image" style="height: auto;">
+                <div class="centered-text">料金案内</div>
+            </div>
+            
+            <div style="width: 43%;margin-top: 20px;">
+                <img src="images/ellipse 2.png" alt="prices Logo" style="max-width: 100%; height: auto;">
+            </div>
+        </div>
+        <p class="showInfo">受けたいコースを選んでください</p>
+        <div class="course-tabs">
+            <button style="background: #fbff07;">Final Cut Pro編集コース</button>
+            <button class="course-tabs-other">ウェディング業界特化プラン</button>
+            <button class="course-tabs-other">YouTube編集者オプション</button>
+            <button class="course-tabs-other">After Effects コース</button>
+        </div>
+    </section>
+
+    <section class="payment-plan">
+        <h2 class="intro">お支払いプラン</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>総額</th>
+                    <th>授業料</th>
+                    <th>入学金</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>110,000円</td>
+                    <td>55,000円</td>
+                    <td class="table-general">0円</td>
+                </tr>
+                 <td colspan="3" class="table-general table-another">
+                       表示価格より5.5万円割引が適応されます
+                </td>
+            </tbody>
+        </table>
+        <table>
+            <thead>
+                <tr>
+                    <th>分割</th>
+                    <th>分割手数料</th>
+                    <th>1回の支払額</th>
+                    <th>分割合計金額</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1回</td>
+                    <td>2,200円</td>
+                    <td>55,000円</td>
+                    <td>110,000円</td>
+                </tr>
+                <tr>
+                    <td>3回</td>
+                    <td>2,200円</td>
+                    <td>20,533円</td>
+                    <td>116,600円</td>
+                </tr>
+                <tr>
+                    <td>6回</td>
+                    <td>2,200円</td>
+                    <td>11,366円</td>
+                    <td>123,200円</td>
+                </tr>
+                <tr>
+                    <td>12回</td>
+                    <td>2,200円</td>
+                    <td>6,783円</td>
+                    <td>136,400円</td>
+                </tr>
+                <tr>
+                    <td>24回</td>
+                    <td>2,200円</td>
+                    <td>4,492円</td>
+                    <td>162,800円</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <footer>
+        <img src="images/bottom-contact.png" style="" alt="bottom">
+    </footer>
+    <!--设置移动端滚到最后一屏的时候，禁止继续滚动，防止有白边出现-->
+    <script>
+        const scrollable = document.getElementById('scrollable');
+
+        scrollable.addEventListener('scroll', () => {
+            if (scrollable.scrollHeight <= scrollable.clientHeight) {
+                // 禁止滚动
+                scrollable.scrollTop = 0;
+            }
+        });
+    </script>
+</div>
+</body>
+</html>

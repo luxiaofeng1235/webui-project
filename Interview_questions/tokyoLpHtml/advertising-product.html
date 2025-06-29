@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advertising page introduction</title>
+    <!--
+    <link rel="stylesheet" href="styles.css">
+    -->
+</head>
+<style>
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100vh; /* 使页面高度占满视口 */
+}
+ul li a{
+    color: #2c3649;
+    font-weight: bold;
+    text-decoration: none;
+    font-size: 13px;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #f8f9fa;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+}
+
+nav ul li {
+    margin-left: 10px;
+}
+
+.hero {
+    text-align: center;
+    padding: 50px 0;
+}
+
+.hero img {
+    width: 200px;
+}
+
+.hero h1 {
+    font-size: 60px;
+    color: yellow;
+}
+
+.course-tabs button {
+    /*margin: 5px;*/
+     padding: 10px 20px;
+    background-color: #f8f9fa;
+    border: none;
+    cursor: pointer;
+    border-radius: 999px; /* 让按钮变成弧形 */
+    font-weight: bold;
+    color: #fff;
+    justify-content: flex-start; /* 左对齐 */
+    gap: 10px; /* 按钮之间的间距 */
+}
+.course-tabs .course-tabs-other{
+    background-color: #dfdfdf;
+}
+
+.course-tabs  .button-first{
+    background: #fbff07;
+     margin-left: -450px;
+}
+
+.payment-plan table {
+    border-collapse: collapse;
+    width:90%;
+    float: right;
+    margin-bottom: 20px;
+}
+
+.payment-plan table th, .payment-plan table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+    /*font-size: 16px;*/
+}
+
+.courses {
+    display: flex;
+    justify-content: space-between;
+    padding: 50px;
+}
+
+.courses .left {
+    width: 50%;
+}
+
+.courses .right {
+    width: 50%;
+}
+.middle-image{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    color: #2c3649; /* 可调整为你需要的颜色 */
+    font-size: 32px;
+    font-weight: bold;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    pointer-events: none;
+    white-space: nowrap;
+    width: 207px;
+    height: 71px;
+}
+ 
+
+footer {
+    width: 100%; /* 或者指定具体宽度 */
+    /*height: 200px; /* 根据需要设置高度 */*/
+    overflow: hidden; /* 防止溢出 */
+    margin-top: 20px;
+}
+.showInfo{
+    color: #000;
+    font-weight: bold;
+    /*width: 244px;*/
+    height: 21px;
+
+}
+.intro{
+    text-align: center;
+    height: 24px;
+}
+@media (max-width: 768px) {
+    .courses {
+        flex-direction: column;
+    }
+
+    .courses .left, .courses .right {
+        width: 100%;
+    }
+}
+.table-general{
+    color:#e83f24;font-weight: bold;
+}
+.payment-plan .table-another{
+    text-align: right;
+}
+
+</style>
+<body>
+    <header>
+        <div class="logo">
+            <img src="images/logo.png">
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#">初めての方へ</a></li>
+                <li><a href="#">料金案内</a></li>
+                <li><a href="#">コース紹介</a></li>
+                <li><a href="#">インタビュー</a></li>
+                <li><a href="#">運営会社</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero">
+       <div style="display: flex; width: 100%;">
+            <div style="width:120px;margin-top: -50px;">
+                <img src="images/ellipse 3.png" alt="Reshared Logo" style="max-width: 100%; height: auto;">
+            </div>
+
+      <div style="width:600px; margin:0 auto; position: relative; display: flex; justify-content: center; align-items: center;">
+            <img src="images/pices.png" alt="prices Logo" style="width:600px; height:auto; display:block;">
+            <span class="middle-image">
+                料金案内
+                    </span>
+                </div>
+            <div style="display: flex;width:100px;margin-top: 100px;margin-left: auto;">
+                <img src="images/ellipse 2.png" alt="prices Logo" style="max-width: 100%; height: auto;">
+            </div>
+        </div>
+      <!--
+        <h1>PRICES 料金案内</h1>
+        -->
+        <p class="showInfo">受けたいコースを選んでください</p>
+        <div class="course-tabs">
+            <button class="button-first">Final Cut Pro編集コース</button>
+            <button class="course-tabs-other">ウェディング業界特化プラン</button>
+            <button class="course-tabs-other">YouTube編集者オプション</button>
+            <button class="course-tabs-other">After Effects コース</button>
+        </div>
+    </section>
+
+    <section class="payment-plan" style="">
+        <h2 class="intro">お支払いプラン</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>総額</th>
+                    <th>授業料</th>
+                    <th>入学金</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>110,000円</td>
+                    <td>55,000円</td>
+                    <td class="table-general">0円</td>
+                </tr>
+                 <tr>
+                    <td colspan="3" class="table-general table-another">
+                       表示価格より5.5万円割引が適応されます
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table>
+            <thead>
+                <tr>
+                    <th>分割</th>
+                    <th>分割手数料</th>
+                    <th>1回の支払額</th>
+                    <th>分割合計金額</th>
+                </tr>
+                
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1回</td>
+                    <td>2,200円</td>
+                    <td>55,000円</td>
+                    <td>110,000円</td>
+                </tr>
+
+                 <tr>
+                    <td>3回</td>
+                    <td>2,200円</td>
+                    <td>20,533円</td>
+                    <td>116,600円</td>
+                </tr>
+
+                <tr>
+                    <td>6回</td>
+                    <td>2,200円</td>
+                    <td>11,366円</td>
+                    <td>123,200円</td>
+                </tr>
+
+                 <tr>
+                    <td>12回</td>
+                    <td>2,200円</td>
+                    <td>6,783円</td>
+                    <td>136,400円</td>
+                </tr>
+
+                 <tr>
+                    <td>24回</td>
+                    <td>2,200円</td>
+                    <td>4,492円</td>
+                    <td>162,800円</td>
+                </tr>
+
+
+                <!-- More rows as needed -->
+            </tbody>
+        </table>
+    </section>
+
+
+
+    <footer>
+        <img src="images/bottom-contact.png" style="width:100%;height: auto;" alt="bottom">
+    </footer>
+
+</body>
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>禁止滚动</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            height: 100vh; /* 页面高度占满视口 */
+            overflow: hidden; /* 隐藏滚动条 */
+            display: flex;
+            flex-direction: column;
+        }
+
+        .content {
+            flex: 1; /* 占满剩余空间 */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f0f0f0; /* 背景颜色 */
+            overflow-y: auto; /* 允许内容滚动 */
+        }
+
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="content" id="scrollable">
+
+        <div>
+            <h1>欢迎来到我的网站</h1>
+        <p>这是一些内容...</p>
+        <p>更多内容...</p>
+        <p>还有更多内容...</p>
+        <p>最后一屏内容...</p>
+        </div>
+         <div>
+            <h1>欢迎来到我的网站</h1>
+        <p>这是一些内容...</p>
+        <p>更多内容...</p>
+        <p>还有更多内容...</p>
+        <p>最后一屏内容...</p>
+        </div>
+        
+         <div>
+            <h1>欢迎来到我的网站</h1>
+        <p>这是一些内容...</p>
+        <p>更多内容...</p>
+        <p>还有更多内容...</p>
+        <p>最后一屏内容...</p>
+        </div>
+        
+        
+    </div>
+    <footer>
+        <p>版权所有 © 2025</p>
+    </footer>
+
+    <script>
+        const scrollable = document.getElementById('scrollable');
+
+        scrollable.addEventListener('scroll', () => {
+            if (scrollable.scrollHeight <= scrollable.clientHeight) {
+                // 禁止滚动
+                scrollable.scrollTop = 0;
+            }
+        });
+    </script>
+</body>
+
+</html>

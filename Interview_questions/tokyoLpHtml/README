@@ -1,0 +1,14 @@
+README
+该文件用来测试和展示书PC和移动端的广告页面的加载显示以及整体的LP静态页面的展示效果。其中，有两个文件advertising-product.html和advertising-mobile.html,主要的两个文件，scroll.html不需要关注，主要验证一些js的交互和页面效果
+
+
+----------------------------------------------------------------------
+
+Author：513072539@qq.com
+Modify：2025-06-27 15:19
+Phone:15637928033
+
+
+advertising-product.html ： 演示PC端的广告宣传页面的整体效果和输出
+advertising-mobile.html：主要在移动端下的显示效果H5页面，主要为了兼容手机端的整体显示做处理
+
