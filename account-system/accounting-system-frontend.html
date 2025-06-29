@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>智能记账本</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f5f7fa;
+            color: #333;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 768px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        /* 头部样式 */
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .header h1 {
+            font-size: 24px;
+            font-weight: 600;
+        }
+
+        /* 概览卡片 */
+        .summary-card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.08);
+        }
+
+        .summary-item {
+            text-align: center;
+            padding: 10px;
+        }
+
+        .summary-label {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .summary-amount {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .income { color: #10b981; }
+        .expense { color: #ef4444; }
+        .balance { color: #3b82f6; }
+
+        /* 标签页 */
+        .tabs {
+            display: flex;
+            background: white;
+            border-radius: 10px;
+            margin: 20px 0;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .tab {
+            flex: 1;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        .tab.active {
+            background: #667eea;
+            color: white;
+        }
+
+        /* 表单样式 */
+        .form-section {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.08);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #555;
+        }
+
+        .form-input, .form-select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        .form-input:focus, .form-select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        /* 交易记录列表 */
+        .transaction-list {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.08);
+        }
+
+        .transaction-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            border-bottom: 1px solid #f3f4f6;
+            transition: background-color 0.3s;
+        }
+
+        .transaction-item:hover {
+            background-color: #f9fafb;
+        }
+
+        .transaction-info {
+            flex: 1;
+        }
+
+        .transaction-category {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .transaction-date {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .transaction-amount {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .delete-btn {
+            background: #ef4444;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-left: 10px;
+            transition: background-color 0.3s;
+        }
+
+        .delete-btn:hover {
+            background: #dc2626;
+        }
+
+        /* 预算设置 */
+        .budget-warning {
+            background: #fef3c7;
+            border: 1px solid #f59e0b;
+            color: #92400e;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        /* 响应式设计 */
+        @media (min-width: 768px) {
+            .summary-card {
+                display: flex;
+                justify-content: space-around;
+            }
+
+            .form-section {
+                padding: 30px;
+            }
+        }
+
+        /* 动画效果 */
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .form-section, .transaction-list {
+            animation: slideIn 0.5s ease-out;
+        }
+
+        /* 加载动画 */
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .loading.active {
+            display: block;
+        }
+
+        .spinner {
+            border: 3px solid #f3f4f6;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* 空状态 */
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #999;
+        }
+
+        .empty-state svg {
+            width: 100px;
+            height: 100px;
+            margin-bottom: 20px;
+            opacity: 0.3;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="container">
+            <h1>💰 智能记账本</h1>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- 概览卡片 -->
+        <div class="summary-card">
+            <div class="summary-item">
+                <div class="summary-label">本月收入</div>
+                <div class="summary-amount income" id="monthlyIncome">¥0.00</div>
+            </div>
+            <div class="summary-item">
+                <div class="summary-label">本月支出</div>
+                <div class="summary-amount expense" id="monthlyExpense">¥0.00</div>
+            </div>
+            <div class="summary-item">
+                <div class="summary-label">结余</div>
+                <div class="summary-amount balance" id="monthlyBalance">¥0.00</div>
+            </div>
+        </div>
+
+        <!-- 预算警告 -->
+        <div id="budgetWarning" class="budget-warning" style="display: none;">
+            ⚠️ 本月支出已超过预算限额！
+        </div>
+
+        <!-- 标签页 -->
+        <div class="tabs">
+            <div class="tab active" onclick="switchTab('record')">记账</div>
+            <div class="tab" onclick="switchTab('list')">明细</div>
+            <div class="tab" onclick="switchTab('budget')">预算</div>
+        </div>
+
+        <!-- 记账表单 -->
+        <div id="recordSection" class="form-section">
+            <form id="recordForm">
+                <div class="form-group">
+                    <label class="form-label">类型</label>
+                    <select class="form-select" id="type" required>
+                        <option value="income">收入</option>
+                        <option value="expense">支出</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">分类</label>
+                    <select class="form-select" id="category" required>
+                        <option value="">请选择分类</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">金额</label>
+                    <input type="number" class="form-input" id="amount" step="0.01" placeholder="0.00" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">备注</label>
+                    <input type="text" class="form-input" id="description" placeholder="添加备注（选填）">
+                </div>
+                <button type="submit" class="btn btn-primary">保存记录</button>
+            </form>
+        </div>
+
+        <!-- 交易列表 -->
+        <div id="listSection" class="transaction-list" style="display: none;">
+            <h3 style="margin-bottom: 20px;">交易明细</h3>
+            <div class="loading" id="loading">
+                <div class="spinner"></div>
+            </div>
+            <div id="transactionList"></div>
+        </div>
+
+        <!-- 预算设置 -->
+        <div id="budgetSection" class="form-section" style="display: none;">
+            <h3 style="margin-bottom: 20px;">预算设置</h3>
+            <form id="budgetForm">
+                <div class="form-group">
+                    <label class="form-label">月度预算金额</label>
+                    <input type="number" class="form-input" id="budgetAmount" step="0.01" placeholder="0.00" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">提醒阈值（%）</label>
+                    <input type="number" class="form-input" id="budgetThreshold" value="80" min="50" max="100" required>
+                    <small style="color: #666; display: block; margin-top: 5px;">当支出达到预算的此百分比时发出提醒</small>
+                </div>
+                <button type="submit" class="btn btn-primary">保存设置</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // API配置
+        const API_BASE = 'http://localhost:3000/api';
+        
+        // 分类数据
+        const categories = {
+            income: ['工资', '奖金', '投资收益', '兼职', '其他收入'],
+            expense: ['餐饮', '购物', '交通', '娱乐', '居住', '医疗', '教育', '其他支出']
+        };
+
+        // 切换标签页
+        function switchTab(tab) {
+            // 更新标签样式
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            event.target.classList.add('active');
+
+            // 显示对应内容
+            document.getElementById('recordSection').style.display = tab === 'record' ? 'block' : 'none';
+            document.getElementById('listSection').style.display = tab === 'list' ? 'block' : 'none';
+            document.getElementById('budgetSection').style.display = tab === 'budget' ? 'block' : 'none';
+
+            // 加载数据
+            if (tab === 'list') {
+                loadTransactions();
+            } else if (tab === 'budget') {
+                loadBudget();
+            }
+        }
+
+        // 更新分类选项
+        function updateCategories() {
+            const type = document.getElementById('type').value;
+            const categorySelect = document.getElementById('category');
+            categorySelect.innerHTML = '<option value="">请选择分类</option>';
+            
+            categories[type].forEach(cat => {
+                const option = document.createElement('option');
+                option.value = cat;
+                option.textContent = cat;
+                categorySelect.appendChild(option);
+            });
+        }
+
+        // 加载交易记录
+        async function loadTransactions() {
+            const loading = document.getElementById('loading');
+            loading.classList.add('active');
+            
+            try {
+                const response = await fetch(`${API_BASE}/transactions`);
+                const data = await response.json();
+                
+                const listContainer = document.getElementById('transactionList');
+                if (data.length === 0) {
+                    listContainer.innerHTML = `
+                        <div class="empty-state">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+                            </svg>
+                            <p>暂无交易记录</p>
+                        </div>
+                    `;
+                } else {
+                    listContainer.innerHTML = data.map(transaction => `
+                        <div class="transaction-item">
+                            <div class="transaction-info">
+                                <div class="transaction-category">${transaction.category}</div>
+                                <div class="transaction-date">${new Date(transaction.date).toLocaleDateString()} ${transaction.description || ''}</div>
+                            </div>
+                            <div class="transaction-amount ${transaction.type}">
+                                ${transaction.type === 'income' ? '+' : '-'}¥${transaction.amount.toFixed(2)}
+                            </div>
+                            <button class="delete-btn" onclick="deleteTransaction('${transaction.id}')">删除</button>
+                        </div>
+                    `).join('');
+                }
+                
+                updateSummary();
+            } catch (error) {
+                console.error('加载交易记录失败:', error);
+                alert('加载失败，请检查网络连接');
+            } finally {
+                loading.classList.remove('active');
+            }
+        }
+
+        // 删除交易记录
+        async function deleteTransaction(id) {
+            if (!confirm('确定要删除这条记录吗？')) return;
+            
+            try {
+                const response = await fetch(`${API_BASE}/transactions/${id}`, {
+                    method: 'DELETE'
+                });
+                
+                if (response.ok) {
+                    loadTransactions();
+                    updateSummary();
+                }
+            } catch (error) {
+                console.error('删除失败:', error);
+                alert('删除失败，请重试');
+            }
+        }
+
+        // 更新统计概览
+        async function updateSummary() {
+            try {
+                const response = await fetch(`${API_BASE}/summary`);
+                const data = await response.json();
+                
+                document.getElementById('monthlyIncome').textContent = `¥${data.income.toFixed(2)}`;
+                document.getElementById('monthlyExpense').textContent = `¥${data.expense.toFixed(2)}`;
+                document.getElementById('monthlyBalance').textContent = `¥${data.balance.toFixed(2)}`;
+                
+                // 检查预算
+                checkBudget(data.expense);
+            } catch (error) {
+                console.error('更新统计失败:', error);
+            }
+        }
+
+        // 检查预算
+        async function checkBudget(expense) {
+            try {
+                const response = await fetch(`${API_BASE}/budget`);
+                const budget = await response.json();
+                
+                if (budget && budget.amount > 0) {
+                    const percentage = (expense / budget.amount) * 100;
+                    const warning = document.getElementById('budgetWarning');
+                    
+                    if (percentage >= budget.threshold) {
+                        warning.style.display = 'block';
+                        warning.textContent = percentage >= 100 
+                            ? `⚠️ 本月支出已超过预算 ${(percentage - 100).toFixed(1)}%！`
+                            : `⚠️ 本月支出已达预算的 ${percentage.toFixed(1)}%！`;
+                    } else {
+                        warning.style.display = 'none';
+                    }
+                }
+            } catch (error) {
+                console.error('检查预算失败:', error);
+            }
+        }
+
+        // 加载预算设置
+        async function loadBudget() {
+            try {
+                const response = await fetch(`${API_BASE}/budget`);
+                const budget = await response.json();
+                
+                if (budget) {
+                    document.getElementById('budgetAmount').value = budget.amount || '';
+                    document.getElementById('budgetThreshold').value = budget.threshold || 80;
+                }
+            } catch (error) {
+                console.error('加载预算失败:', error);
+            }
+        }
+
+        // 表单提交处理
+        document.getElementById('recordForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const transaction = {
+                type: document.getElementById('type').value,
+                category: document.getElementById('category').value,
+                amount: parseFloat(document.getElementById('amount').value),
+                description: document.getElementById('description').value,
+                date: new Date().toISOString()
+            };
+            
+            try {
+                const response = await fetch(`${API_BASE}/transactions`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(transaction)
+                });
+                
+                if (response.ok) {
+                    alert('记录保存成功！');
+                    document.getElementById('recordForm').reset();
+                    updateSummary();
+                }
+            } catch (error) {
+                console.error('保存失败:', error);
+                alert('保存失败，请重试');
+            }
+        });
+
+        // 预算表单提交
+        document.getElementById('budgetForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const budget = {
+                amount: parseFloat(document.getElementById('budgetAmount').value),
+                threshold: parseInt(document.getElementById('budgetThreshold').value)
+            };
+            
+            try {
+                const response = await fetch(`${API_BASE}/budget`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(budget)
+                });
+                
+                if (response.ok) {
+                    alert('预算设置保存成功！');
+                    updateSummary();
+                }
+            } catch (error) {
+                console.error('保存预算失败:', error);
+                alert('保存失败，请重试');
+            }
+        });
+
+        // 类型切换监听
+        document.getElementById('type').addEventListener('change', updateCategories);
+
+        // 初始化
+        updateCategories();
+        updateSummary();
+    </script>
+</body>
+</html>
