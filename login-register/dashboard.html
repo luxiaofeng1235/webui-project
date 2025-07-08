@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>商家后台 - 点餐管理</title>
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/pages/dashboard.css">
+
+
+
+
+</head>
+<body class="dashboard-page">
+    <!-- 顶部导航 -->
+    <nav class="dashboard-navbar">
+        <div class="dashboard-navbar-brand">商家后台管理系统</div>
+        <div class="dashboard-navbar-user">
+            <div class="dashboard-user-info">
+                <span>欢迎，</span>
+                <span id="username">商家用户</span>
+            </div>
+            <button class="dashboard-logout-btn" onclick="logout()">退出登录</button>
+        </div>
+    </nav>
+
+    <!-- 主容器 -->
+    <div class="dashboard-main-container">
+        <!-- 侧边栏 -->
+        <aside class="dashboard-sidebar">
+            <ul class="dashboard-sidebar-menu">
+                <li><a href="#" class="active">点餐管理</a></li>
+                <li><a href="#">菜品管理</a></li>
+                <li><a href="#">营业统计</a></li>
+                <li><a href="#">店铺设置</a></li>
+            </ul>
+        </aside>
+
+        <!-- 内容区域 -->
+        <main class="dashboard-content">
+            <!-- 统计卡片 -->
+            <div class="dashboard-stats-container">
+                <div class="dashboard-stat-card primary">
+                    <h3>今日订单</h3>
+                    <div class="value">28</div>
+                </div>
+                <div class="dashboard-stat-card success">
+                    <h3>已完成</h3>
+                    <div class="value">23</div>
+                </div>
+                <div class="dashboard-stat-card warning">
+                    <h3>制作中</h3>
+                    <div class="value">3</div>
+                </div>
+                <div class="dashboard-stat-card danger">
+                    <h3>待接单</h3>
+                    <div class="value">2</div>
+                </div>
+            </div>
+
+            <!-- 订单列表 -->
+            <div class="dashboard-orders-section">
+                <div class="dashboard-section-header">
+                    <h2>实时订单</h2>
+                    <div class="dashboard-filter-buttons">
+                        <button class="dashboard-filter-btn active" onclick="filterOrders('all')">全部</button>
+                        <button class="dashboard-filter-btn" onclick="filterOrders('new')">待接单</button>
+                        <button class="dashboard-filter-btn" onclick="filterOrders('preparing')">制作中</button>
+                        <button class="dashboard-filter-btn" onclick="filterOrders('ready')">待取餐</button>
+                        <button class="dashboard-filter-btn" onclick="filterOrders('completed')">已完成</button>
+                    </div>
+                </div>
+
+                <table class="dashboard-orders-table">
+                    <thead>
+                        <tr>
+                            <th>订单号</th>
+                            <th>下单时间</th>
+                            <th>顾客</th>
+                            <th>金额</th>
+                            <th>状态</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody id="orders-tbody">
+                        <!-- 订单数据将通过JavaScript动态加载 -->
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <!-- 订单详情模态框 -->
+    <div id="orderModal" class="dashboard-modal">
+        <div class="dashboard-modal-content">
+            <div class="dashboard-modal-header">
+                <h2 class="dashboard-modal-title">订单详情</h2>
+                <button class="dashboard-modal-close" onclick="closeModal()">&times;</button>
+            </div>
+            <div id="modal-body">
+                <!-- 订单详情将通过JavaScript动态加载 -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 模拟订单数据
+        const orders = [
+            {
+                id: '#2024010001',
+                time: '10:25',
+                customer: '张三',
+                phone: '138****1234',
+                amount: 58.00,
+                status: 'new',
+                items: [
+                    { name: '宫保鸡丁', quantity: 1, price: 28.00 },
+                    { name: '青椒肉丝', quantity: 1, price: 25.00 },
+                    { name: '米饭', quantity: 2, price: 5.00 }
+                ]
+            },
+            {
+                id: '#2024010002',
+                time: '10:18',
+                customer: '李四',
+                phone: '139****5678',
+                amount: 88.00,
+                status: 'preparing',
+                items: [
+                    { name: '糖醋排骨', quantity: 1, price: 38.00 },
+                    { name: '麻婆豆腐', quantity: 1, price: 18.00 },
+                    { name: '西红柿鸡蛋', quantity: 1, price: 22.00 },
+                    { name: '米饭', quantity: 2, price: 10.00 }
+                ]
+            },
+            {
+                id: '#2024010003',
+                time: '10:10',
+                customer: '王五',
+                phone: '137****9012',
+                amount: 45.00,
+                status: 'ready',
+                items: [
+                    { name: '鱼香肉丝', quantity: 1, price: 26.00 },
+                    { name: '酸辣土豆丝', quantity: 1, price: 16.00 },
+                    { name: '米饭', quantity: 1, price: 3.00 }
+                ]
+            },
+            {
+                id: '#2024010004',
+                time: '09:55',
+                customer: '赵六',
+                phone: '136****3456',
+                amount: 68.00,
+                status: 'completed',
+                items: [
+                    { name: '红烧肉', quantity: 1, price: 42.00 },
+                    { name: '清炒时蔬', quantity: 1, price: 18.00 },
+                    { name: '蛋花汤', quantity: 1, price: 8.00 }
+                ]
+            },
+            {
+                id: '#2024010005',
+                time: '09:45',
+                customer: '钱七',
+                phone: '135****7890',
+                amount: 35.00,
+                status: 'new',
+                items: [
+                    { name: '番茄炒蛋', quantity: 1, price: 20.00 },
+                    { name: '炒青菜', quantity: 1, price: 12.00 },
+                    { name: '米饭', quantity: 1, price: 3.00 }
+                ]
+            }
+        ];
+
+        // 获取用户名
+        const username = sessionStorage.getItem('username') || '商家用户';
+        document.getElementById('username').textContent = username;
+
+        // 渲染订单列表
+        function renderOrders(filter = 'all') {
+            const tbody = document.getElementById('orders-tbody');
+            tbody.innerHTML = '';
+
+            const filteredOrders = filter === 'all' ? orders : orders.filter(order => order.status === filter);
+
+            filteredOrders.forEach(order => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td class="dashboard-order-id">${order.id}</td>
+                    <td>${order.time}</td>
+                    <td>${order.customer}</td>
+                    <td>¥${order.amount.toFixed(2)}</td>
+                    <td>${getStatusBadge(order.status)}</td>
+                    <td>
+                        ${getActionButtons(order.status, order.id)}
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        // 获取状态标签
+        function getStatusBadge(status) {
+            const statusMap = {
+                'new': '<span class="dashboard-status-badge dashboard-status-new">待接单</span>',
+                'preparing': '<span class="dashboard-status-badge dashboard-status-preparing">制作中</span>',
+                'ready': '<span class="dashboard-status-badge dashboard-status-ready">待取餐</span>',
+                'completed': '<span class="dashboard-status-badge dashboard-status-completed">已完成</span>'
+            };
+            return statusMap[status] || '';
+        }
+
+        // 获取操作按钮
+        function getActionButtons(status, orderId) {
+            switch(status) {
+                case 'new':
+                    return `
+                        <div class="dashboard-action-buttons">
+                            <button class="dashboard-action-btn dashboard-btn-accept" onclick="acceptOrder('${orderId}')">接单</button>
+                            <button class="dashboard-action-btn dashboard-btn-view" onclick="viewOrder('${orderId}')">查看</button>
+                        </div>
+                    `;
+                case 'preparing':
+                    return `
+                        <div class="dashboard-action-buttons">
+                            <button class="dashboard-action-btn dashboard-btn-ready" onclick="markReady('${orderId}')">制作完成</button>
+                            <button class="dashboard-action-btn dashboard-btn-view" onclick="viewOrder('${orderId}')">查看</button>
+                        </div>
+                    `;
+                case 'ready':
+                    return `
+                        <div class="dashboard-action-buttons">
+                            <button class="dashboard-action-btn dashboard-btn-complete" onclick="completeOrder('${orderId}')">完成订单</button>
+                            <button class="dashboard-action-btn dashboard-btn-view" onclick="viewOrder('${orderId}')">查看</button>
+                        </div>
+                    `;
+                case 'completed':
+                    return `
+                        <div class="dashboard-action-buttons">
+                            <button class="dashboard-action-btn dashboard-btn-view" onclick="viewOrder('${orderId}')">查看</button>
+                        </div>
+                    `;
+                default:
+                    return '';
+            }
+        }
+
+        // 筛选订单
+        function filterOrders(filter) {
+            // 更新按钮状态
+            document.querySelectorAll('.dashboard-filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            // 重新渲染订单
+            renderOrders(filter);
+        }
+
+        // 接单
+        function acceptOrder(orderId) {
+            const order = orders.find(o => o.id === orderId);
+            if (order) {
+                order.status = 'preparing';
+                renderOrders();
+                alert('接单成功！');
+            }
+        }
+
+        // 标记为待取餐
+        function markReady(orderId) {
+            const order = orders.find(o => o.id === orderId);
+            if (order) {
+                order.status = 'ready';
+                renderOrders();
+                alert('已通知顾客取餐！');
+            }
+        }
+
+        // 完成订单
+        function completeOrder(orderId) {
+            const order = orders.find(o => o.id === orderId);
+            if (order) {
+                order.status = 'completed';
+                renderOrders();
+                alert('订单已完成！');
+            }
+        }
+
+        // 查看订单详情
+        function viewOrder(orderId) {
+            const order = orders.find(o => o.id === orderId);
+            if (order) {
+                const modalBody = document.getElementById('modal-body');
+                modalBody.innerHTML = `
+                    <div style="margin-bottom: 20px;">
+                        <p><strong>订单号：</strong>${order.id}</p>
+                        <p><strong>下单时间：</strong>${order.time}</p>
+                        <p><strong>顾客：</strong>${order.customer}</p>
+                        <p><strong>电话：</strong>${order.phone}</p>
+                        <p><strong>状态：</strong>${getStatusBadge(order.status)}</p>
+                    </div>
+                    
+                    <div class="dashboard-order-items">
+                        <h3>订单明细</h3>
+                        ${order.items.map(item => `
+                            <div class="dashboard-order-item">
+                                <div class="dashboard-item-info">
+                                    <span class="dashboard-item-name">${item.name}</span>
+                                    <span class="dashboard-item-quantity">x${item.quantity}</span>
+                                </div>
+                                <span class="dashboard-item-price">¥${item.price.toFixed(2)}</span>
+                            </div>
+                        `).join('')}
+                    </div>
+
+                    <div class="dashboard-order-summary">
+                        <div class="dashboard-summary-row">
+                            <span>小计</span>
+                            <span>¥${order.amount.toFixed(2)}</span>
+                        </div>
+                        <div class="dashboard-summary-row">
+                            <span>配送费</span>
+                            <span>¥0.00</span>
+                        </div>
+                        <div class="dashboard-summary-row total">
+                            <span>总计</span>
+                            <span>¥${order.amount.toFixed(2)}</span>
+                        </div>
+                    </div>
+                `;
+                
+                document.getElementById('orderModal').classList.add('show');
+            }
+        }
+
+        // 关闭模态框
+        function closeModal() {
+            document.getElementById('orderModal').classList.remove('show');
+        }
+
+        // 点击模态框外部关闭
+        window.onclick = function(event) {
+            const modal = document.getElementById('orderModal');
+            if (event.target === modal) {
+                modal.classList.remove('show');
+            }
+        }
+
+        // 退出登录
+        function logout() {
+            if (confirm('确定要退出登录吗？')) {
+                sessionStorage.clear();
+                window.location.href = 'index.html';
+            }
+        }
+
+        // 页面加载时渲染订单
+        renderOrders();
+
+        // 模拟实时更新（每30秒刷新一次）
+        setInterval(() => {
+            // 可以在这里添加获取新订单的逻辑
+            console.log('检查新订单...');
+        }, 30000);
+    </script>
+</body>
+</html>

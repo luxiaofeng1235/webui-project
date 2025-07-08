@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>菜品管理 - 餐饮管理系统</title>
+    <link rel="stylesheet" href="../css/base.css">
+    <link rel="stylesheet" href="../css/components.css">
+    <link rel="stylesheet" href="../css/admin/admin-common.css">
+</head>
+<body>
+    <script src="../js/admin-layout.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(() => {
+                initDishesPage();
+            }, 100);
+        });
+
+        async function initDishesPage() {
+            adminLayout.setPageTitle('菜品管理');
+            adminLayout.showLoading();
+            
+            try {
+                const dishes = await loadDishes();
+                renderDishesPage(dishes);
+            } catch (error) {
+                adminLayout.showError('加载菜品数据失败');
+            }
+        }
+
+        async function loadDishes() {
+            return new Promise((resolve) => {
+                setTimeout(() => {
+                    resolve([
+                        { id: 1, name: '宫保鸡丁', category: '川菜', price: 28.00, status: 'active', stock: 50 },
+                        { id: 2, name: '麻婆豆腐', category: '川菜', price: 18.00, status: 'active', stock: 30 }
+                    ]);
+                }, 800);
+            });
+        }
+
+        function renderDishesPage(dishes) {
+            const content = \`
+                <div class="admin-content-card">
+                    <div class="admin-content-card-header">
+                        <h2 class="admin-content-card-title">🍽️ 菜品管理</h2>
+                    </div>
+                    <div class="admin-content-card-body">
+                        <p>菜品管理功能正在开发中...</p>
+                    </div>
+                </div>
+            \`;
+            
+            adminLayout.setPageContent(content);
+        }
+    </script>
+</body>
+</html>

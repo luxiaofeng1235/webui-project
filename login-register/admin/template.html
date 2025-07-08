@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>页面模板 - 餐饮管理系统</title>
+    <!-- 引入CSS文件 -->
+    <link rel="stylesheet" href="../css/base.css">
+    <link rel="stylesheet" href="../css/components.css">
+    <link rel="stylesheet" href="../css/admin/admin-common.css">
+</head>
+<body>
+    <!-- 页面内容将由admin-layout.js自动渲染布局 -->
+    <!-- 这里只需要定义页面特定的内容 -->
+    
+    <!-- 引入布局管理器 -->
+    <script src="../js/admin-layout.js"></script>
+    
+    <!-- 页面特定的脚本 -->
+    <script>
+        // 等待布局加载完成后执行页面初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            // 等待布局渲染完成
+            setTimeout(() => {
+                initPage();
+            }, 100);
+        });
+
+        function initPage() {
+            // 设置页面标题
+            adminLayout.setPageTitle('页面模板');
+            
+            // 设置页面内容
+            const pageContent = `
+                <div class="admin-content-card">
+                    <div class="admin-content-card-header">
+                        <h2 class="admin-content-card-title">页面模板示例</h2>
+                    </div>
+                    <div class="admin-content-card-body">
+                        <p>这是一个使用新组件系统的页面模板示例。</p>
+                        
+                        <h3>特点：</h3>
+                        <ul>
+                            <li>✅ 自动渲染顶部导航栏</li>
+                            <li>✅ 自动渲染侧边栏菜单</li>
+                            <li>✅ 自动渲染面包屑导航</li>
+                            <li>✅ 自动处理用户认证</li>
+                            <li>✅ 响应式设计</li>
+                            <li>✅ 统一的样式系统</li>
+                        </ul>
+
+                        <h3>使用方法：</h3>
+                        <ol>
+                            <li>复制这个模板文件</li>
+                            <li>修改页面标题和内容</li>
+                            <li>在initPage()函数中编写页面逻辑</li>
+                            <li>就这么简单！</li>
+                        </ol>
+
+                        <div style="margin-top: 20px;">
+                            <button class="btn btn-primary" onclick="showAlert()">测试按钮</button>
+                            <button class="btn btn-success" onclick="loadData()">加载数据</button>
+                            <button class="btn btn-warning" onclick="showLoading()">显示加载</button>
+                        </div>
+
+                        <div class="admin-stats-grid" style="margin-top: 30px;">
+                            <div class="admin-stat-card primary">
+                                <h3 class="admin-stat-title">示例统计1</h3>
+                                <div class="admin-stat-number">123</div>
+                            </div>
+                            <div class="admin-stat-card success">
+                                <h3 class="admin-stat-title">示例统计2</h3>
+                                <div class="admin-stat-number">456</div>
+                            </div>
+                            <div class="admin-stat-card warning">
+                                <h3 class="admin-stat-title">示例统计3</h3>
+                                <div class="admin-stat-number">789</div>
+                            </div>
+                        </div>
+
+                        <table class="admin-data-table" style="margin-top: 30px;">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>名称</th>
+                                    <th>状态</th>
+                                    <th>创建时间</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>示例数据1</td>
+                                    <td><span class="badge badge-success">正常</span></td>
+                                    <td>2024-01-01 12:00:00</td>
+                                    <td>
+                                        <button class="admin-action-btn primary">编辑</button>
+                                        <button class="admin-action-btn danger">删除</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>示例数据2</td>
+                                    <td><span class="badge badge-warning">待审核</span></td>
+                                    <td>2024-01-02 14:30:00</td>
+                                    <td>
+                                        <button class="admin-action-btn primary">编辑</button>
+                                        <button class="admin-action-btn danger">删除</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            `;
+            
+            adminLayout.setPageContent(pageContent);
+        }
+
+        // 页面特定的功能函数
+        function showAlert() {
+            alert('这是一个测试按钮！');
+        }
+
+        function loadData() {
+            adminLayout.showLoading();
+            
+            // 模拟数据加载
+            setTimeout(() => {
+                alert('数据加载完成！');
+                initPage(); // 重新渲染页面
+            }, 2000);
+        }
+
+        function showLoading() {
+            adminLayout.showLoading();
+            
+            setTimeout(() => {
+                initPage();
+            }, 3000);
+        }
+    </script>
+</body>
+</html>

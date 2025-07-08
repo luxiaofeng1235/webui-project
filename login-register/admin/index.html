@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>仪表盘 - 餐饮管理系统</title>
+    <link rel="stylesheet" href="../css/base.css">
+    <link rel="stylesheet" href="../css/components.css">
+    <link rel="stylesheet" href="../css/admin/admin-common.css">
+</head>
+<body>
+    <script src="../js/admin-layout.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            setTimeout(() => {
+                initDashboard();
+            }, 100);
+        });
+
+        async function initDashboard() {
+            adminLayout.setPageTitle("仪表盘");
+            adminLayout.showLoading();
+            
+            try {
+                const stats = await loadDashboardStats();
+                renderDashboard(stats);
+            } catch (error) {
+                adminLayout.showError("加载仪表盘数据失败");
+            }
+        }
+
+        async function loadDashboardStats() {
+            return new Promise((resolve) => {
+                setTimeout(() => {
+                    resolve({
+                        todayRevenue: 8888,
+                        todayOrders: 156,
+                        totalDishes: 89,
+                        totalTables: 24
+                    });
+                }, 1000);
+            });
+        }
+
+        function renderDashboard(stats) {
+            const content = `
+                <div class="admin-content-card">
+                    <div class="admin-content-card-header">
+                        <h2 class="admin-content-card-title">📊 仪表盘概览</h2>
+                    </div>
+                    <div class="admin-content-card-body">
+                        <div class="admin-welcome-message">
+                            欢迎来到餐饮管理系统！
+                        </div>
+                        
+                        <div class="admin-stats-grid">
+                            <div class="admin-stat-card primary">
+                                <h3 class="admin-stat-title">💰 今日营业额</h3>
+                                <div class="admin-stat-number">¥${stats.todayRevenue.toLocaleString()}</div>
+                            </div>
+                            <div class="admin-stat-card success">
+                                <h3 class="admin-stat-title">📋 今日订单数</h3>
+                                <div class="admin-stat-number">${stats.todayOrders}</div>
+                            </div>
+                            <div class="admin-stat-card warning">
+                                <h3 class="admin-stat-title">🍽️ 菜品总数</h3>
+                                <div class="admin-stat-number">${stats.totalDishes}</div>
+                            </div>
+                            <div class="admin-stat-card info">
+                                <h3 class="admin-stat-title">🪑 桌台总数</h3>
+                                <div class="admin-stat-number">${stats.totalTables}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            adminLayout.setPageContent(content);
+        }
+    </script>
+</body>
+</html>

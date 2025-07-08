@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>管理后台</title>
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/pages/admin.css">
+
+
+</head>
+<body class="admin-page">
+    <div class="admin-sidebar">
+        <h3 class="admin-sidebar-title">餐饮管理系统</h3>
+        <ul class="admin-menu">
+            <li class="admin-menu-item"><a href="#" class="admin-menu-link active" onclick="showPage('dashboard', this)">仪表盘</a></li>
+            <li class="admin-menu-item"><a href="#" class="admin-menu-link" onclick="showPage('menu-categories', this)">菜品分类</a></li>
+            <li class="admin-menu-item"><a href="#" class="admin-menu-link" onclick="showPage('menu-items', this)">菜品管理</a></li>
+            <li class="admin-menu-item"><a href="#" class="admin-menu-link" onclick="showPage('tables', this)">桌台管理</a></li>
+            <li class="admin-menu-item"><a href="#" class="admin-menu-link" onclick="showPage('dining-orders', this)">点餐订单</a></li>
+            <li class="admin-menu-item"><a href="#" class="admin-menu-link" onclick="showPage('users', this)">用户管理</a></li>
+            <li class="admin-menu-item"><a href="#" class="admin-menu-link" onclick="showPage('settings', this)">系统设置</a></li>
+        </ul>
+    </div>
+
+    <div class="admin-main">
+        <div class="admin-header">
+            <h1 class="admin-header-title">餐饮管理系统</h1>
+            <div class="admin-user-info">
+                <span class="admin-user-name">欢迎，<span id="username">Admin</span></span>
+                <button class="admin-logout-btn" onclick="logout()">退出登录</button>
+            </div>
+        </div>
+
+        <div class="admin-content">
+            <!-- 仪表盘页面 -->
+            <div id="dashboard" class="admin-page-container active">
+                <h2 class="admin-page-title">仪表盘</h2>
+                <div class="admin-welcome-message">
+                    欢迎来到餐饮管理系统！
+                </div>
+                <div class="admin-stats-grid">
+                    <div class="admin-stat-card primary">
+                        <h3 class="admin-stat-title">今日营业额</h3>
+                        <div class="admin-stat-number">¥8,888</div>
+                    </div>
+                    <div class="admin-stat-card success">
+                        <h3 class="admin-stat-title">今日订单数</h3>
+                        <div class="admin-stat-number">156</div>
+                    </div>
+                    <div class="admin-stat-card warning">
+                        <h3 class="admin-stat-title">菜品总数</h3>
+                        <div class="admin-stat-number">89</div>
+                    </div>
+                    <div class="admin-stat-card info">
+                        <h3 class="admin-stat-title">桌台总数</h3>
+                        <div class="admin-stat-number">24</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 菜品分类页面 -->
+            <div id="menu-categories" class="admin-page-container">
+                <div class="admin-page-header">
+                    <h2 class="admin-page-title">菜品分类管理</h2>
+                    <div class="admin-page-actions">
+                        <button class="btn btn-success">添加分类</button>
+                    </div>
+                </div>
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>分类ID</th>
+                            <th>分类名称</th>
+                            <th>菜品数量</th>
+                            <th>状态</th>
+                            <th>创建时间</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- 数据将通过JavaScript动态加载 -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- 菜品管理页面 -->
+            <div id="menu-items" class="admin-page-container">
+                <div class="admin-page-header">
+                    <h2 class="admin-page-title">菜品管理</h2>
+                    <div class="admin-page-actions">
+                        <button class="btn btn-success">添加菜品</button>
+                    </div>
+                </div>
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>菜品ID</th>
+                            <th>菜品名称</th>
+                            <th>分类</th>
+                            <th>价格</th>
+                            <th>库存</th>
+                            <th>状态</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- 数据将通过JavaScript动态加载 -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- 桌台管理页面 -->
+            <div id="tables" class="admin-page-container">
+                <div class="admin-page-header">
+                    <h2 class="admin-page-title">桌台管理</h2>
+                    <div class="admin-page-actions">
+                        <button class="btn btn-success">添加桌台</button>
+                    </div>
+                </div>
+                <div class="admin-stats-grid">
+                    <div class="admin-stat-card primary">
+                        <h3 class="admin-stat-title">总桌台数</h3>
+                        <div class="admin-stat-number">24</div>
+                    </div>
+                    <div class="admin-stat-card success">
+                        <h3 class="admin-stat-title">空闲桌台</h3>
+                        <div class="admin-stat-number">18</div>
+                    </div>
+                    <div class="admin-stat-card warning">
+                        <h3 class="admin-stat-title">占用桌台</h3>
+                        <div class="admin-stat-number">6</div>
+                    </div>
+                </div>
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>桌台ID</th>
+                            <th>桌台编号</th>
+                            <th>桌台名称</th>
+                            <th>座位数</th>
+                            <th>位置</th>
+                            <th>状态</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- 数据将通过JavaScript动态加载 -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- 点餐订单页面 -->
+            <div id="dining-orders" class="admin-page-container">
+                <h2 class="admin-page-title">点餐订单管理</h2>
+                <div class="admin-stats-grid">
+                    <div class="admin-stat-card primary">
+                        <h3 class="admin-stat-title">今日订单</h3>
+                        <div class="admin-stat-number">156</div>
+                    </div>
+                    <div class="admin-stat-card warning">
+                        <h3 class="admin-stat-title">待处理</h3>
+                        <div class="admin-stat-number">12</div>
+                    </div>
+                    <div class="admin-stat-card info">
+                        <h3 class="admin-stat-title">制作中</h3>
+                        <div class="admin-stat-number">8</div>
+                    </div>
+                    <div class="admin-stat-card success">
+                        <h3 class="admin-stat-title">已完成</h3>
+                        <div class="admin-stat-number">136</div>
+                    </div>
+                </div>
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>订单ID</th>
+                            <th>订单号</th>
+                            <th>桌台</th>
+                            <th>总金额</th>
+                            <th>状态</th>
+                            <th>下单时间</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- 数据将通过JavaScript动态加载 -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- 用户管理页面 -->
+            <div id="users" class="admin-page-container">
+                <h2 class="admin-page-title">用户管理</h2>
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>用户名</th>
+                            <th>邮箱</th>
+                            <th>注册时间</th>
+                            <th>角色</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- 数据将通过JavaScript动态加载 -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- 系统设置页面 -->
+            <div id="settings" class="admin-page-container">
+                <h2 class="admin-page-title">系统设置</h2>
+                <form id="settings-form" class="admin-form">
+                    <div class="admin-form-group">
+                        <label class="admin-form-label" for="restaurant-name">餐厅名称</label>
+                        <input class="admin-form-control" type="text" id="restaurant-name" name="restaurant_name">
+                    </div>
+                    <div class="admin-form-group">
+                        <label class="admin-form-label" for="restaurant-address">餐厅地址</label>
+                        <input class="admin-form-control" type="text" id="restaurant-address" name="restaurant_address">
+                    </div>
+                    <div class="admin-form-group">
+                        <label class="admin-form-label" for="restaurant-phone">联系电话</label>
+                        <input class="admin-form-control" type="text" id="restaurant-phone" name="restaurant_phone">
+                    </div>
+                    <div class="admin-form-group">
+                        <label class="admin-form-label" for="business-hours">营业时间</label>
+                        <input class="admin-form-control" type="text" id="business-hours" name="business_hours">
+                    </div>
+                    <div class="admin-form-group">
+                        <label class="admin-form-label" for="tax-rate">税率设置</label>
+                        <input class="admin-form-control" type="number" id="tax-rate" name="tax_rate" step="0.01" min="0" max="1">
+                    </div>
+                    <div class="admin-form-group">
+                        <label class="admin-form-label" for="service-charge">服务费率</label>
+                        <input class="admin-form-control" type="number" id="service-charge" name="service_charge" step="0.01" min="0" max="1">
+                    </div>
+                    <button type="submit" class="btn btn-primary">保存设置</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- 引入API和管理脚本 -->
+    <script src="js/api.js"></script>
+    <script src="js/admin.js"></script>
+</body>
+</html>

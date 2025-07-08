@@ -1,0 +1,369 @@
+/* 登录注册页面样式 */
+
+/* 页面布局 */
+.auth-page {
+    background: linear-gradient(135deg, var(--primary-color) 0%, #764ba2 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: var(--spacing-5);
+}
+
+/* 认证容器 */
+.auth-container {
+    background: var(--bg-primary);
+    padding: var(--spacing-10);
+    border-radius: var(--border-radius-lg);
+    box-shadow: var(--shadow-xl);
+    width: 100%;
+    max-width: 400px;
+}
+
+/* 标签页导航 */
+.auth-tabs {
+    display: flex;
+    margin-bottom: var(--spacing-8);
+    border-bottom: 2px solid var(--gray-200);
+}
+
+.auth-tab {
+    flex: 1;
+    padding: var(--spacing-4);
+    text-align: center;
+    cursor: pointer;
+    font-size: var(--font-size-lg);
+    font-weight: 500;
+    color: var(--text-muted);
+    transition: all var(--transition-base);
+    border-bottom: 2px solid transparent;
+    margin-bottom: -2px;
+    background: none;
+    border-left: none;
+    border-right: none;
+    border-top: none;
+}
+
+.auth-tab:hover {
+    color: var(--text-primary);
+}
+
+.auth-tab.active {
+    color: var(--primary-color);
+    border-bottom-color: var(--primary-color);
+}
+
+/* 表单容器 */
+.auth-form-container {
+    display: none;
+}
+
+.auth-form-container.active {
+    display: block;
+}
+
+/* 表单组 */
+.auth-form-group {
+    margin-bottom: var(--spacing-5);
+}
+
+.auth-form-label {
+    display: block;
+    margin-bottom: var(--spacing-2);
+    color: var(--text-primary);
+    font-weight: 500;
+}
+
+.auth-form-input {
+    width: 100%;
+    padding: var(--spacing-3);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-sm);
+    font-size: var(--font-size-base);
+    transition: border-color var(--transition-base);
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+}
+
+.auth-form-input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.25);
+}
+
+.auth-form-input::placeholder {
+    color: var(--text-light);
+}
+
+/* 记住我和忘记密码 */
+.auth-remember-forgot {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-5);
+}
+
+.auth-remember {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0;
+    font-weight: normal;
+}
+
+.auth-remember input[type="checkbox"] {
+    margin-right: var(--spacing-2);
+    margin-top: 0;
+}
+
+.auth-forgot-link {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-size: var(--font-size-sm);
+}
+
+.auth-forgot-link:hover {
+    text-decoration: underline;
+}
+
+/* 提交按钮 */
+.auth-submit-btn {
+    width: 100%;
+    padding: var(--spacing-3);
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: var(--border-radius-sm);
+    font-size: var(--font-size-base);
+    font-weight: 500;
+    cursor: pointer;
+    transition: background var(--transition-base);
+}
+
+.auth-submit-btn:hover {
+    background: var(--primary-hover);
+}
+
+.auth-submit-btn:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.25);
+}
+
+.auth-submit-btn:disabled {
+    background: var(--gray-400);
+    cursor: not-allowed;
+}
+
+/* 表单底部 */
+.auth-form-footer {
+    margin-top: var(--spacing-5);
+    text-align: center;
+    color: var(--text-muted);
+}
+
+.auth-form-footer a {
+    color: var(--primary-color);
+    text-decoration: none;
+}
+
+.auth-form-footer a:hover {
+    text-decoration: underline;
+}
+
+/* 错误消息 */
+.auth-error-message {
+    color: var(--danger-color);
+    font-size: var(--font-size-sm);
+    margin-top: var(--spacing-1);
+    display: none;
+}
+
+.auth-error-message.show {
+    display: block;
+}
+
+/* 成功消息 */
+.auth-success-message {
+    color: var(--success-color);
+    font-size: var(--font-size-sm);
+    margin-top: var(--spacing-1);
+    display: none;
+}
+
+.auth-success-message.show {
+    display: block;
+}
+
+/* 加载状态 */
+.auth-loading {
+    position: relative;
+}
+
+.auth-loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    margin: -10px 0 0 -10px;
+    border: 2px solid transparent;
+    border-top: 2px solid white;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+/* 响应式设计 */
+@media (max-width: 480px) {
+    .auth-container {
+        padding: var(--spacing-6);
+        margin: var(--spacing-4);
+    }
+    
+    .auth-tab {
+        font-size: var(--font-size-base);
+        padding: var(--spacing-3);
+    }
+}
+
+/* 忘记密码页面特殊样式 */
+.forgot-password-page {
+    background: linear-gradient(135deg, var(--primary-color) 0%, #764ba2 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: var(--spacing-5);
+}
+
+.forgot-password-container {
+    background: var(--bg-primary);
+    padding: var(--spacing-10);
+    border-radius: var(--border-radius-lg);
+    box-shadow: var(--shadow-xl);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+}
+
+.forgot-password-title {
+    margin-bottom: var(--spacing-6);
+    color: var(--text-primary);
+    font-size: var(--font-size-2xl);
+    font-weight: 600;
+}
+
+.forgot-password-description {
+    margin-bottom: var(--spacing-6);
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+.forgot-password-back {
+    margin-top: var(--spacing-5);
+}
+
+.forgot-password-back a {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-size: var(--font-size-sm);
+}
+
+.forgot-password-back a:hover {
+    text-decoration: underline;
+}
+
+/* 表单验证状态 */
+.auth-form-input.is-invalid {
+    border-color: var(--danger-color);
+}
+
+.auth-form-input.is-invalid:focus {
+    border-color: var(--danger-color);
+    box-shadow: 0 0 0 2px rgba(229, 62, 62, 0.25);
+}
+
+.auth-form-input.is-valid {
+    border-color: var(--success-color);
+}
+
+.auth-form-input.is-valid:focus {
+    border-color: var(--success-color);
+    box-shadow: 0 0 0 2px rgba(72, 187, 120, 0.25);
+}
+
+/* 密码强度指示器 */
+.password-strength {
+    margin-top: var(--spacing-2);
+    height: 4px;
+    background-color: var(--gray-200);
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.password-strength-bar {
+    height: 100%;
+    transition: width var(--transition-base), background-color var(--transition-base);
+    width: 0%;
+}
+
+.password-strength-weak .password-strength-bar {
+    width: 33%;
+    background-color: var(--danger-color);
+}
+
+.password-strength-medium .password-strength-bar {
+    width: 66%;
+    background-color: var(--warning-color);
+}
+
+.password-strength-strong .password-strength-bar {
+    width: 100%;
+    background-color: var(--success-color);
+}
+
+.password-strength-text {
+    font-size: var(--font-size-xs);
+    margin-top: var(--spacing-1);
+    color: var(--text-muted);
+}
+
+/* 社交登录按钮 */
+.social-login {
+    margin-top: var(--spacing-6);
+    padding-top: var(--spacing-6);
+    border-top: 1px solid var(--border-color);
+}
+
+.social-login-title {
+    text-align: center;
+    margin-bottom: var(--spacing-4);
+    color: var(--text-muted);
+    font-size: var(--font-size-sm);
+}
+
+.social-login-buttons {
+    display: flex;
+    gap: var(--spacing-3);
+}
+
+.social-login-btn {
+    flex: 1;
+    padding: var(--spacing-3);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-sm);
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    text-decoration: none;
+    text-align: center;
+    transition: all var(--transition-base);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-2);
+}
+
+.social-login-btn:hover {
+    background: var(--gray-50);
+    border-color: var(--gray-300);
+    text-decoration: none;
+}

@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登录注册页面</title>
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/pages/auth.css">
+</head>
+<body class="auth-page">
+    <div class="auth-container">
+        <div class="auth-tabs">
+            <button class="auth-tab active" onclick="switchTab('login')">登录</button>
+            <button class="auth-tab" onclick="switchTab('register')">注册</button>
+        </div>
+
+        <!-- 登录表单 -->
+        <div id="login" class="auth-form-container active">
+            <form onsubmit="handleLogin(event)">
+                <div class="auth-form-group">
+                    <label class="auth-form-label" for="login-username">用户名</label>
+                    <input class="auth-form-input" type="text" id="login-username" required placeholder="请输入用户名">
+                    <div class="auth-error-message" id="login-username-error"></div>
+                </div>
+                <div class="auth-form-group">
+                    <label class="auth-form-label" for="login-password">密码</label>
+                    <input class="auth-form-input" type="password" id="login-password" required placeholder="请输入密码">
+                    <div class="auth-error-message" id="login-password-error"></div>
+                </div>
+                <div class="auth-remember-forgot">
+                    <label class="auth-remember">
+                        <input type="checkbox" id="remember-me">
+                        记住我
+                    </label>
+                    <a class="auth-forgot-link" href="forgot-password.html">忘记密码？</a>
+                </div>
+                <button type="submit" class="auth-submit-btn">登录</button>
+            </form>
+            <div class="auth-form-footer">
+                还没有账号？<a href="#" onclick="switchTab('register')">立即注册</a>
+            </div>
+        </div>
+
+        <!-- 注册表单 -->
+        <div id="register" class="auth-form-container">
+            <form onsubmit="handleRegister(event)">
+                <div class="auth-form-group">
+                    <label class="auth-form-label" for="register-username">用户名</label>
+                    <input class="auth-form-input" type="text" id="register-username" required placeholder="请输入用户名">
+                    <div class="auth-error-message" id="register-username-error"></div>
+                </div>
+                <div class="auth-form-group">
+                    <label class="auth-form-label" for="register-email">邮箱</label>
+                    <input class="auth-form-input" type="email" id="register-email" required placeholder="请输入邮箱">
+                    <div class="auth-error-message" id="register-email-error"></div>
+                </div>
+                <div class="auth-form-group">
+                    <label class="auth-form-label" for="register-password">密码</label>
+                    <input class="auth-form-input" type="password" id="register-password" required placeholder="请输入密码">
+                    <div class="auth-error-message" id="register-password-error"></div>
+                </div>
+                <div class="auth-form-group">
+                    <label class="auth-form-label" for="register-confirm-password">确认密码</label>
+                    <input class="auth-form-input" type="password" id="register-confirm-password" required placeholder="请再次输入密码">
+                    <div class="auth-error-message" id="register-confirm-password-error"></div>
+                </div>
+                <button type="submit" class="auth-submit-btn">注册</button>
+            </form>
+            <div class="auth-form-footer">
+                已有账号？<a href="#" onclick="switchTab('login')">立即登录</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 切换登录/注册标签
+        function switchTab(tabName) {
+            // 移除所有active类
+            document.querySelectorAll('.auth-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelectorAll('.auth-form-container').forEach(container => {
+                container.classList.remove('active');
+            });
+
+            // 添加active类到选中的标签
+            if (tabName === 'login') {
+                document.querySelectorAll('.auth-tab')[0].classList.add('active');
+                document.getElementById('login').classList.add('active');
+            } else {
+                document.querySelectorAll('.auth-tab')[1].classList.add('active');
+                document.getElementById('register').classList.add('active');
+            }
+        }
+
+        // 处理登录
+        async function handleLogin(event) {
+            event.preventDefault();
+            
+            // 清除错误信息
+            document.querySelectorAll('.auth-error-message').forEach(msg => {
+                msg.classList.remove('show');
+            });
+
+            const username = document.getElementById('login-username').value;
+            const password = document.getElementById('login-password').value;
+
+            // 简单的验证示例
+            if (username.length < 3) {
+                document.getElementById('login-username-error').textContent = '用户名至少3个字符';
+                document.getElementById('login-username-error').classList.add('show');
+                return;
+            }
+
+            if (password.length < 6) {
+                document.getElementById('login-password-error').textContent = '密码至少6个字符';
+                document.getElementById('login-password-error').classList.add('show');
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/auth/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ username, password })
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    // 存储用户信息和token
+                    localStorage.setItem('token', result.data.token);
+                    localStorage.setItem('user', JSON.stringify(result.data.user));
+                    sessionStorage.setItem('username', result.data.user.username);
+                    sessionStorage.setItem('isLoggedIn', 'true');
+                    
+                    // 跳转到管理后台
+                    window.location.href = 'admin.html';
+                } else {
+                    document.getElementById('login-password-error').textContent = result.message;
+                    document.getElementById('login-password-error').classList.add('show');
+                }
+            } catch (error) {
+                document.getElementById('login-password-error').textContent = '登录失败，请检查网络连接';
+                document.getElementById('login-password-error').classList.add('show');
+            }
+        }
+
+        // 处理注册
+        async function handleRegister(event) {
+            event.preventDefault();
+            
+            // 清除错误信息
+            document.querySelectorAll('.auth-error-message').forEach(msg => {
+                msg.classList.remove('show');
+            });
+
+            const username = document.getElementById('register-username').value;
+            const email = document.getElementById('register-email').value;
+            const password = document.getElementById('register-password').value;
+            const confirmPassword = document.getElementById('register-confirm-password').value;
+
+            // 验证
+            let hasError = false;
+
+            if (username.length < 3) {
+                document.getElementById('register-username-error').textContent = '用户名至少3个字符';
+                document.getElementById('register-username-error').classList.add('show');
+                hasError = true;
+            }
+
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailPattern.test(email)) {
+                document.getElementById('register-email-error').textContent = '请输入有效的邮箱地址';
+                document.getElementById('register-email-error').classList.add('show');
+                hasError = true;
+            }
+
+            if (password.length < 6) {
+                document.getElementById('register-password-error').textContent = '密码至少6个字符';
+                document.getElementById('register-password-error').classList.add('show');
+                hasError = true;
+            }
+
+            if (password !== confirmPassword) {
+                document.getElementById('register-confirm-password-error').textContent = '两次输入的密码不一致';
+                document.getElementById('register-confirm-password-error').classList.add('show');
+                hasError = true;
+            }
+
+            if (!hasError) {
+                try {
+                    const response = await fetch('/api/auth/register', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ username, email, password, confirmPassword })
+                    });
+
+                    const result = await response.json();
+
+                    if (result.success) {
+                        // 存储用户信息和token
+                        localStorage.setItem('token', result.data.token);
+                        localStorage.setItem('user', JSON.stringify(result.data.user));
+                        sessionStorage.setItem('username', result.data.user.username);
+                        sessionStorage.setItem('isLoggedIn', 'true');
+                        
+                        alert('注册成功！即将跳转到管理后台...');
+                        
+                        // 延迟跳转到管理后台
+                        setTimeout(() => {
+                            window.location.href = 'admin.html';
+                        }, 1500);
+                    } else {
+                        if (result.errors && result.errors.length > 0) {
+                            result.errors.forEach(error => {
+                                if (error.path === 'username') {
+                                    document.getElementById('register-username-error').textContent = error.msg;
+                                    document.getElementById('register-username-error').classList.add('show');
+                                } else if (error.path === 'email') {
+                                    document.getElementById('register-email-error').textContent = error.msg;
+                                    document.getElementById('register-email-error').classList.add('show');
+                                } else if (error.path === 'password') {
+                                    document.getElementById('register-password-error').textContent = error.msg;
+                                    document.getElementById('register-password-error').classList.add('show');
+                                } else if (error.path === 'confirmPassword') {
+                                    document.getElementById('register-confirm-password-error').textContent = error.msg;
+                                    document.getElementById('register-confirm-password-error').classList.add('show');
+                                }
+                            });
+                        } else {
+                            document.getElementById('register-username-error').textContent = result.message;
+                            document.getElementById('register-username-error').classList.add('show');
+                        }
+                    }
+                } catch (error) {
+                    document.getElementById('register-username-error').textContent = '注册失败，请检查网络连接';
+                    document.getElementById('register-username-error').classList.add('show');
+                }
+            }
+        }
+    </script>
+</body>
+</html>

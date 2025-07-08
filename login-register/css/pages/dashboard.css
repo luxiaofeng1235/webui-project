@@ -1,0 +1,536 @@
+/* 仪表板页面样式 */
+
+/* 页面布局 */
+.dashboard-page {
+    background: var(--bg-secondary);
+    min-height: 100vh;
+}
+
+/* 顶部导航栏 */
+.dashboard-navbar {
+    background: var(--primary-color);
+    color: white;
+    padding: 0 var(--spacing-5);
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: var(--shadow-md);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+}
+
+.dashboard-navbar-brand {
+    font-size: var(--font-size-xl);
+    font-weight: bold;
+    color: white;
+}
+
+.dashboard-navbar-user {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-5);
+}
+
+.dashboard-user-info {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-3);
+    color: white;
+}
+
+.dashboard-logout-btn {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    border: none;
+    padding: var(--spacing-2) var(--spacing-4);
+    border-radius: var(--border-radius-sm);
+    cursor: pointer;
+    transition: background var(--transition-base);
+    font-size: var(--font-size-sm);
+}
+
+.dashboard-logout-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+/* 主容器 */
+.dashboard-main-container {
+    display: flex;
+    height: calc(100vh - 60px);
+    margin-top: 60px;
+}
+
+/* 侧边栏 */
+.dashboard-sidebar {
+    width: 250px;
+    background: var(--bg-primary);
+    box-shadow: var(--shadow-md);
+    flex-shrink: 0;
+    overflow-y: auto;
+}
+
+.dashboard-sidebar-menu {
+    list-style: none;
+    padding: var(--spacing-5) 0;
+    margin: 0;
+}
+
+.dashboard-sidebar-menu li {
+    margin-bottom: var(--spacing-1);
+}
+
+.dashboard-sidebar-menu a {
+    display: block;
+    padding: var(--spacing-4) var(--spacing-6);
+    color: var(--text-primary);
+    text-decoration: none;
+    transition: all var(--transition-base);
+    border-left: 3px solid transparent;
+}
+
+.dashboard-sidebar-menu a:hover {
+    background: var(--gray-50);
+    color: var(--text-primary);
+    text-decoration: none;
+}
+
+.dashboard-sidebar-menu a.active {
+    background: var(--primary-color);
+    color: white;
+    border-left-color: var(--primary-hover);
+}
+
+/* 内容区域 */
+.dashboard-content {
+    flex: 1;
+    padding: var(--spacing-8);
+    overflow-y: auto;
+    background: var(--bg-secondary);
+}
+
+/* 统计卡片容器 */
+.dashboard-stats-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: var(--spacing-5);
+    margin-bottom: var(--spacing-8);
+}
+
+.dashboard-stat-card {
+    background: var(--bg-primary);
+    padding: var(--spacing-6);
+    border-radius: var(--border-radius-lg);
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border-color);
+    transition: transform var(--transition-base), box-shadow var(--transition-base);
+}
+
+.dashboard-stat-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.dashboard-stat-card h3 {
+    color: var(--text-muted);
+    font-size: var(--font-size-sm);
+    margin-bottom: var(--spacing-3);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 500;
+}
+
+.dashboard-stat-card .value {
+    font-size: 2rem;
+    font-weight: bold;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.dashboard-stat-card.primary {
+    border-left: 4px solid var(--primary-color);
+}
+
+.dashboard-stat-card.primary .value {
+    color: var(--primary-color);
+}
+
+.dashboard-stat-card.success {
+    border-left: 4px solid var(--success-color);
+}
+
+.dashboard-stat-card.success .value {
+    color: var(--success-color);
+}
+
+.dashboard-stat-card.warning {
+    border-left: 4px solid var(--warning-color);
+}
+
+.dashboard-stat-card.warning .value {
+    color: var(--warning-color);
+}
+
+.dashboard-stat-card.danger {
+    border-left: 4px solid var(--danger-color);
+}
+
+.dashboard-stat-card.danger .value {
+    color: var(--danger-color);
+}
+
+/* 订单列表区域 */
+.dashboard-orders-section {
+    background: var(--bg-primary);
+    padding: var(--spacing-6);
+    border-radius: var(--border-radius-lg);
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border-color);
+}
+
+.dashboard-section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-5);
+    padding-bottom: var(--spacing-4);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.dashboard-section-header h2 {
+    color: var(--text-primary);
+    font-size: var(--font-size-xl);
+    margin: 0;
+}
+
+/* 筛选按钮 */
+.dashboard-filter-buttons {
+    display: flex;
+    gap: var(--spacing-3);
+    flex-wrap: wrap;
+}
+
+.dashboard-filter-btn {
+    padding: var(--spacing-2) var(--spacing-4);
+    border: 1px solid var(--border-color);
+    background: var(--bg-primary);
+    border-radius: var(--border-radius-sm);
+    cursor: pointer;
+    transition: all var(--transition-base);
+    font-size: var(--font-size-sm);
+    color: var(--text-primary);
+}
+
+.dashboard-filter-btn:hover {
+    background: var(--gray-50);
+    border-color: var(--gray-300);
+}
+
+.dashboard-filter-btn.active {
+    background: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+}
+
+/* 订单表格 */
+.dashboard-orders-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: var(--spacing-4);
+}
+
+.dashboard-orders-table th {
+    background: var(--gray-50);
+    padding: var(--spacing-3);
+    text-align: left;
+    font-weight: 600;
+    color: var(--text-muted);
+    border-bottom: 2px solid var(--border-color);
+    font-size: var(--font-size-sm);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.dashboard-orders-table td {
+    padding: var(--spacing-4) var(--spacing-3);
+    border-bottom: 1px solid var(--border-color);
+    vertical-align: middle;
+}
+
+.dashboard-orders-table tbody tr:hover {
+    background: var(--gray-50);
+}
+
+.dashboard-order-id {
+    font-weight: 600;
+    color: var(--primary-color);
+}
+
+/* 订单状态徽章 */
+.dashboard-status-badge {
+    display: inline-block;
+    padding: var(--spacing-1) var(--spacing-3);
+    border-radius: 20px;
+    font-size: var(--font-size-xs);
+    font-weight: 500;
+    text-align: center;
+    white-space: nowrap;
+}
+
+.dashboard-status-new {
+    background: var(--primary-light);
+    color: var(--primary-color);
+}
+
+.dashboard-status-preparing {
+    background: var(--warning-light);
+    color: var(--warning-color);
+}
+
+.dashboard-status-ready {
+    background: var(--success-light);
+    color: var(--success-color);
+}
+
+.dashboard-status-completed {
+    background: var(--gray-200);
+    color: var(--gray-600);
+}
+
+/* 操作按钮 */
+.dashboard-action-buttons {
+    display: flex;
+    gap: var(--spacing-2);
+    align-items: center;
+}
+
+.dashboard-action-btn {
+    padding: var(--spacing-1) var(--spacing-3);
+    border: none;
+    border-radius: var(--border-radius-sm);
+    cursor: pointer;
+    font-size: var(--font-size-xs);
+    font-weight: 500;
+    transition: all var(--transition-base);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.dashboard-btn-accept {
+    background: var(--success-color);
+    color: white;
+}
+
+.dashboard-btn-accept:hover {
+    background: var(--success-hover);
+    color: white;
+    text-decoration: none;
+}
+
+.dashboard-btn-ready {
+    background: var(--info-color);
+    color: white;
+}
+
+.dashboard-btn-ready:hover {
+    background: var(--info-hover);
+    color: white;
+    text-decoration: none;
+}
+
+.dashboard-btn-complete {
+    background: var(--primary-color);
+    color: white;
+}
+
+.dashboard-btn-complete:hover {
+    background: var(--primary-hover);
+    color: white;
+    text-decoration: none;
+}
+
+.dashboard-btn-view {
+    background: var(--gray-200);
+    color: var(--text-primary);
+}
+
+.dashboard-btn-view:hover {
+    background: var(--gray-300);
+    color: var(--text-primary);
+    text-decoration: none;
+}
+
+/* 订单详情模态框 */
+.dashboard-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    overflow-y: auto;
+}
+
+.dashboard-modal.show {
+    display: block;
+}
+
+.dashboard-modal-content {
+    background: var(--bg-primary);
+    width: 90%;
+    max-width: 600px;
+    margin: var(--spacing-12) auto;
+    padding: var(--spacing-8);
+    border-radius: var(--border-radius-lg);
+    max-height: 80vh;
+    overflow-y: auto;
+    box-shadow: var(--shadow-xl);
+}
+
+.dashboard-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-5);
+    padding-bottom: var(--spacing-4);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.dashboard-modal-title {
+    font-size: var(--font-size-xl);
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.dashboard-modal-close {
+    font-size: var(--font-size-2xl);
+    cursor: pointer;
+    color: var(--text-muted);
+    background: none;
+    border: none;
+    padding: 0;
+    line-height: 1;
+}
+
+.dashboard-modal-close:hover {
+    color: var(--text-primary);
+}
+
+/* 订单项目 */
+.dashboard-order-items {
+    margin: var(--spacing-5) 0;
+}
+
+.dashboard-order-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--spacing-3) 0;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.dashboard-order-item:last-child {
+    border-bottom: none;
+}
+
+.dashboard-item-info {
+    flex: 1;
+}
+
+.dashboard-item-name {
+    font-weight: 500;
+    color: var(--text-primary);
+}
+
+.dashboard-item-quantity {
+    color: var(--text-muted);
+    margin-left: var(--spacing-3);
+    font-size: var(--font-size-sm);
+}
+
+.dashboard-item-price {
+    font-weight: bold;
+    color: var(--text-primary);
+}
+
+/* 订单汇总 */
+.dashboard-order-summary {
+    margin-top: var(--spacing-5);
+    padding-top: var(--spacing-5);
+    border-top: 2px solid var(--border-color);
+}
+
+.dashboard-summary-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: var(--spacing-3);
+    color: var(--text-secondary);
+}
+
+.dashboard-summary-row.total {
+    font-size: var(--font-size-lg);
+    font-weight: bold;
+    color: var(--primary-color);
+    border-top: 1px solid var(--border-color);
+    padding-top: var(--spacing-3);
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .dashboard-main-container {
+        flex-direction: column;
+    }
+    
+    .dashboard-sidebar {
+        width: 100%;
+        height: auto;
+        order: 2;
+    }
+    
+    .dashboard-content {
+        order: 1;
+        padding: var(--spacing-4);
+    }
+    
+    .dashboard-stats-container {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-3);
+    }
+    
+    .dashboard-section-header {
+        flex-direction: column;
+        gap: var(--spacing-3);
+        align-items: stretch;
+    }
+    
+    .dashboard-filter-buttons {
+        justify-content: center;
+    }
+    
+    .dashboard-orders-table {
+        font-size: var(--font-size-sm);
+    }
+    
+    .dashboard-orders-table th,
+    .dashboard-orders-table td {
+        padding: var(--spacing-2);
+    }
+    
+    .dashboard-action-buttons {
+        flex-direction: column;
+        gap: var(--spacing-1);
+    }
+    
+    .dashboard-modal-content {
+        margin: var(--spacing-4) auto;
+        padding: var(--spacing-4);
+    }
+}
