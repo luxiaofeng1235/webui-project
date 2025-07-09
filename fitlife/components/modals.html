@@ -1,0 +1,555 @@
+<!-- 教练详情模态框 -->
+<div id="trainer-modal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2 id="modal-trainer-name">教练详情</h2>
+            <span class="close">&times;</span>
+        </div>
+        <div class="modal-body">
+            <div class="trainer-detail-content">
+                <div class="trainer-detail-image">
+                    <img id="modal-trainer-img" src="" alt="教练照片">
+                    <div class="trainer-detail-badges">
+                        <span id="modal-trainer-badge" class="trainer-badge"></span>
+                    </div>
+                </div>
+                <div class="trainer-detail-info">
+                    <div class="trainer-basic-info">
+                        <h3 id="modal-trainer-title">职位</h3>
+                        <div id="modal-trainer-credentials" class="credentials-list"></div>
+                        <div id="modal-trainer-specialties" class="specialties-list"></div>
+                    </div>
+                    
+                    <div class="trainer-description">
+                        <h4>个人简介</h4>
+                        <p id="modal-trainer-desc">教练介绍</p>
+                    </div>
+                    
+                    <div class="trainer-experience">
+                        <h4>专业经历</h4>
+                        <ul id="modal-trainer-experience">
+                            <!-- 动态填充 -->
+                        </ul>
+                    </div>
+                    
+                    <div class="trainer-achievements-detail">
+                        <h4>专业成就</h4>
+                        <div id="modal-trainer-achievements" class="achievements-grid">
+                            <!-- 动态填充 -->
+                        </div>
+                    </div>
+                    
+                    <div class="trainer-schedule">
+                        <h4>课程安排</h4>
+                        <div class="schedule-grid">
+                            <div class="schedule-item">
+                                <span class="time">周一-周三</span>
+                                <span class="course">上午 9:00-12:00</span>
+                            </div>
+                            <div class="schedule-item">
+                                <span class="time">周四-周六</span>
+                                <span class="course">下午 14:00-18:00</span>
+                            </div>
+                            <div class="schedule-item">
+                                <span class="time">周日</span>
+                                <span class="course">上午 10:00-12:00</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="trainer-pricing-detail">
+                        <h4>课程价格</h4>
+                        <div class="pricing-options">
+                            <div class="pricing-option">
+                                <span class="option-name">单次课程</span>
+                                <span id="modal-single-price" class="option-price">¥200/课时</span>
+                            </div>
+                            <div class="pricing-option">
+                                <span class="option-name">10课时套餐</span>
+                                <span id="modal-package-price" class="option-price">¥1800</span>
+                            </div>
+                            <div class="pricing-option">
+                                <span class="option-name">20课时套餐</span>
+                                <span id="modal-large-package-price" class="option-price">¥3400</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="trainer-rating-detail">
+                        <h4>学员评价</h4>
+                        <div class="rating-summary">
+                            <div class="rating-score">
+                                <span id="modal-rating-score">4.9</span>
+                                <div id="modal-rating-stars" class="stars"></div>
+                            </div>
+                            <span id="modal-rating-count" class="rating-count">(128条评价)</span>
+                        </div>
+                        <div class="recent-reviews">
+                            <div class="review-item">
+                                <div class="review-author">学员小张</div>
+                                <div class="review-text">"教练非常专业，指导很到位，训练效果显著！"</div>
+                            </div>
+                            <div class="review-item">
+                                <div class="review-author">学员小李</div>
+                                <div class="review-text">"课程安排合理，教练很有耐心，强烈推荐！"</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary btn-large" id="modal-book-trial">预约试课</button>
+            <button class="btn btn-secondary btn-large" id="modal-contact">联系教练</button>
+        </div>
+    </div>
+</div>
+
+<!-- 登录模态框 -->
+<div id="loginModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2><i class="fas fa-sign-in-alt"></i> 登录账户</h2>
+            <span class="close" onclick="closeModal('loginModal')">&times;</span>
+        </div>
+        <div class="modal-body">
+            <form id="loginForm" onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label for="loginEmail"><i class="fas fa-envelope"></i> 邮箱</label>
+                    <input type="email" id="loginEmail" name="email" required placeholder="请输入您的邮箱">
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword"><i class="fas fa-lock"></i> 密码</label>
+                    <div class="password-input">
+                        <input type="password" id="loginPassword" name="password" required placeholder="请输入密码">
+                        <button type="button" class="toggle-password" onclick="togglePassword('loginPassword')">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="form-options">
+                    <label class="checkbox-container">
+                        <input type="checkbox" id="rememberMe" name="rememberMe">
+                        <span class="checkmark"></span>
+                        记住我
+                    </label>
+                    <a href="#" onclick="openForgotPasswordModal()" class="forgot-password">忘记密码？</a>
+                </div>
+                <button type="submit" class="btn btn-primary btn-full">
+                    <i class="fas fa-sign-in-alt"></i> 登录
+                </button>
+            </form>
+            <div class="modal-footer">
+                <p>还没有账户？ <a href="#" onclick="switchToRegister()">立即注册</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 注册模态框 -->
+<div id="registerModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2><i class="fas fa-user-plus"></i> 注册账户</h2>
+            <span class="close" onclick="closeModal('registerModal')">&times;</span>
+        </div>
+        <div class="modal-body">
+            <form id="registerForm" onsubmit="handleRegister(event)">
+                <div class="form-group">
+                    <label for="registerName"><i class="fas fa-user"></i> 姓名</label>
+                    <input type="text" id="registerName" name="name" required placeholder="请输入您的姓名">
+                </div>
+                <div class="form-group">
+                    <label for="registerEmail"><i class="fas fa-envelope"></i> 邮箱</label>
+                    <input type="email" id="registerEmail" name="email" required placeholder="请输入您的邮箱">
+                </div>
+                <div class="form-group">
+                    <label for="registerPhone"><i class="fas fa-phone"></i> 手机号</label>
+                    <input type="tel" id="registerPhone" name="phone" required placeholder="请输入手机号">
+                </div>
+                <div class="form-group">
+                    <label for="registerPassword"><i class="fas fa-lock"></i> 密码</label>
+                    <div class="password-input">
+                        <input type="password" id="registerPassword" name="password" required placeholder="请设置密码（至少8位）" minlength="8">
+                        <button type="button" class="toggle-password" onclick="togglePassword('registerPassword')">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                    <div class="password-strength" id="passwordStrength"></div>
+                </div>
+                <div class="form-group">
+                    <label for="confirmPassword"><i class="fas fa-lock"></i> 确认密码</label>
+                    <div class="password-input">
+                        <input type="password" id="confirmPassword" name="confirmPassword" required placeholder="请再次输入密码">
+                        <button type="button" class="toggle-password" onclick="togglePassword('confirmPassword')">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="verificationCode"><i class="fas fa-shield-alt"></i> 邮箱验证码</label>
+                    <div class="verification-input">
+                        <input type="text" id="verificationCode" name="verificationCode" required placeholder="请输入验证码" maxlength="6">
+                        <button type="button" class="btn-verification" id="sendCodeBtn" onclick="sendVerificationCode()">
+                            发送验证码
+                        </button>
+                    </div>
+                </div>
+                <div class="form-options">
+                    <label class="checkbox-container">
+                        <input type="checkbox" id="agreeTerms" name="agreeTerms" required>
+                        <span class="checkmark"></span>
+                        我已阅读并同意 <a href="#" onclick="showTerms()">用户协议</a> 和 <a href="#" onclick="showPrivacy()">隐私政策</a>
+                    </label>
+                </div>
+                <button type="submit" class="btn btn-primary btn-full">
+                    <i class="fas fa-user-plus"></i> 注册账户
+                </button>
+            </form>
+            <div class="modal-footer">
+                <p>已有账户？ <a href="#" onclick="switchToLogin()">立即登录</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 找回密码模态框 -->
+<div id="forgotPasswordModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2><i class="fas fa-key"></i> 找回密码</h2>
+            <span class="close" onclick="closeModal('forgotPasswordModal')">&times;</span>
+        </div>
+        <div class="modal-body">
+            <div id="forgotStep1" class="forgot-step">
+                <p class="step-description">请输入您的邮箱地址，我们将发送验证码到您的邮箱</p>
+                <form id="forgotEmailForm" onsubmit="sendResetCode(event)">
+                    <div class="form-group">
+                        <label for="forgotEmail"><i class="fas fa-envelope"></i> 邮箱</label>
+                        <input type="email" id="forgotEmail" name="email" required placeholder="请输入注册时的邮箱">
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-full">
+                        <i class="fas fa-paper-plane"></i> 发送验证码
+                    </button>
+                </form>
+            </div>
+            
+            <div id="forgotStep2" class="forgot-step" style="display: none;">
+                <p class="step-description">验证码已发送到您的邮箱，请查收并输入验证码</p>
+                <form id="resetPasswordForm" onsubmit="resetPassword(event)">
+                    <div class="form-group">
+                        <label for="resetCode"><i class="fas fa-shield-alt"></i> 验证码</label>
+                        <div class="verification-input">
+                            <input type="text" id="resetCode" name="resetCode" required placeholder="请输入6位验证码" maxlength="6">
+                            <button type="button" class="btn-verification" id="resendResetCodeBtn" onclick="resendResetCode()">
+                                重新发送
+                            </button>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="newPassword"><i class="fas fa-lock"></i> 新密码</label>
+                        <div class="password-input">
+                            <input type="password" id="newPassword" name="newPassword" required placeholder="请设置新密码（至少8位）" minlength="8">
+                            <button type="button" class="toggle-password" onclick="togglePassword('newPassword')">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="confirmNewPassword"><i class="fas fa-lock"></i> 确认新密码</label>
+                        <div class="password-input">
+                            <input type="password" id="confirmNewPassword" name="confirmNewPassword" required placeholder="请再次输入新密码">
+                            <button type="button" class="toggle-password" onclick="togglePassword('confirmNewPassword')">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-full">
+                        <i class="fas fa-check"></i> 重置密码
+                    </button>
+                </form>
+            </div>
+            
+            <div class="modal-footer">
+                <p><a href="#" onclick="switchToLogin()">返回登录</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 个人资料模态框 -->
+<div id="profileModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2><i class="fas fa-user"></i> 个人中心</h2>
+            <span class="close" onclick="closeModal('profileModal')">&times;</span>
+        </div>
+        <div class="modal-body">
+            <div class="profile-info-readonly">
+                <div class="profile-card">
+                    <div class="profile-avatar">
+                        <img id="profileAvatarImg" src="" alt="用户头像" style="display: none;">
+                        <i id="profileAvatarIcon" class="fas fa-user-circle"></i>
+                    </div>
+                    <div class="profile-details">
+                        <div class="profile-item">
+                            <label><i class="fas fa-user"></i> 用户名</label>
+                            <div class="profile-value" id="profileDisplayName">-</div>
+                        </div>
+                        <div class="profile-item">
+                            <label><i class="fas fa-envelope"></i> 绑定邮箱</label>
+                            <div class="profile-value" id="profileDisplayEmail">-</div>
+                        </div>
+                        <div class="profile-item">
+                            <label><i class="fas fa-clock"></i> 最后登录时间</label>
+                            <div class="profile-value" id="profileLastLogin">-</div>
+                        </div>
+                        <div class="profile-item">
+                            <label><i class="fas fa-phone"></i> 手机号码</label>
+                            <div class="profile-value" id="profileDisplayPhone">-</div>
+                        </div>
+                        <div class="profile-item">
+                            <label><i class="fas fa-dumbbell"></i> 已报名套餐</label>
+                            <div class="profile-value" id="profileEnrolledPackage">暂无报名套餐</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="profile-notice">
+                    <i class="fas fa-info-circle"></i>
+                    <span>个人信息仅供查看，如需修改请在设置中编辑</span>
+                </div>
+            </div>
+            <div class="form-actions">
+                <button type="button" class="btn btn-secondary" onclick="closeModal('profileModal')">
+                    <i class="fas fa-times"></i> 关闭
+                </button>
+                <button type="button" class="btn btn-primary" onclick="closeModal('profileModal'); showSettings();">
+                    <i class="fas fa-cog"></i> 前往设置
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 设置模态框 -->
+<div id="settingsModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2><i class="fas fa-cog"></i> 账户设置</h2>
+            <span class="close" onclick="closeModal('settingsModal')">&times;</span>
+        </div>
+        <div class="modal-body">
+            <!-- 设置导航标签 -->
+            <div class="settings-tabs">
+                <button class="tab-button active" onclick="showSettingsTab('profile')">
+                    <i class="fas fa-user"></i> 个人资料
+                </button>
+                <button class="tab-button" onclick="showSettingsTab('password')">
+                    <i class="fas fa-lock"></i> 修改密码
+                </button>
+            </div>
+
+            <!-- 个人资料设置 -->
+            <div id="profileSettings" class="settings-tab-content active">
+                <form id="profileUpdateForm" onsubmit="handleProfileUpdate(event)">
+                    <div class="form-section">
+                        <h4><i class="fas fa-user"></i> 基本信息</h4>
+                        
+                        <!-- 头像设置 -->
+                        <div class="form-group">
+                            <label><i class="fas fa-camera"></i> 头像</label>
+                            <div class="avatar-upload-container">
+                                <div class="current-avatar" onclick="openAvatarUploadModal()">
+                                    <img id="currentAvatarImg" src="" alt="用户头像" style="display: none;">
+                                    <i id="defaultAvatarIcon" class="fas fa-user-circle"></i>
+                                    <div class="avatar-overlay">
+                                        <i class="fas fa-camera"></i>
+                                        <span>更换头像</span>
+                                    </div>
+                                </div>
+                                <div class="avatar-info">
+                                    <p>点击头像可更换</p>
+                                    <small>支持 JPG、PNG、GIF 格式，文件大小不超过 5MB</small>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="settingsName"><i class="fas fa-user"></i> 用户名</label>
+                            <input type="text" id="settingsName" name="name" required placeholder="请输入用户名">
+                        </div>
+                        <div class="form-group">
+                            <label for="settingsEmail"><i class="fas fa-envelope"></i> 邮箱地址</label>
+                            <input type="email" id="settingsEmail" name="email" required placeholder="请输入邮箱地址" onchange="checkEmailChange()">
+                            <small class="form-hint">修改邮箱需要验证新邮箱</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="settingsPhone"><i class="fas fa-phone"></i> 手机号码</label>
+                            <input type="tel" id="settingsPhone" name="phone" placeholder="请输入手机号码" readonly style="background-color: #f8f9fa; cursor: not-allowed;">
+                            <small class="form-hint" style="color: #dc3545;">手机号码不可修改，如需更改请联系客服</small>
+                        </div>
+                    </div>
+                    
+                    <div class="form-section" id="emailVerificationSection" style="display: none;">
+                        <h4><i class="fas fa-shield-alt"></i> 邮箱验证</h4>
+                        <div class="form-group">
+                            <label for="profileVerificationCode"><i class="fas fa-shield-alt"></i> 验证码</label>
+                            <div class="verification-input">
+                                <input type="text" id="profileVerificationCode" name="verificationCode" placeholder="请输入验证码" maxlength="6">
+                                <button type="button" class="btn-verification" id="sendProfileCodeBtn" onclick="sendProfileVerificationCode()">
+                                    发送验证码
+                                </button>
+                            </div>
+                            <small class="form-hint">验证码将发送到新邮箱地址</small>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" onclick="resetProfileForm()">
+                            <i class="fas fa-undo"></i> 重置
+                        </button>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i> 保存修改
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- 密码修改设置 -->
+            <div id="passwordSettings" class="settings-tab-content">
+                <form id="passwordUpdateForm" onsubmit="handlePasswordUpdate(event)">
+                    <div class="form-section">
+                        <h4><i class="fas fa-lock"></i> 修改密码</h4>
+                        <div class="form-group">
+                            <label for="currentPassword"><i class="fas fa-key"></i> 当前密码</label>
+                            <div class="password-input">
+                                <input type="password" id="currentPassword" name="currentPassword" required placeholder="请输入当前密码">
+                                <button type="button" class="toggle-password" onclick="togglePassword('currentPassword')">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="newPasswordSettings"><i class="fas fa-lock"></i> 新密码</label>
+                            <div class="password-input">
+                                <input type="password" id="newPasswordSettings" name="newPassword" required placeholder="请输入新密码（至少8位）" minlength="8">
+                                <button type="button" class="toggle-password" onclick="togglePassword('newPasswordSettings')">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </div>
+                            <div class="password-strength" id="newPasswordStrength"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="confirmNewPasswordSettings"><i class="fas fa-lock"></i> 确认新密码</label>
+                            <div class="password-input">
+                                <input type="password" id="confirmNewPasswordSettings" name="confirmNewPassword" required placeholder="请再次输入新密码">
+                                <button type="button" class="toggle-password" onclick="togglePassword('confirmNewPasswordSettings')">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" onclick="resetPasswordForm()">
+                            <i class="fas fa-undo"></i> 重置
+                        </button>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i> 修改密码
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 头像上传模态框 -->
+<div id="avatarUploadModal" class="modal">
+    <div class="modal-content avatar-modal">
+        <div class="modal-header">
+            <h2><i class="fas fa-camera"></i> 更换头像</h2>
+            <span class="close" onclick="closeModal('avatarUploadModal')">&times;</span>
+        </div>
+        <div class="modal-body">
+            <div class="avatar-upload-area">
+                <div class="upload-preview">
+                    <div class="preview-container">
+                        <img id="avatarPreview" src="" alt="头像预览" style="display: none;">
+                        <div id="uploadPlaceholder" class="upload-placeholder">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <p>点击或拖拽上传头像</p>
+                            <small>支持 JPG、PNG、GIF 格式<br>文件大小不超过 5MB</small>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="upload-controls">
+                    <input type="file" id="avatarFileInput" accept="image/jpeg,image/jpg,image/png,image/gif" style="display: none;">
+                    <button type="button" class="btn btn-secondary" onclick="triggerFileSelect()">
+                        <i class="fas fa-folder-open"></i> 选择文件
+                    </button>
+                    <button type="button" class="btn btn-secondary" onclick="openCameraCapture()" id="cameraBtn">
+                        <i class="fas fa-camera"></i> 拍照
+                    </button>
+                </div>
+                
+                <!-- 相机拍照区域 -->
+                <div id="cameraSection" class="camera-section" style="display: none;">
+                    <video id="cameraVideo" autoplay playsinline></video>
+                    <canvas id="cameraCanvas" style="display: none;"></canvas>
+                    <div class="camera-controls">
+                        <button type="button" class="btn btn-primary" onclick="capturePhoto()">
+                            <i class="fas fa-camera"></i> 拍照
+                        </button>
+                        <button type="button" class="btn btn-secondary" onclick="closeCameraCapture()">
+                            <i class="fas fa-times"></i> 取消
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- 裁剪区域 -->
+                <div id="cropSection" class="crop-section" style="display: none;">
+                    <div class="crop-container">
+                        <img id="cropImage" src="" alt="裁剪图片">
+                    </div>
+                    <div class="crop-controls">
+                        <button type="button" class="btn btn-secondary" onclick="resetCrop()">
+                            <i class="fas fa-undo"></i> 重新选择
+                        </button>
+                        <button type="button" class="btn btn-primary" onclick="confirmCrop()">
+                            <i class="fas fa-check"></i> 确认裁剪
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="upload-tips">
+                <h4><i class="fas fa-info-circle"></i> 上传提示</h4>
+                <ul>
+                    <li>建议上传正方形图片，系统会自动裁剪为圆形头像</li>
+                    <li>支持格式：JPG、PNG、GIF</li>
+                    <li>文件大小：不超过 5MB</li>
+                    <li>推荐尺寸：200x200 像素或更高</li>
+                </ul>
+            </div>
+            
+            <div class="form-actions">
+                <button type="button" class="btn btn-secondary" onclick="closeModal('avatarUploadModal')">
+                    <i class="fas fa-times"></i> 取消
+                </button>
+                <button type="button" class="btn btn-primary" id="saveAvatarBtn" onclick="saveAvatar()" disabled>
+                    <i class="fas fa-save"></i> 保存头像
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 消息提示框 -->
+<div id="messageToast" class="toast">
+    <div class="toast-content">
+        <i class="toast-icon"></i>
+        <span class="toast-message"></span>
+    </div>
+</div>

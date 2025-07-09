@@ -39,11 +39,45 @@ class MenuCategory {
 
   static async update(id, categoryData) {
     try {
-      const { name, description, status, sort_order, icon } = categoryData;
-      const [result] = await pool.execute(
-        'UPDATE menu_categories SET name = ?, description = ?, status = ?, sort_order = ?, icon = ? WHERE id = ?',
-        [name, description, status, sort_order, icon, id]
-      );
+      // 构建动态更新查询，只更新传递的字段
+      const updateFields = [];
+      const updateValues = [];
+
+      if (categoryData.name !== undefined) {
+        updateFields.push('name = ?');
+        updateValues.push(categoryData.name);
+      }
+
+      if (categoryData.description !== undefined) {
+        updateFields.push('description = ?');
+        updateValues.push(categoryData.description);
+      }
+
+      if (categoryData.status !== undefined) {
+        updateFields.push('status = ?');
+        updateValues.push(categoryData.status);
+      }
+
+      if (categoryData.sort_order !== undefined) {
+        updateFields.push('sort_order = ?');
+        updateValues.push(categoryData.sort_order);
+      }
+
+      if (categoryData.icon !== undefined) {
+        updateFields.push('icon = ?');
+        updateValues.push(categoryData.icon);
+      }
+
+      if (updateFields.length === 0) {
+        throw new Error('没有要更新的字段');
+      }
+
+      // 添加WHERE条件的参数
+      updateValues.push(id);
+
+      const query = `UPDATE menu_categories SET ${updateFields.join(', ')} WHERE id = ?`;
+      const [result] = await pool.execute(query, updateValues);
+
       return result.affectedRows > 0;
     } catch (error) {
       throw new Error('更新分类失败: ' + error.message);

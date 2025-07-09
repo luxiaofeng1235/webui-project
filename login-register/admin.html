@@ -65,7 +65,7 @@
                 <div class="admin-page-header">
                     <h2 class="admin-page-title">菜品分类管理</h2>
                     <div class="admin-page-actions">
-                        <button class="btn btn-success">添加分类</button>
+                        <button class="btn btn-success" onclick="adminManager.addCategory()">添加分类</button>
                     </div>
                 </div>
                 <table class="admin-table">
@@ -90,7 +90,7 @@
                 <div class="admin-page-header">
                     <h2 class="admin-page-title">菜品管理</h2>
                     <div class="admin-page-actions">
-                        <button class="btn btn-success">添加菜品</button>
+                        <button class="btn btn-success" onclick="adminManager.addMenuItem()">添加菜品</button>
                     </div>
                 </div>
                 <table class="admin-table">
@@ -116,7 +116,7 @@
                 <div class="admin-page-header">
                     <h2 class="admin-page-title">桌台管理</h2>
                     <div class="admin-page-actions">
-                        <button class="btn btn-success">添加桌台</button>
+                        <button class="btn btn-success" onclick="adminManager.addTable()">添加桌台</button>
                     </div>
                 </div>
                 <div class="admin-stats-grid">
@@ -246,6 +246,126 @@
 
     <!-- 引入API和管理脚本 -->
     <script src="js/api.js"></script>
+    <script src="js/cookie-utils.js"></script>
     <script src="js/admin.js"></script>
+    <script src="admin-edit-test.js"></script>
+
+    <!-- 调试和测试脚本 -->
+    <script>
+        // 添加调试信息和测试按钮
+        window.addEventListener('load', function() {
+            console.log('🎯 Admin页面加载完成');
+            console.log('AdminManager:', window.adminManager);
+
+            // 添加测试按钮
+            setTimeout(() => {
+                if (window.adminManager) {
+                    console.log('✅ AdminManager已初始化');
+
+                    // 在页面顶部添加测试控制面板
+                    const testPanel = document.createElement('div');
+                    testPanel.id = 'test-panel';
+                    testPanel.style.cssText = `
+                        position: fixed;
+                        top: 10px;
+                        right: 10px;
+                        z-index: 999;
+                        background: white;
+                        padding: 15px;
+                        border: 1px solid #ddd;
+                        border-radius: 8px;
+                        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+                        font-family: Arial, sans-serif;
+                        min-width: 200px;
+                    `;
+                    testPanel.innerHTML = `
+                        <div style="font-weight: bold; margin-bottom: 10px; color: #333; text-align: center;">
+                            🧪 编辑功能测试面板
+                        </div>
+                        <div style="margin-bottom: 8px;">
+                            <strong>单项测试:</strong>
+                        </div>
+                        <button onclick="window.adminManager.editCategory(1)"
+                                style="width: 100%; margin: 2px 0; padding: 6px; font-size: 12px; border: 1px solid #007bff; background: #007bff; color: white; border-radius: 3px; cursor: pointer;">
+                            📂 测试分类编辑
+                        </button>
+                        <button onclick="window.adminManager.editMenuItem(1)"
+                                style="width: 100%; margin: 2px 0; padding: 6px; font-size: 12px; border: 1px solid #28a745; background: #28a745; color: white; border-radius: 3px; cursor: pointer;">
+                            🍽️ 测试菜品编辑
+                        </button>
+                        <button onclick="window.adminManager.editTable(1)"
+                                style="width: 100%; margin: 2px 0; padding: 6px; font-size: 12px; border: 1px solid #ffc107; background: #ffc107; color: black; border-radius: 3px; cursor: pointer;">
+                            🪑 测试桌台编辑
+                        </button>
+                        <button onclick="window.adminManager.editUser(1)"
+                                style="width: 100%; margin: 2px 0; padding: 6px; font-size: 12px; border: 1px solid #6f42c1; background: #6f42c1; color: white; border-radius: 3px; cursor: pointer;">
+                            👤 测试用户编辑
+                        </button>
+                        <hr style="margin: 10px 0; border: none; border-top: 1px solid #eee;">
+                        <div style="margin-bottom: 8px;">
+                            <strong>自动化测试:</strong>
+                        </div>
+                        <button onclick="testAdminEdit()"
+                                style="width: 100%; margin: 2px 0; padding: 8px; font-size: 12px; border: 1px solid #dc3545; background: #dc3545; color: white; border-radius: 3px; cursor: pointer; font-weight: bold;">
+                            🚀 运行全部测试
+                        </button>
+                        <button onclick="console.clear(); console.log('🧹 控制台已清空')"
+                                style="width: 100%; margin: 2px 0; padding: 6px; font-size: 12px; border: 1px solid #6c757d; background: #6c757d; color: white; border-radius: 3px; cursor: pointer;">
+                            🧹 清空控制台
+                        </button>
+                        <button onclick="document.getElementById('test-panel').style.display='none'"
+                                style="width: 100%; margin: 2px 0; padding: 6px; font-size: 12px; border: 1px solid #ccc; background: #f8f9fa; color: #333; border-radius: 3px; cursor: pointer;">
+                            ❌ 隐藏面板
+                        </button>
+                    `;
+                    document.body.appendChild(testPanel);
+
+                    console.log('🎛️ 测试面板已添加到页面右上角');
+                    console.log('💡 使用说明:');
+                    console.log('   - 点击单项测试按钮测试特定编辑功能');
+                    console.log('   - 点击"运行全部测试"进行完整的自动化测试');
+                    console.log('   - 查看控制台输出获取详细测试结果');
+
+                } else {
+                    console.warn('⚠️ AdminManager未在预期时间内初始化，尝试手动初始化...');
+                    try {
+                        if (typeof AdminManager !== 'undefined') {
+                            window.adminManager = new AdminManager();
+                            console.log('✅ AdminManager手动初始化成功');
+                        } else {
+                            console.error('❌ AdminManager类未定义');
+                        }
+                    } catch (error) {
+                        console.error('❌ 手动初始化失败:', error.message);
+                    }
+                }
+            }, 2000);
+        });
+
+        // 添加键盘快捷键
+        document.addEventListener('keydown', function(e) {
+            // Ctrl + T 运行测试
+            if (e.ctrlKey && e.key === 't') {
+                e.preventDefault();
+                if (window.testAdminEdit) {
+                    console.log('🎯 快捷键触发: 开始运行全部测试...');
+                    testAdminEdit();
+                }
+            }
+
+            // Ctrl + H 显示/隐藏测试面板
+            if (e.ctrlKey && e.key === 'h') {
+                e.preventDefault();
+                const panel = document.getElementById('test-panel');
+                if (panel) {
+                    panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+                }
+            }
+        });
+
+        console.log('⌨️ 快捷键已启用:');
+        console.log('   Ctrl + T: 运行全部测试');
+        console.log('   Ctrl + H: 显示/隐藏测试面板');
+    </script>
 </body>
 </html>

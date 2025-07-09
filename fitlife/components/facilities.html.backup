@@ -1,0 +1,191 @@
+<!-- 设施展示 -->
+<section id="facilities" class="facilities">
+    <div class="container">
+        <h2>一流设施</h2>
+        <p class="section-subtitle">现代化的健身环境，专业的器械设备，为您提供最佳的训练体验</p>
+        
+        <div class="facilities-grid">
+            <div class="facility-item">
+                <div class="facility-image">
+                    <img src="images/strength-training.jpg" alt="力量训练区" onerror="this.src='images/pexels-photo-1552242.webp'">
+                    <div class="facility-overlay">
+                        <h3>力量训练区</h3>
+                        <p>进口专业力量器械，满足各种训练需求</p>
+                        <div class="facility-features">
+                            <span><i class="fas fa-dumbbell"></i> 自由重量区</span>
+                            <span><i class="fas fa-cogs"></i> 固定器械</span>
+                            <span><i class="fas fa-users"></i> 专业指导</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="facility-item">
+                <div class="facility-image">
+                    <img src="images/cardio-area.jpg" alt="有氧训练区" onerror="this.src='images/pexels-photo-1229356.webp'">
+                    <div class="facility-overlay">
+                        <h3>有氧训练区</h3>
+                        <p>最新有氧设备，配备娱乐系统</p>
+                        <div class="facility-features">
+                            <span><i class="fas fa-running"></i> 跑步机</span>
+                            <span><i class="fas fa-bicycle"></i> 动感单车</span>
+                            <span><i class="fas fa-tv"></i> 娱乐系统</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="facility-item">
+                <div class="facility-image">
+                    <img src="images/yoga-studio.jpg" alt="瑜伽教室" onerror="this.src='images/pexels-photo-3076509.webp'">
+                    <div class="facility-overlay">
+                        <h3>瑜伽教室</h3>
+                        <p>宁静舒适的瑜伽空间，专业音响设备</p>
+                        <div class="facility-features">
+                            <span><i class="fas fa-spa"></i> 瑜伽垫</span>
+                            <span><i class="fas fa-music"></i> 音响系统</span>
+                            <span><i class="fas fa-leaf"></i> 自然采光</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="facility-item">
+                <div class="facility-image">
+                    <img src="images/personal-training.jpg" alt="私教区" onerror="this.src='images/pexels-photo-2827400.webp'">
+                    <div class="facility-overlay">
+                        <h3>私人训练区</h3>
+                        <p>独立私教空间，一对一专业指导</p>
+                        <div class="facility-features">
+                            <span><i class="fas fa-user"></i> 私密空间</span>
+                            <span><i class="fas fa-chart-line"></i> 专业测试</span>
+                            <span><i class="fas fa-clipboard"></i> 定制计划</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="facility-item">
+                <div class="facility-image">
+                    <img src="images/lounge-area.jpg" alt="休息区" onerror="this.src='images/pexels-photo-3289711.webp'">
+                    <div class="facility-overlay">
+                        <h3>休息区</h3>
+                        <p>舒适的休息环境，免费WiFi和饮品</p>
+                        <div class="facility-features">
+                            <span><i class="fas fa-wifi"></i> 免费WiFi</span>
+                            <span><i class="fas fa-coffee"></i> 免费饮品</span>
+                            <span><i class="fas fa-couch"></i> 舒适座椅</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="facility-item">
+                <div class="facility-image">
+                    <img src="images/locker-room.jpg" alt="更衣室" onerror="this.src='images/pexels-photo-1552242.webp'">
+                    <div class="facility-overlay">
+                        <h3>豪华更衣室</h3>
+                        <p>宽敞明亮，配备淋浴和储物设施</p>
+                        <div class="facility-features">
+                            <span><i class="fas fa-shower"></i> 淋浴设施</span>
+                            <span><i class="fas fa-lock"></i> 安全储物</span>
+                            <span><i class="fas fa-tshirt"></i> 干净毛巾</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 设施特色 -->
+        <div class="facilities-highlights">
+            <h3>设施特色</h3>
+            <div class="highlights-grid">
+                <div class="highlight-item">
+                    <div class="highlight-icon">
+                        <i class="fas fa-medal"></i>
+                    </div>
+                    <h4>进口器械</h4>
+                    <p>全部采用国际知名品牌器械，确保训练效果和安全性</p>
+                </div>
+                
+                <div class="highlight-item">
+                    <div class="highlight-icon">
+                        <i class="fas fa-air-freshener"></i>
+                    </div>
+                    <h4>空气净化</h4>
+                    <p>24小时新风系统，保持室内空气清新，营造健康环境</p>
+                </div>
+                
+                <div class="highlight-item">
+                    <div class="highlight-icon">
+                        <i class="fas fa-thermometer-half"></i>
+                    </div>
+                    <h4>恒温控制</h4>
+                    <p>智能温控系统，四季如春的舒适训练环境</p>
+                </div>
+                
+                <div class="highlight-item">
+                    <div class="highlight-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h4>安全保障</h4>
+                    <p>24小时监控系统，专业安保，确保您的人身和财产安全</p>
+                </div>
+                
+                <div class="highlight-item">
+                    <div class="highlight-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h4>24小时开放</h4>
+                    <p>全天候开放，随时满足您的健身需求，灵活安排训练时间</p>
+                </div>
+                
+                <div class="highlight-item">
+                    <div class="highlight-icon">
+                        <i class="fas fa-tools"></i>
+                    </div>
+                    <h4>定期维护</h4>
+                    <p>专业团队定期维护保养，确保所有设备处于最佳状态</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 环境展示 -->
+        <div class="environment-showcase">
+            <h3>环境展示</h3>
+            <div class="environment-gallery">
+                <div class="gallery-item main">
+                    <img src="images/gym-overview.jpg" alt="健身房全景" onerror="this.src='images/pexels-photo-1552242.webp'">
+                    <div class="gallery-overlay">
+                        <h4>健身房全景</h4>
+                        <p>宽敞明亮的训练空间</p>
+                    </div>
+                </div>
+                
+                <div class="gallery-item">
+                    <img src="images/equipment-zone.jpg" alt="器械区域" onerror="this.src='images/pexels-photo-2827400.webp'">
+                    <div class="gallery-overlay">
+                        <h4>器械区域</h4>
+                        <p>专业器械整齐摆放</p>
+                    </div>
+                </div>
+                
+                <div class="gallery-item">
+                    <img src="images/group-class.jpg" alt="团体课程" onerror="this.src='images/pexels-photo-3076509.webp'">
+                    <div class="gallery-overlay">
+                        <h4>团体课程</h4>
+                        <p>活力四射的团体训练</p>
+                    </div>
+                </div>
+                
+                <div class="gallery-item">
+                    <img src="images/reception-area.jpg" alt="接待区" onerror="this.src='images/pexels-photo-3289711.webp'">
+                    <div class="gallery-overlay">
+                        <h4>接待区</h4>
+                        <p>温馨的服务环境</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

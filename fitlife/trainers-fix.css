@@ -1,0 +1,94 @@
+/* 教练详情修复样式 */
+
+/* 教练图片加载状态 */
+.trainer-image {
+    position: relative;
+    overflow: hidden;
+}
+
+.trainer-image img {
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.trainer-image:hover img {
+    transform: scale(1.05);
+}
+
+/* 图片加载指示器 */
+.image-loading {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #ff6b35;
+    font-size: 14px;
+    text-align: center;
+    z-index: 10;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 10px 15px;
+    border-radius: 6px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+/* 查看详情按钮增强 */
+.trainer-actions .btn-secondary {
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.trainer-actions .btn-secondary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 107, 53, 0.3);
+}
+
+.trainer-actions .btn-secondary:active {
+    transform: translateY(0);
+}
+
+/* 教练卡片悬停效果 */
+.trainer-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.trainer-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+/* 模态框动画 */
+.modal {
+    transition: opacity 0.3s ease;
+}
+
+.modal.show {
+    opacity: 1;
+}
+
+.modal-content {
+    transform: scale(0.9);
+    transition: transform 0.3s ease;
+}
+
+.modal.show .modal-content {
+    transform: scale(1);
+}
+
+/* 教练详情模态框特定样式 */
+#trainer-modal .trainer-detail-image img {
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+}
+
+/* 响应式优化 */
+@media (max-width: 768px) {
+    .trainer-actions .btn-secondary {
+        font-size: 14px;
+        padding: 8px 16px;
+    }
+    
+    .image-loading {
+        font-size: 12px;
+        padding: 8px 12px;
+    }
+}

@@ -24,9 +24,9 @@ app.use('/api/users', require('./src/routes/users'));
 app.use('/api/tables', require('./src/routes/tables'));
 app.use('/api/settings', require('./src/routes/settings'));
 
-// 默认路由 - 重定向到登录页面
+// 默认路由 - 智能跳转页面
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'login.html'));
+  res.sendFile(path.join(__dirname, 'index.html'));
 });
 
 // 404处理

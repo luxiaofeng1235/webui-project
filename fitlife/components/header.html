@@ -1,0 +1,49 @@
+<!-- 导航栏 -->
+<nav class="navbar">
+    <div class="nav-container">
+        <div class="nav-logo">
+            <i class="fas fa-dumbbell"></i>
+            <span>FitLife</span>
+        </div>
+        <ul class="nav-menu">
+            <li><a href="#home">首页</a></li>
+            <li><a href="#about">关于我们</a></li>
+            <li><a href="#trainers">教练团队</a></li>
+            <li><a href="#programs">健身计划</a></li>
+            <li><a href="#success-stories">成功案例</a></li>
+            <li><a href="#facilities">设施展示</a></li>
+            <li><a href="#community">互动社区</a></li>
+            <li><a href="#contact">联系我们</a></li>
+        </ul>
+        <div class="nav-auth">
+            <button class="btn-auth btn-login" onclick="openLoginModal()">
+                <i class="fas fa-sign-in-alt"></i> 登录
+            </button>
+            <button class="btn-auth btn-register" onclick="openRegisterModal()">
+                <i class="fas fa-user-plus"></i> 注册
+            </button>
+            <!-- 登录后显示的用户信息 -->
+            <div class="user-info" id="userInfo" style="display: none;">
+                <div class="user-avatar">
+                    <img id="navAvatarImg" src="" alt="用户头像" style="display: none;">
+                    <i id="navAvatarIcon" class="fas fa-user-circle"></i>
+                </div>
+                <span class="user-name" id="userName">用户名</span>
+                <div class="user-dropdown">
+                    <button onclick="showUserMenu()"><i class="fas fa-chevron-down"></i></button>
+                    <div class="dropdown-menu" id="userMenu">
+                        <a href="#" onclick="showProfile()"><i class="fas fa-user"></i> 个人中心</a>
+                        <a href="#" onclick="showMyPlans()"><i class="fas fa-dumbbell"></i> 我的计划</a>
+                        <a href="#" onclick="showSettings()"><i class="fas fa-cog"></i> 设置</a>
+                        <a href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> 退出登录</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </div>
+</nav>

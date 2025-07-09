@@ -73,6 +73,8 @@
         </div>
     </div>
 
+    <script src="js/api.js"></script>
+    <script src="js/cookie-utils.js"></script>
     <script>
         // 切换登录/注册标签
         function switchTab(tabName) {
@@ -131,12 +133,17 @@
                 const result = await response.json();
 
                 if (result.success) {
-                    // 存储用户信息和token
+                    // 使用Cookie保存登录信息（持久化7天）
+                    AuthCookies.saveLoginInfo(result.data.token, result.data.user, 7);
+
+                    // 同时保存到localStorage和sessionStorage（向后兼容）
                     localStorage.setItem('token', result.data.token);
                     localStorage.setItem('user', JSON.stringify(result.data.user));
                     sessionStorage.setItem('username', result.data.user.username);
                     sessionStorage.setItem('isLoggedIn', 'true');
-                    
+
+                    console.log('登录成功，信息已保存到Cookie和本地存储');
+
                     // 跳转到管理后台
                     window.location.href = 'admin.html';
                 } else {
@@ -204,14 +211,18 @@
                     const result = await response.json();
 
                     if (result.success) {
-                        // 存储用户信息和token
+                        // 使用Cookie保存登录信息（持久化7天）
+                        AuthCookies.saveLoginInfo(result.data.token, result.data.user, 7);
+
+                        // 同时保存到localStorage和sessionStorage（向后兼容）
                         localStorage.setItem('token', result.data.token);
                         localStorage.setItem('user', JSON.stringify(result.data.user));
                         sessionStorage.setItem('username', result.data.user.username);
                         sessionStorage.setItem('isLoggedIn', 'true');
-                        
+
+                        console.log('注册成功，信息已保存到Cookie和本地存储');
                         alert('注册成功！即将跳转到管理后台...');
-                        
+
                         // 延迟跳转到管理后台
                         setTimeout(() => {
                             window.location.href = 'admin.html';
@@ -244,6 +255,70 @@
                 }
             }
         }
+
+        // 检查自动登录
+        function checkAutoLogin() {
+            try {
+                // 首先尝试从Cookie获取登录信息
+                if (AuthCookies.isLoggedIn()) {
+                    const loginInfo = AuthCookies.getLoginInfo();
+                    console.log('发现Cookie中的登录信息:', loginInfo);
+
+                    // 检查登录是否过期
+                    if (!AuthCookies.isLoginExpired()) {
+                        console.log('Cookie登录信息有效，自动跳转到后台');
+
+                        // 同步到localStorage和sessionStorage
+                        localStorage.setItem('token', loginInfo.token);
+                        localStorage.setItem('user', JSON.stringify(loginInfo.user));
+                        sessionStorage.setItem('username', loginInfo.username);
+                        sessionStorage.setItem('isLoggedIn', 'true');
+
+                        // 自动跳转
+                        window.location.href = 'admin.html';
+                        return;
+                    } else {
+                        console.log('Cookie登录信息已过期，清除过期信息');
+                        AuthCookies.clearLoginInfo();
+                    }
+                }
+
+                // 尝试迁移localStorage数据到Cookie
+                if (AuthCookies.migrateFromLocalStorage()) {
+                    console.log('已迁移localStorage数据到Cookie');
+                }
+
+                // 检查localStorage中的登录状态（向后兼容）
+                const token = localStorage.getItem('token');
+                const isLoggedIn = sessionStorage.getItem('isLoggedIn');
+
+                if (token && isLoggedIn === 'true') {
+                    console.log('发现localStorage中的登录信息，验证有效性...');
+
+                    // 可以在这里添加token验证逻辑
+                    // 暂时直接跳转
+                    window.location.href = 'admin.html';
+                }
+
+            } catch (error) {
+                console.error('自动登录检查失败:', error);
+                // 清除可能损坏的登录信息
+                AuthCookies.clearLoginInfo();
+                localStorage.removeItem('token');
+                localStorage.removeItem('user');
+                sessionStorage.removeItem('username');
+                sessionStorage.removeItem('isLoggedIn');
+            }
+        }
+
+        // 页面加载完成后的初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            // 检查是否已经登录
+            checkAutoLogin();
+
+            // 默认显示登录表单
+            switchTab('login');
+        });
     </script>
 </body>
 </html>

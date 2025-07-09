@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>健身俱乐部 - 专业健身指导</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="css/all.min.css">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+</head>
+<body>
+    <!-- 页面容器 -->
+    <div id="app">
+        <!-- 头部导航 -->
+        <div id="header-container"></div>
+        
+        <!-- 主页轮播 -->
+        <div id="hero-container"></div>
+        
+        <!-- 关于我们 -->
+        <div id="about-container"></div>
+        
+        <!-- 专业教练 -->
+        <div id="trainers-container"></div>
+        
+        <!-- 健身课程 -->
+        <div id="programs-container"></div>
+        
+        <!-- 成功案例 -->
+        <div id="success-stories-container"></div>
+        
+        <!-- 健身设施 -->
+        <div id="facilities-container"></div>
+        
+        <!-- 互动社区 -->
+        <div id="community-container"></div>
+        
+        <!-- 联系我们 -->
+        <div id="contact-container"></div>
+        
+        <!-- 模态框 -->
+        <div id="modals-container"></div>
+    </div>
+
+    <!-- 模块化JavaScript文件 -->
+    <!-- 基础组件加载器 -->
+    <script src="js/component-loader.js"></script>
+    
+    <!-- 功能模块 -->
+    <script src="js/modules/utils.js"></script>
+    <script src="js/modules/navigation.js"></script>
+    <script src="js/modules/trainers.js"></script>
+    <script src="js/modules/hero-slider.js"></script>
+    <script src="js/modules/community.js"></script>
+    
+    <!-- 认证模块 -->
+    <script src="js/modules/auth-core.js"></script>
+    <script src="js/modules/verification.js"></script>
+    <script src="js/modules/user-manager.js"></script>
+    <script src="js/modules/avatar-manager.js"></script>
+    <script src="js/modules/modal-manager.js"></script>
+    <script src="js/modules/package-manager.js"></script>
+    <script src="js/auth-app.js"></script>
+    
+    <!-- 主应用管理器 -->
+    <script src="js/app.js"></script>
+
+    <!-- 应用初始化脚本 -->
+    <script>
+        // 应用初始化完成后的额外配置
+        document.addEventListener('appInitialized', function() {
+            console.log('🎉 健身俱乐部应用已就绪！');
+            
+            // 可以在这里添加页面特定的初始化逻辑
+            // 例如：Google Analytics、第三方插件等
+        });
+
+        // 错误处理
+        window.addEventListener('error', function(e) {
+            console.error('页面错误:', e.error);
+        });
+
+        // 性能监控
+        window.addEventListener('load', function() {
+            const loadTime = performance.now();
+            console.log(`⚡ 页面加载完成，耗时: ${loadTime.toFixed(2)}ms`);
+        });
+    </script>
+</body>
+</html>

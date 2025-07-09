@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FitLife 健身中心 - 专业健身服务</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="apple-touch-icon" sizes="180x180" href="favicon.svg">
+    
+    <!-- 样式文件 -->
+    <link rel="stylesheet" href="styles.css?v=2024-orange">
+    <link href="css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="avatar-preview-fix.css">
+    <link rel="stylesheet" href="trainers-fix.css">
+</head>
+<body>
+    <!-- 页面加载指示器 -->
+    <div id="loading-indicator" style="
+        position: fixed; 
+        top: 0; 
+        left: 0; 
+        width: 100%; 
+        height: 100%; 
+        background: rgba(255, 255, 255, 0.9); 
+        display: flex; 
+        justify-content: center; 
+        align-items: center; 
+        z-index: 9999;
+        font-family: Arial, sans-serif;
+    ">
+        <div style="text-align: center;">
+            <div style="
+                width: 50px; 
+                height: 50px; 
+                border: 3px solid #f3f3f3; 
+                border-top: 3px solid #ff6b35; 
+                border-radius: 50%; 
+                animation: spin 1s linear infinite; 
+                margin: 0 auto 20px;
+            "></div>
+            <p style="color: #666; margin: 0;">正在加载页面组件...</p>
+        </div>
+    </div>
+    
+    <style>
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+
+    <!-- 组件容器 - 所有内容将通过JavaScript动态加载 -->
+    <div id="header-container"></div>
+    <div id="hero-container"></div>
+    <div id="about-container"></div>
+    <div id="trainers-container"></div>
+    <div id="programs-container"></div>
+    <div id="success-stories-container"></div>
+    <div id="facilities-container"></div>
+    <div id="community-container"></div>
+    <div id="contact-container"></div>
+    <div id="modals-container"></div>
+
+    <!-- 模块化JavaScript文件 -->
+    <!-- 配置文件 - 必须最先加载 -->
+    <script src="js/modules/config.js"></script>
+
+    <!-- 禁用懒加载脚本（优先加载） -->
+    <script src="disable-lazy-loading.js"></script>
+
+    <!-- 核心模块 -->
+    <script src="js/modules/utils.js"></script>
+    <script src="js/modules/navigation.js"></script>
+    <script src="js/modules/hero-slider.js"></script>
+    <script src="js/modules/trainers.js"></script>
+    <script src="js/modules/community.js"></script>
+    <script src="js/modules/image-manager.js"></script>
+    
+    <!-- 认证模块 -->
+    <script src="js/modules/auth-core.js"></script>
+    <script src="js/modules/verification.js"></script>
+    <script src="js/modules/user-manager.js"></script>
+    <script src="js/modules/avatar-manager.js"></script>
+    <script src="js/modules/modal-manager.js"></script>
+    <script src="js/modules/package-manager.js"></script>
+    
+    <!-- 组件加载器 -->
+    <script src="js/component-loader.js"></script>
+    
+    <!-- 主应用管理器 -->
+    <script src="js/app.js"></script>
+    
+    <!-- 认证应用管理器 -->
+    <script src="js/auth-app.js"></script>
+
+    <!-- 头像预览修复补丁 -->
+    <script src="avatar-preview-fix.js"></script>
+
+    <!-- 教练详情修复补丁 -->
+    <script src="trainers-fix.js"></script>
+
+    <!-- 修复验证脚本 -->
+    <script src="verify-fixes.js"></script>
+
+    <!-- 页面初始化脚本 -->
+    <script>
+        // 隐藏加载指示器
+        function hideLoadingIndicator() {
+            const loadingIndicator = document.getElementById('loading-indicator');
+            if (loadingIndicator) {
+                loadingIndicator.style.opacity = '0';
+                setTimeout(() => {
+                    loadingIndicator.style.display = 'none';
+                }, 300);
+            }
+        }
+
+        // 监听组件加载完成事件
+        document.addEventListener('componentsLoaded', function() {
+            console.log('🎉 所有组件加载完成');
+            hideLoadingIndicator();
+        });
+
+        // 监听应用初始化完成事件
+        document.addEventListener('appInitialized', function() {
+            console.log('✨ 应用初始化完成，所有功能已就绪');
+        });
+
+        // 错误处理
+        window.addEventListener('error', function(e) {
+            console.error('页面加载错误:', e.error);
+            hideLoadingIndicator();
+        });
+
+        // 超时保护 - 如果10秒后还没加载完成，强制隐藏加载指示器
+        setTimeout(() => {
+            hideLoadingIndicator();
+        }, 10000);
+    </script>
+</body>
+</html>

@@ -1,0 +1,91 @@
+2025-07-06 12:52:08 - 🚀 开始一键替换首页图片
+2025-07-06 12:52:08 - 📁 备份现有图片到: images/backup-20250706-125208
+2025-07-06 12:52:08 - ✅ 备份完成
+2025-07-06 12:52:08 - 🚀 开始替换图片...
+2025-07-06 12:52:08 - 
+2025-07-06 12:52:08 - 1️⃣ 替换Hero轮播图...
+2025-07-06 12:52:08 - 📥 下载: 现代健身房全景
+2025-07-06 12:52:08 -    URL: https://images.unsplash.com/photo-1534438327276-14e5300c3a48?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&h=1080&q=80
+2025-07-06 12:52:09 - ✅ 图片验证通过: images/temp-download/pexels-photo-1552242.webp (300426 bytes)
+2025-07-06 12:52:09 - 📁 已备份: pexels-photo-1552242.webp
+2025-07-06 12:52:09 - ✅ 成功替换: pexels-photo-1552242.webp
+2025-07-06 12:52:09 - 📥 下载: 力量训练区特写
+2025-07-06 12:52:09 -    URL: https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&h=1080&q=80
+2025-07-06 12:52:09 - ✅ 图片验证通过: images/temp-download/pexels-photo-2261477.jpeg (224513 bytes)
+2025-07-06 12:52:09 - 📁 已备份: pexels-photo-2261477.jpeg
+2025-07-06 12:52:09 - ✅ 成功替换: pexels-photo-2261477.jpeg
+2025-07-06 12:52:09 - 📥 下载: 瑜伽课程场景
+2025-07-06 12:52:09 -    URL: https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&h=1080&q=80
+2025-07-06 12:52:10 - ✅ 图片验证通过: images/temp-download/pexels-photo-3076509.webp (164681 bytes)
+2025-07-06 12:52:10 - 📁 已备份: pexels-photo-3076509.webp
+2025-07-06 12:52:10 - ✅ 成功替换: pexels-photo-3076509.webp
+2025-07-06 12:52:10 - 📥 下载: 跑步有氧训练
+2025-07-06 12:52:10 -    URL: https://images.unsplash.com/photo-1571902943202-507ec2618e8f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&h=1080&q=80
+2025-07-06 12:52:11 - ✅ 图片验证通过: images/temp-download/pexels-photo-1229356.webp (324555 bytes)
+2025-07-06 12:52:11 - 📁 已备份: pexels-photo-1229356.webp
+2025-07-06 12:52:11 - ✅ 成功替换: pexels-photo-1229356.webp
+2025-07-06 12:52:11 - 📥 下载: 团体健身课程
+2025-07-06 12:52:11 -    URL: https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&h=1080&q=80
+2025-07-06 12:52:12 - ✅ 图片验证通过: images/temp-download/pexels-photo-2827400.webp (290454 bytes)
+2025-07-06 12:52:12 - 📁 已备份: pexels-photo-2827400.webp
+2025-07-06 12:52:12 - ✅ 成功替换: pexels-photo-2827400.webp
+2025-07-06 12:52:12 - 📥 下载: 专业健身指导
+2025-07-06 12:52:12 -    URL: https://images.unsplash.com/photo-1506629905607-ce19a96b7e86?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&h=1080&q=80
+2025-07-06 12:52:13 - ❌ 图片太小，可能损坏: images/temp-download/pexels-photo-3289711.webp (29 bytes)
+2025-07-06 12:52:13 - ❌ 图片验证失败: pexels-photo-3289711.webp
+2025-07-06 12:52:13 - 
+2025-07-06 12:52:13 - 2️⃣ 替换设施展示图...
+2025-07-06 12:52:13 - 📥 下载: 工业风力量训练区
+2025-07-06 12:52:13 -    URL: https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=800&q=80
+2025-07-06 12:52:14 - ✅ 图片验证通过: images/temp-download/strength-training.jpg (99322 bytes)
+2025-07-06 12:52:14 - 📁 已备份: strength-training.jpg
+2025-07-06 12:52:14 - ✅ 成功替换: strength-training.jpg
+2025-07-06 12:52:14 - 📥 下载: 明亮现代有氧区
+2025-07-06 12:52:14 -    URL: https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=800&q=80
+2025-07-06 12:52:14 - ✅ 图片验证通过: images/temp-download/cardio-area.jpg (105306 bytes)
+2025-07-06 12:52:14 - 📁 已备份: cardio-area.jpg
+2025-07-06 12:52:14 - ✅ 成功替换: cardio-area.jpg
+2025-07-06 12:52:14 - 📥 下载: 禅意瑜伽教室
+2025-07-06 12:52:14 -    URL: https://images.unsplash.com/photo-1588286840104-8957b019727f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=800&q=80
+2025-07-06 12:52:16 - ✅ 图片验证通过: images/temp-download/yoga-studio.jpg (151291 bytes)
+2025-07-06 12:52:16 - 📁 已备份: yoga-studio.jpg
+2025-07-06 12:52:16 - ✅ 成功替换: yoga-studio.jpg
+2025-07-06 12:52:16 - 📥 下载: 豪华私教区
+2025-07-06 12:52:16 -    URL: https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=800&q=80
+2025-07-06 12:52:17 - ✅ 图片验证通过: images/temp-download/personal-training.jpg (134636 bytes)
+2025-07-06 12:52:17 - 📁 已备份: personal-training.jpg
+2025-07-06 12:52:17 - ✅ 成功替换: personal-training.jpg
+2025-07-06 12:52:17 - 📥 下载: 现代休息区
+2025-07-06 12:52:17 -    URL: https://images.unsplash.com/photo-1571902943202-507ec2618e8f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=800&q=80
+2025-07-06 12:52:17 - ✅ 图片验证通过: images/temp-download/lounge-area.jpg (157041 bytes)
+2025-07-06 12:52:17 - 📁 已备份: lounge-area.jpg
+2025-07-06 12:52:17 - ✅ 成功替换: lounge-area.jpg
+2025-07-06 12:52:17 - 📥 下载: 豪华更衣室
+2025-07-06 12:52:17 -    URL: https://images.unsplash.com/photo-1571902943202-507ec2618e8f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=800&q=80
+2025-07-06 12:52:18 - ✅ 图片验证通过: images/temp-download/locker-room.jpg (157041 bytes)
+2025-07-06 12:52:18 - 📁 已备份: locker-room.jpg
+2025-07-06 12:52:18 - ✅ 成功替换: locker-room.jpg
+2025-07-06 12:52:18 - 
+2025-07-06 12:52:18 - 3️⃣ 替换环境画廊图...
+2025-07-06 12:52:18 - 📥 下载: 健身房全景
+2025-07-06 12:52:18 -    URL: https://images.unsplash.com/photo-1534438327276-14e5300c3a48?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&h=1080&q=80
+2025-07-06 12:52:19 - ✅ 图片验证通过: images/temp-download/gym-overview.jpg (300426 bytes)
+2025-07-06 12:52:19 - 📁 已备份: gym-overview.jpg
+2025-07-06 12:52:19 - ✅ 成功替换: gym-overview.jpg
+2025-07-06 12:52:19 - 📥 下载: 器械区域
+2025-07-06 12:52:19 -    URL: https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=800&q=80
+2025-07-06 12:52:19 - ✅ 图片验证通过: images/temp-download/equipment-zone.jpg (99322 bytes)
+2025-07-06 12:52:19 - 📁 已备份: equipment-zone.jpg
+2025-07-06 12:52:19 - ✅ 成功替换: equipment-zone.jpg
+2025-07-06 12:52:19 - 📥 下载: 团体课程
+2025-07-06 12:52:19 -    URL: https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=800&q=80
+2025-07-06 12:52:20 - ✅ 图片验证通过: images/temp-download/group-class.jpg (73813 bytes)
+2025-07-06 12:52:20 - 📁 已备份: group-class.jpg
+2025-07-06 12:52:20 - ✅ 成功替换: group-class.jpg
+2025-07-06 12:52:20 - 📥 下载: 接待区
+2025-07-06 12:52:20 -    URL: https://images.unsplash.com/photo-1571902943202-507ec2618e8f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=800&q=80
+2025-07-06 12:52:20 - ✅ 图片验证通过: images/temp-download/reception-area.jpg (157041 bytes)
+2025-07-06 12:52:20 - 📁 已备份: reception-area.jpg
+2025-07-06 12:52:20 - ✅ 成功替换: reception-area.jpg
+2025-07-06 12:52:20 - 🧹 清理临时文件...
+2025-07-06 12:52:20 - ✅ 清理完成

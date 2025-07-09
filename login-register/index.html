@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>餐厅管理系统</title>
+    <link rel="stylesheet" href="css/base.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .loading-container {
+            text-align: center;
+            color: white;
+            padding: 40px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+        }
+        
+        .loading-title {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            font-weight: 300;
+        }
+        
+        .loading-subtitle {
+            font-size: 1.2em;
+            margin-bottom: 30px;
+            opacity: 0.8;
+        }
+        
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-top: 3px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .loading-status {
+            font-size: 1em;
+            opacity: 0.7;
+            margin-top: 15px;
+        }
+        
+        .error-message {
+            color: #ff6b6b;
+            background: rgba(255, 107, 107, 0.1);
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 20px;
+            border: 1px solid rgba(255, 107, 107, 0.3);
+        }
+        
+        .manual-links {
+            margin-top: 30px;
+        }
+        
+        .manual-links a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            padding: 10px 20px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+        
+        .manual-links a:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <div class="loading-container">
+        <h1 class="loading-title">🍽️ 餐厅管理系统</h1>
+        <p class="loading-subtitle">正在检查登录状态...</p>
+        
+        <div class="loading-spinner"></div>
+        
+        <div class="loading-status" id="status">初始化中...</div>
+        
+        <div id="error-container"></div>
+        
+        <div class="manual-links" id="manual-links" style="display: none;">
+            <a href="login.html">登录页面</a>
+            <a href="admin.html">管理后台</a>
+        </div>
+    </div>
+
+    <script src="js/cookie-utils.js"></script>
+    <script>
+        // 状态更新函数
+        function updateStatus(message, isError = false) {
+            const statusElement = document.getElementById('status');
+            statusElement.textContent = message;
+            
+            if (isError) {
+                statusElement.style.color = '#ff6b6b';
+            }
+            
+            console.log(`[状态] ${message}`);
+        }
+
+        // 显示错误信息
+        function showError(message) {
+            const errorContainer = document.getElementById('error-container');
+            errorContainer.innerHTML = `
+                <div class="error-message">
+                    <strong>错误:</strong> ${message}
+                    <br><br>
+                    请手动选择页面或刷新重试
+                </div>
+            `;
+            
+            // 显示手动链接
+            document.getElementById('manual-links').style.display = 'block';
+        }
+
+        // 自动跳转函数
+        function redirectTo(url, reason) {
+            updateStatus(`${reason}，即将跳转...`);
+            
+            setTimeout(() => {
+                console.log(`[跳转] 跳转到: ${url}`);
+                window.location.href = url;
+            }, 1500);
+        }
+
+        // 检查登录状态并跳转
+        async function checkAuthAndRedirect() {
+            try {
+                updateStatus('正在检查Cookie登录状态...');
+                console.log('开始检查登录状态...');
+
+                // 等待一下确保Cookie工具加载完成
+                await new Promise(resolve => setTimeout(resolve, 500));
+
+                // 检查Cookie工具是否可用
+                if (typeof AuthCookies === 'undefined') {
+                    throw new Error('Cookie工具未加载');
+                }
+
+                updateStatus('检查Cookie中的登录信息...');
+                console.log('Cookie工具已加载，开始检查...');
+
+                // 显示原始Cookie信息
+                console.log('原始Cookie字符串:', document.cookie);
+
+                // 检查Cookie中的登录状态
+                const isLoggedInCookie = AuthCookies.isLoggedIn();
+                const isExpiredCookie = AuthCookies.isLoginExpired();
+                const loginInfo = AuthCookies.getLoginInfo();
+
+                console.log('Cookie登录检查详细结果:', {
+                    isLoggedIn: isLoggedInCookie,
+                    isExpired: isExpiredCookie,
+                    loginInfo: loginInfo
+                });
+
+                if (isLoggedInCookie && !isExpiredCookie) {
+                    // Cookie中有有效的登录信息
+                    console.log('✅ 发现有效的Cookie登录信息:', loginInfo);
+
+                    updateStatus(`欢迎回来，${loginInfo.username || '用户'}！`);
+                    redirectTo('admin.html', '已登录');
+                    return;
+                } else {
+                    console.log('❌ Cookie登录检查失败:', {
+                        isLoggedIn: isLoggedInCookie,
+                        isExpired: isExpiredCookie,
+                        reason: !isLoggedInCookie ? 'Cookie中无登录信息' : '登录已过期'
+                    });
+                }
+                
+                updateStatus('检查localStorage登录状态...');
+                console.log('开始检查localStorage状态...');
+
+                // 检查localStorage中的登录状态（向后兼容）
+                const token = localStorage.getItem('token');
+                const isLoggedInLocal = sessionStorage.getItem('isLoggedIn');
+                const username = sessionStorage.getItem('username');
+
+                console.log('localStorage登录检查详细结果:', {
+                    hasToken: !!token,
+                    token: token ? token.substring(0, 20) + '...' : null,
+                    isLoggedIn: isLoggedInLocal,
+                    username: username
+                });
+
+                if (token && isLoggedInLocal === 'true') {
+                    // localStorage中有登录信息，尝试迁移到Cookie
+                    console.log('✅ 发现localStorage中的有效登录信息');
+                    updateStatus('发现本地登录信息，正在迁移到Cookie...');
+
+                    try {
+                        const migrated = AuthCookies.migrateFromLocalStorage();
+                        if (migrated) {
+                            console.log('✅ 成功迁移localStorage数据到Cookie');
+                            updateStatus('登录信息已更新');
+                            redirectTo('admin.html', '登录状态已恢复');
+                            return;
+                        } else {
+                            console.log('⚠️ 迁移未执行，但localStorage状态有效');
+                            updateStatus('使用本地登录信息');
+                            redirectTo('admin.html', '已登录');
+                            return;
+                        }
+                    } catch (migrateError) {
+                        console.warn('⚠️ 迁移失败，但仍然跳转到后台:', migrateError);
+                        updateStatus('使用本地登录信息');
+                        redirectTo('admin.html', '已登录');
+                        return;
+                    }
+                } else {
+                    console.log('❌ localStorage登录检查失败:', {
+                        hasToken: !!token,
+                        isLoggedIn: isLoggedInLocal,
+                        reason: !token ? '无token' : 'isLoggedIn不为true'
+                    });
+                }
+                
+                // 没有有效的登录信息
+                updateStatus('未检测到登录信息');
+                redirectTo('login.html', '需要登录');
+                
+            } catch (error) {
+                console.error('登录状态检查失败:', error);
+                updateStatus('检查登录状态时出错', true);
+                showError(error.message);
+            }
+        }
+
+        // 检查URL参数
+        function checkUrlParams() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const redirect = urlParams.get('redirect');
+            
+            if (redirect) {
+                console.log('检测到重定向参数:', redirect);
+                
+                if (redirect === 'login') {
+                    updateStatus('强制跳转到登录页面');
+                    redirectTo('login.html', '手动跳转');
+                    return true;
+                } else if (redirect === 'admin') {
+                    updateStatus('强制跳转到管理后台');
+                    redirectTo('admin.html', '手动跳转');
+                    return true;
+                }
+            }
+            
+            return false;
+        }
+
+        // 页面加载完成后执行
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('首页加载完成，开始检查登录状态');
+            
+            // 显示浏览器信息
+            console.log('浏览器信息:', {
+                userAgent: navigator.userAgent,
+                cookieEnabled: navigator.cookieEnabled,
+                url: window.location.href
+            });
+            
+            // 检查URL参数
+            if (checkUrlParams()) {
+                return;
+            }
+            
+            // 开始登录状态检查
+            checkAuthAndRedirect();
+        });
+
+        // 监听页面可见性变化
+        document.addEventListener('visibilitychange', function() {
+            if (!document.hidden) {
+                console.log('页面重新可见，重新检查登录状态');
+                // 页面重新可见时，重新检查登录状态
+                setTimeout(checkAuthAndRedirect, 1000);
+            }
+        });
+
+        // 错误处理
+        window.addEventListener('error', function(event) {
+            console.error('页面错误:', event.error);
+            updateStatus('页面加载出错', true);
+            showError('页面加载时发生错误，请刷新重试');
+        });
+
+        // 未处理的Promise错误
+        window.addEventListener('unhandledrejection', function(event) {
+            console.error('未处理的Promise错误:', event.reason);
+            updateStatus('异步操作出错', true);
+            showError('异步操作失败，请刷新重试');
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,59 @@
+/* 头像预览修复样式 */
+.preview-container {
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.preview-container:hover {
+    background-color: rgba(255, 107, 53, 0.05);
+    border-color: #ff6b35;
+}
+
+.preview-container.drag-over {
+    background-color: rgba(255, 107, 53, 0.1);
+    border: 2px dashed #ff6b35;
+    transform: scale(1.02);
+}
+
+.upload-placeholder {
+    text-align: center;
+    padding: 20px;
+    color: #666;
+}
+
+.upload-placeholder i {
+    font-size: 48px;
+    color: #ff6b35;
+    margin-bottom: 15px;
+}
+
+#avatarPreview {
+    max-width: 200px;
+    max-height: 200px;
+    border-radius: 8px;
+    object-fit: cover;
+}
+
+/* 确保预览图片在模态框中正确显示 */
+.avatar-modal .preview-container {
+    min-height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px dashed #ddd;
+    border-radius: 8px;
+    position: relative;
+}
+
+/* 文件输入提示 */
+.upload-placeholder p {
+    margin: 10px 0 5px 0;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.upload-placeholder small {
+    color: #888;
+    font-size: 12px;
+    line-height: 1.4;
+}

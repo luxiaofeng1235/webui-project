@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>影评天地 - 在线影评平台</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .filter-tabs {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+            gap: 10px;
+        }
+
+        .tab-btn {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 2px solid rgba(255,255,255,0.3);
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .tab-btn:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-2px);
+        }
+
+        .tab-btn.active {
+            background: white;
+            color: #667eea;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .reviews-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .review-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            animation: fadeInUp 0.6s ease;
+        }
+
+        .review-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        }
+
+        .review-card.hidden {
+            display: none;
+        }
+
+        .movie-poster {
+            width: 100%;
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+        .movie-rating {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(0,0,0,0.8);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+
+        .movie-type {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: #ff6b6b;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 15px;
+            font-size: 0.9rem;
+        }
+
+        .review-content {
+            padding: 20px;
+        }
+
+        .movie-title {
+            font-size: 1.4rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+
+        .movie-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
+
+        .review-text {
+            line-height: 1.6;
+            color: #555;
+            margin-bottom: 15px;
+        }
+
+        .reviewer-info {
+            display: flex;
+            align-items: center;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+        }
+
+        .reviewer-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            margin-right: 12px;
+        }
+
+        .reviewer-details h4 {
+            color: #2c3e50;
+            margin-bottom: 2px;
+        }
+
+        .reviewer-details span {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
+
+        .stats {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            color: white;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 20px;
+        }
+
+        .stat-item h3 {
+            font-size: 2rem;
+            margin-bottom: 5px;
+        }
+
+        .stat-item p {
+            opacity: 0.9;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .reviews-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .tab-btn {
+                padding: 10px 18px;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎬 影评天地</h1>
+            <p>发现好电影，分享真感受</p>
+        </div>
+
+        <div class="filter-tabs">
+            <button class="tab-btn active" data-type="all">全部影评</button>
+            <button class="tab-btn" data-type="action">动作片</button>
+            <button class="tab-btn" data-type="comedy">喜剧片</button>
+            <button class="tab-btn" data-type="drama">剧情片</button>
+            <button class="tab-btn" data-type="sci-fi">科幻片</button>
+            <button class="tab-btn" data-type="horror">恐怖片</button>
+            <button class="tab-btn" data-type="romance">爱情片</button>
+        </div>
+
+        <div class="reviews-grid" id="reviewsGrid">
+            <!-- 影评卡片将通过JavaScript动态生成 -->
+        </div>
+
+        <div class="stats">
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <h3 id="totalReviews">0</h3>
+                    <p>总影评数</p>
+                </div>
+                <div class="stat-item">
+                    <h3 id="avgRating">0</h3>
+                    <p>平均评分</p>
+                </div>
+                <div class="stat-item">
+                    <h3 id="activeUsers">0</h3>
+                    <p>活跃用户</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 模拟影评数据
+        const reviewsData = [
+            {
+                id: 1,
+                title: '阿凡达：水之道',
+                type: 'sci-fi',
+                rating: 8.5,
+                year: 2022,
+                director: '詹姆斯·卡梅隆',
+                poster: 'https://images.unsplash.com/photo-1440404653325-ab127d49abc1?w=400&h=200&fit=crop',
+                review: '视觉效果令人震撼，水下世界的呈现堪称艺术品。虽然剧情相对简单，但卡梅隆用技术创造的奇迹足以让观众沉浸其中。这不仅是一部电影，更是一次视觉盛宴。',
+                reviewer: {
+                    name: '电影发烧友',
+                    avatar: 'A',
+                    date: '2024-01-15'
+                }
+            },
+            {
+                id: 2,
+                title: '流浪地球2',
+                type: 'sci-fi',
+                rating: 9.0,
+                year: 2023,
+                director: '郭帆',
+                poster: 'https://images.unsplash.com/photo-1446776877081-d282a0f896e2?w=400&h=200&fit=crop',
+                review: '国产科幻电影的新高度！特效制作精良，剧情扣人心弦。从人类命运共同体的角度诠释了什么是真正的科幻大片，值得每个人去影院感受这份震撼。',
+                reviewer: {
+                    name: '科幻迷小王',
+                    avatar: 'B',
+                    date: '2024-02-10'
+                }
+            },
+            {
+                id: 3,
+                title: '你好，李焕英',
+                type: 'comedy',
+                rating: 8.2,
+                year: 2021,
+                director: '贾玲',
+                poster: 'https://images.unsplash.com/photo-1489599558391-bfdb2c3fe60c?w=400&h=200&fit=crop',
+                review: '笑中带泪的佳作，贾玲用最真挚的情感诠释了母女之情。虽然时空穿越的设定有些突兀，但整体的温情和喜剧效果都很到位，是一部适合全家观看的好电影。',
+                reviewer: {
+                    name: '温情观影者',
+                    avatar: 'C',
+                    date: '2024-01-20'
+                }
+            },
+            {
+                id: 4,
+                title: '速度与激情10',
+                type: 'action',
+                rating: 7.8,
+                year: 2023,
+                director: '路易斯·莱特里尔',
+                poster: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=400&h=200&fit=crop',
+                review: '经典的爆米花电影，动作场面依然精彩，但剧情略显套路化。对于粉丝来说，能再次看到这个家族的故事已经足够，虽然不是系列最佳，但依然值得一看。',
+                reviewer: {
+                    name: '动作片爱好者',
+                    avatar: 'D',
+                    date: '2024-03-05'
+                }
+            },
+            {
+                id: 5,
+                title: '小妇人',
+                type: 'drama',
+                rating: 8.8,
+                year: 2019,
+                director: '格蕾塔·葛韦格',
+                poster: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=200&fit=crop',
+                review: '细腻的情感刻画，出色的演员表演。导演用现代的视角重新诠释了经典文学作品，让每个角色都有了新的生命力。这是一部关于成长、梦想和姐妹情深的佳作。',
+                reviewer: {
+                    name: '文艺青年',
+                    avatar: 'E',
+                    date: '2024-02-28'
+                }
+            },
+            {
+                id: 6,
+                title: '招魂3',
+                type: 'horror',
+                rating: 7.5,
+                year: 2021,
+                director: '迈克尔·查韦斯',
+                poster: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=200&fit=crop',
+                review: '恐怖氛围营造得不错，但相比前两部略显平淡。惊吓点设置合理，不会过于血腥，适合喜欢恐怖片但承受能力一般的观众。整体来说是一部合格的恐怖片续作。',
+                reviewer: {
+                    name: '恐怖片达人',
+                    avatar: 'F',
+                    date: '2024-03-12'
+                }
+            },
+            {
+                id: 7,
+                title: '爱乐之城',
+                type: 'romance',
+                rating: 9.2,
+                year: 2016,
+                director: '达米恩·查泽雷',
+                poster: 'https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=400&h=200&fit=crop',
+                review: '浪漫至极的音乐剧电影，每一帧都像是精心绘制的画作。石头姐和高司令的化学反应完美，配乐更是让人难以忘怀。这是一部关于梦想与爱情的诗篇。',
+                reviewer: {
+                    name: '浪漫主义者',
+                    avatar: 'G',
+                    date: '2024-01-08'
+                }
+            },
+            {
+                id: 8,
+                title: '蜘蛛侠：纵横宇宙',
+                type: 'action',
+                rating: 9.5,
+                year: 2023,
+                director: '华金·多斯·桑托斯',
+                poster: 'https://images.unsplash.com/photo-1635805737707-575885ab0820?w=400&h=200&fit=crop',
+                review: '动画电影的新标杆！视觉风格独特，故事情节扣人心弦。多元宇宙的概念处理得非常巧妙，每个蜘蛛侠都有自己的特色。这是一部超越了超英电影范畴的艺术作品。',
+                reviewer: {
+                    name: '动画爱好者',
+                    avatar: 'H',
+                    date: '2024-02-15'
+                }
+            }
+        ];
+
+        let currentFilter = 'all';
+
+        // 初始化页面
+        function initPage() {
+            renderReviews();
+            updateStats();
+            bindEvents();
+        }
+
+        // 渲染影评列表
+        function renderReviews() {
+            const grid = document.getElementById('reviewsGrid');
+            const filteredReviews = currentFilter === 'all' 
+                ? reviewsData 
+                : reviewsData.filter(review => review.type === currentFilter);
+
+            grid.innerHTML = filteredReviews.map(review => `
+                <div class="review-card" data-type="${review.type}">
+                    <div class="movie-poster" style="background-image: url('${review.poster}')">
+                        <div class="movie-rating">⭐ ${review.rating}</div>
+                        <div class="movie-type">${getTypeLabel(review.type)}</div>
+                    </div>
+                    <div class="review-content">
+                        <h3 class="movie-title">${review.title}</h3>
+                        <div class="movie-info">
+                            <span>📅 ${review.year}</span>
+                            <span>🎬 ${review.director}</span>
+                        </div>
+                        <p class="review-text">${review.review}</p>
+                        <div class="reviewer-info">
+                            <div class="reviewer-avatar">${review.reviewer.avatar}</div>
+                            <div class="reviewer-details">
+                                <h4>${review.reviewer.name}</h4>
+                                <span>${review.reviewer.date}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // 获取类型标签
+        function getTypeLabel(type) {
+            const labels = {
+                'action': '动作',
+                'comedy': '喜剧',
+                'drama': '剧情',
+                'sci-fi': '科幻',
+                'horror': '恐怖',
+                'romance': '爱情'
+            };
+            return labels[type] || type;
+        }
+
+        // 更新统计信息
+        function updateStats() {
+            const filteredReviews = currentFilter === 'all' 
+                ? reviewsData 
+                : reviewsData.filter(review => review.type === currentFilter);
+            
+            const totalReviews = filteredReviews.length;
+            const avgRating = (filteredReviews.reduce((sum, review) => sum + review.rating, 0) / totalReviews).toFixed(1);
+            const activeUsers = new Set(filteredReviews.map(review => review.reviewer.name)).size;
+
+            document.getElementById('totalReviews').textContent = totalReviews;
+            document.getElementById('avgRating').textContent = avgRating;
+            document.getElementById('activeUsers').textContent = activeUsers;
+        }
+
+        // 绑定事件
+        function bindEvents() {
+            const tabBtns = document.querySelectorAll('.tab-btn');
+            
+            tabBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    // 更新按钮状态
+                    tabBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    
+                    // 更新当前筛选器
+                    currentFilter = btn.dataset.type;
+                    
+                    // 重新渲染
+                    renderReviews();
+                    updateStats();
+                });
+            });
+        }
+
+        // 页面加载完成后初始化
+        document.addEventListener('DOMContentLoaded', initPage);
+    </script>
+</body>
+</html>

@@ -1,0 +1,366 @@
+<!-- 互动社区 -->
+<section id="community" class="community">
+    <div class="container">
+        <h2>互动社区</h2>
+        <p class="section-subtitle">与健身伙伴一起分享经验，互相激励，共同进步</p>
+        
+        <!-- 社区导航 -->
+        <div class="community-nav">
+            <button class="community-tab active" data-tab="challenges">健身挑战</button>
+            <button class="community-tab" data-tab="forum">讨论论坛</button>
+            <button class="community-tab" data-tab="reviews">学员评价</button>
+        </div>
+
+        <!-- 健身挑战 -->
+        <div id="challenges" class="community-content active">
+            <div class="challenges-header">
+                <h3>本月健身挑战</h3>
+                <p>参与挑战，赢取丰厚奖品，与全国健身爱好者一起进步</p>
+            </div>
+            
+            <div class="challenges-grid">
+                <div class="challenge-card">
+                    <div class="challenge-icon">
+                        <i class="fas fa-fire"></i>
+                    </div>
+                    <div class="challenge-info">
+                        <h4>21天燃脂挑战</h4>
+                        <p>连续21天完成有氧训练，燃烧脂肪，塑造完美身材</p>
+                        <div class="challenge-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 65%"></div>
+                            </div>
+                            <span>13/21 天</span>
+                        </div>
+                        <div class="challenge-participants">
+                            <span><i class="fas fa-users"></i> 1,234人参与</span>
+                        </div>
+                        <div class="challenge-reward">
+                            <i class="fas fa-gift"></i>
+                            <span>奖品：健身装备大礼包</span>
+                        </div>
+                    </div>
+                    <button class="btn btn-secondary challenge-join">加入挑战</button>
+                </div>
+
+                <div class="challenge-card">
+                    <div class="challenge-icon">
+                        <i class="fas fa-dumbbell"></i>
+                    </div>
+                    <div class="challenge-info">
+                        <h4>力量提升挑战</h4>
+                        <p>30天力量训练计划，提升肌肉力量，突破个人极限</p>
+                        <div class="challenge-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 40%"></div>
+                            </div>
+                            <span>12/30 天</span>
+                        </div>
+                        <div class="challenge-participants">
+                            <span><i class="fas fa-users"></i> 856人参与</span>
+                        </div>
+                        <div class="challenge-reward">
+                            <i class="fas fa-trophy"></i>
+                            <span>奖品：专业训练器材</span>
+                        </div>
+                    </div>
+                    <button class="btn btn-secondary challenge-join">加入挑战</button>
+                </div>
+
+                <div class="challenge-card">
+                    <div class="challenge-icon">
+                        <i class="fas fa-spa"></i>
+                    </div>
+                    <div class="challenge-info">
+                        <h4>瑜伽修身挑战</h4>
+                        <p>14天瑜伽练习，提升柔韧性，放松身心，找回内在平衡</p>
+                        <div class="challenge-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 85%"></div>
+                            </div>
+                            <span>12/14 天</span>
+                        </div>
+                        <div class="challenge-participants">
+                            <span><i class="fas fa-users"></i> 2,156人参与</span>
+                        </div>
+                        <div class="challenge-reward">
+                            <i class="fas fa-leaf"></i>
+                            <span>奖品：瑜伽用品套装</span>
+                        </div>
+                    </div>
+                    <button class="btn btn-secondary challenge-join">加入挑战</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 讨论论坛 -->
+        <div id="forum" class="community-content">
+            <div class="forum-header">
+                <h3>讨论论坛</h3>
+                <div class="forum-actions">
+                    <button class="btn btn-primary" id="new-post-btn">
+                        <i class="fas fa-plus"></i> 发布话题
+                    </button>
+                </div>
+            </div>
+
+            <!-- 话题筛选 -->
+            <div class="forum-filters">
+                <button class="filter-btn active" data-filter="all">全部</button>
+                <button class="filter-btn" data-filter="training">训练技巧</button>
+                <button class="filter-btn" data-filter="nutrition">营养饮食</button>
+                <button class="filter-btn" data-filter="equipment">器械使用</button>
+                <button class="filter-btn" data-filter="motivation">健身心得</button>
+                <button class="filter-btn" data-filter="question">新手问答</button>
+            </div>
+
+            <!-- 发布新话题表单 -->
+            <div class="new-post-form" id="new-post-form" style="display: none;">
+                <h4>发布新话题</h4>
+                <form>
+                    <div class="form-group">
+                        <label for="post-category">话题分类</label>
+                        <select id="post-category" required>
+                            <option value="">请选择分类</option>
+                            <option value="training">训练技巧</option>
+                            <option value="nutrition">营养饮食</option>
+                            <option value="equipment">器械使用</option>
+                            <option value="motivation">健身心得</option>
+                            <option value="question">新手问答</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="post-title">话题标题</label>
+                        <input type="text" id="post-title" placeholder="请输入话题标题" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="post-content">话题内容</label>
+                        <textarea id="post-content" rows="6" placeholder="分享您的健身经验、问题或心得..." required></textarea>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">发布话题</button>
+                        <button type="button" class="btn btn-secondary" id="cancel-post">取消</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- 论坛帖子列表 -->
+            <div class="forum-posts">
+                <div class="forum-post" data-category="training">
+                    <div class="post-header">
+                        <div class="post-category training">训练技巧</div>
+                        <h4>新手如何正确进行深蹲训练？</h4>
+                        <div class="post-meta">
+                            <span class="post-author"><i class="fas fa-user"></i> 健身小白</span>
+                            <span class="post-time"><i class="fas fa-clock"></i> 2小时前</span>
+                        </div>
+                    </div>
+                    <div class="post-content">
+                        <p>刚开始健身，想学习正确的深蹲姿势，有经验的朋友能分享一下技巧吗？特别是如何避免膝盖受伤...</p>
+                    </div>
+                    <div class="post-stats">
+                        <span><i class="fas fa-eye"></i> 156 浏览</span>
+                        <span><i class="fas fa-comment"></i> 12 回复</span>
+                        <span><i class="fas fa-thumbs-up"></i> 8 点赞</span>
+                    </div>
+                    <div class="post-actions">
+                        <button class="post-like"><i class="far fa-thumbs-up"></i> 点赞</button>
+                        <button class="post-comment"><i class="far fa-comment"></i> 回复</button>
+                        <button class="post-share"><i class="fas fa-share"></i> 分享</button>
+                    </div>
+                </div>
+
+                <div class="forum-post" data-category="nutrition">
+                    <div class="post-header">
+                        <div class="post-category nutrition">营养饮食</div>
+                        <h4>减脂期间的饮食搭配建议</h4>
+                        <div class="post-meta">
+                            <span class="post-author"><i class="fas fa-user"></i> 营养达人</span>
+                            <span class="post-time"><i class="fas fa-clock"></i> 5小时前</span>
+                        </div>
+                    </div>
+                    <div class="post-content">
+                        <p>分享一下我减脂期间的饮食搭配，三个月减了20斤，希望对大家有帮助。早餐：燕麦+牛奶+水果...</p>
+                    </div>
+                    <div class="post-stats">
+                        <span><i class="fas fa-eye"></i> 324 浏览</span>
+                        <span><i class="fas fa-comment"></i> 28 回复</span>
+                        <span><i class="fas fa-thumbs-up"></i> 45 点赞</span>
+                    </div>
+                    <div class="post-actions">
+                        <button class="post-like"><i class="far fa-thumbs-up"></i> 点赞</button>
+                        <button class="post-comment"><i class="far fa-comment"></i> 回复</button>
+                        <button class="post-share"><i class="fas fa-share"></i> 分享</button>
+                    </div>
+                </div>
+
+                <div class="forum-post" data-category="motivation">
+                    <div class="post-header">
+                        <div class="post-category motivation">健身心得</div>
+                        <h4>坚持健身一年的感悟</h4>
+                        <div class="post-meta">
+                            <span class="post-author"><i class="fas fa-user"></i> 坚持者</span>
+                            <span class="post-time"><i class="fas fa-clock"></i> 1天前</span>
+                        </div>
+                    </div>
+                    <div class="post-content">
+                        <p>从一个完全不运动的人到现在每周固定健身5次，这一年的变化不仅仅是身材，更是整个人的精神状态...</p>
+                    </div>
+                    <div class="post-stats">
+                        <span><i class="fas fa-eye"></i> 892 浏览</span>
+                        <span><i class="fas fa-comment"></i> 67 回复</span>
+                        <span><i class="fas fa-thumbs-up"></i> 156 点赞</span>
+                    </div>
+                    <div class="post-actions">
+                        <button class="post-like"><i class="far fa-thumbs-up"></i> 点赞</button>
+                        <button class="post-comment"><i class="far fa-comment"></i> 回复</button>
+                        <button class="post-share"><i class="fas fa-share"></i> 分享</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 学员评价 -->
+        <div id="reviews" class="community-content">
+            <div class="reviews-header">
+                <h3>学员评价</h3>
+                <div class="reviews-stats">
+                    <div class="overall-rating">
+                        <span class="rating-number">4.9</span>
+                        <div class="rating-stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <span class="rating-count">基于2,456条评价</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 评价表单 -->
+            <div class="review-form">
+                <h4>分享您的体验</h4>
+                <form>
+                    <div class="form-group">
+                        <label for="review-target">评价对象</label>
+                        <select id="review-target" required>
+                            <option value="">请选择评价对象</option>
+                            <option value="strength">力量训练</option>
+                            <option value="cardio">有氧训练</option>
+                            <option value="yoga">瑜伽课程</option>
+                            <option value="coach-zhang">张教练</option>
+                            <option value="coach-li">李教练</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>评分</label>
+                        <div class="star-rating">
+                            <i class="far fa-star"></i>
+                            <i class="far fa-star"></i>
+                            <i class="far fa-star"></i>
+                            <i class="far fa-star"></i>
+                            <i class="far fa-star"></i>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="review-content">评价内容</label>
+                        <textarea id="review-content" rows="4" placeholder="分享您的真实体验和感受..." required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">提交评价</button>
+                </form>
+            </div>
+
+            <!-- 评价列表 -->
+            <div class="reviews-list">
+                <div class="review-item">
+                    <div class="review-header">
+                        <div class="reviewer-info">
+                            <div class="reviewer-avatar">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div class="reviewer-details">
+                                <h5>张女士</h5>
+                                <div class="review-stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="review-date">2024年1月15日</div>
+                    </div>
+                    <div class="review-content">
+                        <div class="review-target">力量训练</div>
+                        <p>教练非常专业，动作指导很到位。训练计划科学合理，3个月下来效果明显。环境也很好，设备齐全。</p>
+                    </div>
+                    <div class="review-actions">
+                        <button class="review-like"><i class="far fa-thumbs-up"></i> 有用 (12)</button>
+                        <button class="review-reply">回复</button>
+                    </div>
+                </div>
+
+                <div class="review-item">
+                    <div class="review-header">
+                        <div class="reviewer-info">
+                            <div class="reviewer-avatar">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div class="reviewer-details">
+                                <h5>李先生</h5>
+                                <div class="review-stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="review-date">2024年1月12日</div>
+                    </div>
+                    <div class="review-content">
+                        <div class="review-target">瑜伽课程</div>
+                        <p>瑜伽老师很有耐心，课程安排合理。练了2个月，身体柔韧性提高了很多，压力也得到了很好的释放。</p>
+                    </div>
+                    <div class="review-actions">
+                        <button class="review-like"><i class="far fa-thumbs-up"></i> 有用 (8)</button>
+                        <button class="review-reply">回复</button>
+                    </div>
+                </div>
+
+                <div class="review-item">
+                    <div class="review-header">
+                        <div class="reviewer-info">
+                            <div class="reviewer-avatar">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div class="reviewer-details">
+                                <h5>王女士</h5>
+                                <div class="review-stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="review-date">2024年1月10日</div>
+                    </div>
+                    <div class="review-content">
+                        <div class="review-target">张教练</div>
+                        <p>张教练真的很专业！制定的训练计划很适合我，而且会根据我的进度及时调整。人也很nice，推荐！</p>
+                    </div>
+                    <div class="review-actions">
+                        <button class="review-like"><i class="far fa-thumbs-up"></i> 有用 (25)</button>
+                        <button class="review-reply">回复</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
