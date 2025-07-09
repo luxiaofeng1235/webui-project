@@ -48,10 +48,34 @@ class MenuItem {
 
   static async create(itemData) {
     try {
-      const { category_id, name, description, price, image_url, status = 'available', sort_order = 0, stock_quantity = 0, unit = '份' } = itemData;
+      const {
+        category_id,
+        name,
+        description,
+        price,
+        image_url,
+        status = 'available',
+        sort_order = 0,
+        stock_quantity = 0,
+        unit = '份'
+      } = itemData;
+
+      // 将undefined转换为null，确保数据库兼容性
+      const params = [
+        category_id || null,
+        name || null,
+        description || null,
+        price || null,
+        image_url || null,
+        status || 'available',
+        sort_order || 0,
+        stock_quantity || 0,
+        unit || '份'
+      ];
+
       const [result] = await pool.execute(
         'INSERT INTO menu_items (category_id, name, description, price, image_url, status, sort_order, stock_quantity, unit) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
-        [category_id, name, description, price, image_url, status, sort_order, stock_quantity, unit]
+        params
       );
       return result.insertId;
     } catch (error) {
@@ -61,10 +85,35 @@ class MenuItem {
 
   static async update(id, itemData) {
     try {
-      const { category_id, name, description, price, image_url, status, sort_order, stock_quantity, unit } = itemData;
+      const {
+        category_id,
+        name,
+        description,
+        price,
+        image_url,
+        status = 'available',
+        sort_order = 0,
+        stock_quantity = 0,
+        unit = '份'
+      } = itemData;
+
+      // 将undefined转换为null，确保数据库兼容性
+      const params = [
+        category_id || null,
+        name || null,
+        description || null,
+        price || null,
+        image_url || null,
+        status || 'available',
+        sort_order || 0,
+        stock_quantity || 0,
+        unit || '份',
+        id
+      ];
+
       const [result] = await pool.execute(
         'UPDATE menu_items SET category_id = ?, name = ?, description = ?, price = ?, image_url = ?, status = ?, sort_order = ?, stock_quantity = ?, unit = ? WHERE id = ?',
-        [category_id, name, description, price, image_url, status, sort_order, stock_quantity, unit, id]
+        params
       );
       return result.affectedRows > 0;
     } catch (error) {

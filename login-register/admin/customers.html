@@ -3,13 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>客户管理 - 餐饮管理系统</title>
+    <title>顾客管理 - 餐饮管理系统</title>
     <link rel="stylesheet" href="../css/base.css">
     <link rel="stylesheet" href="../css/components.css">
     <link rel="stylesheet" href="../css/admin/admin-common.css">
 </head>
 <body>
     <script src="../js/admin-layout.js"></script>
+    <script src="../js/api.js"></script>
+    <script src="../js/admin-dialog.js"></script>
+    <script src="../js/admin-customers.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             setTimeout(() => {
@@ -18,14 +21,14 @@
         });
 
         async function initCustomersPage() {
-            adminLayout.setPageTitle('客户管理');
+            adminLayout.setPageTitle('顾客管理');
             adminLayout.showLoading();
-            
+
             try {
                 const customers = await loadCustomers();
                 renderCustomersPage(customers);
             } catch (error) {
-                adminLayout.showError('加载客户数据失败');
+                adminLayout.showError('加载顾客数据失败');
             }
         }
 
@@ -33,10 +36,42 @@
             return new Promise((resolve) => {
                 setTimeout(() => {
                     resolve([
-                        { id: 1, name: '张三', phone: '13800138001', email: 'zhangsan@example.com', totalOrders: 25, totalAmount: 1580.50, status: 'active', registerTime: '2024-01-01' },
-                        { id: 2, name: '李四', phone: '13800138002', email: 'lisi@example.com', totalOrders: 18, totalAmount: 980.00, status: 'active', registerTime: '2024-01-05' },
-                        { id: 3, name: '王五', phone: '13800138003', email: 'wangwu@example.com', totalOrders: 32, totalAmount: 2150.80, status: 'vip', registerTime: '2023-12-15' },
-                        { id: 4, name: '赵六', phone: '13800138004', email: 'zhaoliu@example.com', totalOrders: 5, totalAmount: 280.00, status: 'inactive', registerTime: '2024-01-10' }
+                        {
+                            id: 1,
+                            username: 'customer001',
+                            nickname: '美食爱好者',
+                            phone: '13800138001',
+                            email: 'customer001@example.com',
+                            gender: 1,
+                            points_balance: 150.50,
+                            status: 1,
+                            created_at: '2025-06-01 10:00:00',
+                            avatar_url: ''
+                        },
+                        {
+                            id: 2,
+                            username: 'customer002',
+                            nickname: '张三',
+                            phone: '13800138002',
+                            email: 'zhangsan@example.com',
+                            gender: 1,
+                            points_balance: 280.00,
+                            status: 1,
+                            created_at: '2025-06-15 14:30:00',
+                            avatar_url: ''
+                        },
+                        {
+                            id: 3,
+                            username: 'customer003',
+                            nickname: '李小姐',
+                            phone: '13800138003',
+                            email: 'lixiaojie@example.com',
+                            gender: 2,
+                            points_balance: 95.20,
+                            status: 1,
+                            created_at: '2025-07-01 09:15:00',
+                            avatar_url: ''
+                        }
                     ]);
                 }, 800);
             });
@@ -46,25 +81,25 @@
             const content = \`
                 <div class="admin-content-card">
                     <div class="admin-content-card-header">
-                        <h2 class="admin-content-card-title">👥 客户管理</h2>
+                        <h2 class="admin-content-card-title">👥 顾客管理</h2>
                     </div>
                     <div class="admin-content-card-body">
                         <div class="admin-stats-grid" style="margin-bottom: 30px;">
                             <div class="admin-stat-card primary">
-                                <h3 class="admin-stat-title">总客户数</h3>
+                                <h3 class="admin-stat-title">总顾客数</h3>
                                 <div class="admin-stat-number">\${customers.length}</div>
                             </div>
                             <div class="admin-stat-card success">
-                                <h3 class="admin-stat-title">活跃客户</h3>
-                                <div class="admin-stat-number">\${customers.filter(c => c.status === 'active').length}</div>
+                                <h3 class="admin-stat-title">正常顾客</h3>
+                                <div class="admin-stat-number">\${customers.filter(c => c.status === 1).length}</div>
                             </div>
                             <div class="admin-stat-card warning">
-                                <h3 class="admin-stat-title">VIP客户</h3>
-                                <div class="admin-stat-number">\${customers.filter(c => c.status === 'vip').length}</div>
+                                <h3 class="admin-stat-title">男性顾客</h3>
+                                <div class="admin-stat-number">\${customers.filter(c => c.gender === 1).length}</div>
                             </div>
                             <div class="admin-stat-card info">
-                                <h3 class="admin-stat-title">总消费额</h3>
-                                <div class="admin-stat-number">¥\${customers.reduce((sum, c) => sum + c.totalAmount, 0).toFixed(2)}</div>
+                                <h3 class="admin-stat-title">总积分</h3>
+                                <div class="admin-stat-number">\${customers.reduce((sum, c) => sum + (c.points_balance || 0), 0).toFixed(2)}</div>
                             </div>
                         </div>
 
@@ -72,19 +107,17 @@
                             <div class="admin-toolbar-left">
                                 <div class="admin-search-box">
                                     <span class="admin-search-icon">🔍</span>
-                                    <input class="admin-search-input" type="text" placeholder="搜索客户姓名或手机号...">
+                                    <input class="admin-search-input" type="text" placeholder="搜索顾客姓名或手机号...">
                                 </div>
                                 <div class="admin-filters">
                                     <select class="admin-filter-select">
                                         <option value="">全部状态</option>
-                                        <option value="active">活跃</option>
-                                        <option value="vip">VIP</option>
-                                        <option value="inactive">非活跃</option>
+                                        <option value="1">正常</option>
+                                        <option value="0">锁定</option>
                                     </select>
                                 </div>
                             </div>
                             <div class="admin-toolbar-right">
-                                <button class="btn btn-success" onclick="addCustomer()">➕ 添加客户</button>
                                 <button class="btn btn-primary" onclick="exportCustomers()">📤 导出数据</button>
                             </div>
                         </div>
@@ -93,38 +126,17 @@
                             <thead>
                                 <tr>
                                     <th>ID</th>
-                                    <th>客户姓名</th>
+                                    <th>顾客信息</th>
                                     <th>联系方式</th>
-                                    <th>订单数</th>
-                                    <th>消费金额</th>
+                                    <th>性别</th>
+                                    <th>积分余额</th>
                                     <th>状态</th>
                                     <th>注册时间</th>
                                     <th>操作</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                \${customers.map(customer => \\\`
-                                    <tr>
-                                        <td><strong>#\\\${customer.id}</strong></td>
-                                        <td><strong>\\\${customer.name}</strong></td>
-                                        <td>
-                                            <div>\\\${customer.phone}</div>
-                                            <div style="font-size: 12px; color: #666;">\\\${customer.email}</div>
-                                        </td>
-                                        <td><span class="badge badge-info">\\\${customer.totalOrders} 单</span></td>
-                                        <td><strong>¥\\\${customer.totalAmount.toFixed(2)}</strong></td>
-                                        <td>
-                                            \\\${customer.status === 'active' ? '<span class="badge badge-success">活跃</span>' : 
-                                               customer.status === 'vip' ? '<span class="badge badge-warning">VIP</span>' : 
-                                               '<span class="badge badge-secondary">非活跃</span>'}
-                                        </td>
-                                        <td>\\\${customer.registerTime}</td>
-                                        <td>
-                                            <button class="admin-action-btn primary" onclick="viewCustomer(\\\${customer.id})">查看</button>
-                                            <button class="admin-action-btn success" onclick="editCustomer(\\\${customer.id})">编辑</button>
-                                        </td>
-                                    </tr>
-                                \\\`).join('')}
+                            <tbody id="customers">
+                                <!-- 顾客数据将通过 customerManager.renderCustomers() 渲染 -->
                             </tbody>
                         </table>
                     </div>

@@ -10,6 +10,9 @@
 </head>
 <body>
     <script src="../js/admin-layout.js"></script>
+    <script src="../js/api.js"></script>
+    <script src="../js/admin-dialog.js"></script>
+    <script src="../js/admin-categories.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             setTimeout(() => {
@@ -20,7 +23,7 @@
         async function initCategoriesPage() {
             adminLayout.setPageTitle('分类管理');
             adminLayout.showLoading();
-            
+
             try {
                 const categories = await loadCategories();
                 renderCategoriesPage(categories);
@@ -33,9 +36,9 @@
             return new Promise((resolve) => {
                 setTimeout(() => {
                     resolve([
-                        { id: 1, name: '川菜', description: '四川特色菜品', dishCount: 15, status: 'active' },
-                        { id: 2, name: '粤菜', description: '广东特色菜品', dishCount: 12, status: 'active' },
-                        { id: 3, name: '湘菜', description: '湖南特色菜品', dishCount: 8, status: 'inactive' }
+                        { id: 1, name: '热菜', description: '各种热菜类菜品', dishCount: 7, status: 'active', created_at: '2025/7/8' },
+                        { id: 2, name: '凉菜', description: '各种凉菜类菜品', dishCount: 5, status: 'active', created_at: '2025/7/8' },
+                        { id: 3, name: '汤品', description: '各种汤类菜品', dishCount: 7, status: 'active', created_at: '2025/7/8' }
                     ]);
                 }, 800);
             });
@@ -56,37 +59,47 @@
                                 </div>
                             </div>
                             <div class="admin-toolbar-right">
-                                <button class="btn btn-success" onclick="addCategory()">➕ 添加分类</button>
+                                <button class="btn btn-success" onclick="categoryManager.showAddDialog()">➕ 添加分类</button>
                             </div>
                         </div>
 
                         <table class="admin-data-table">
                             <thead>
                                 <tr>
-                                    <th>ID</th>
+                                    <th>分类ID</th>
                                     <th>分类名称</th>
-                                    <th>描述</th>
                                     <th>菜品数量</th>
                                     <th>状态</th>
+                                    <th>创建时间</th>
                                     <th>操作</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 \${categories.map(category => \\\`
                                     <tr>
-                                        <td><strong>#\\\${category.id}</strong></td>
-                                        <td><strong>\\\${category.name}</strong></td>
-                                        <td>\\\${category.description}</td>
-                                        <td><span class="badge badge-info">\\\${category.dishCount} 个</span></td>
+                                        <td>\\\${category.id}</td>
                                         <td>
-                                            \\\${category.status === 'active' 
-                                                ? '<span class="badge badge-success">启用</span>' 
-                                                : '<span class="badge badge-secondary">禁用</span>'
-                                            }
+                                            <div style="display: flex; align-items: center; gap: 8px;">
+                                                <span style="font-size: 20px;">🗂️</span>
+                                                <strong>\\\${category.name}</strong>
+                                            </div>
                                         </td>
+                                        <td>\\\${category.dishCount}</td>
                                         <td>
-                                            <button class="admin-action-btn primary" onclick="editCategory(\\\${category.id})">编辑</button>
-                                            <button class="admin-action-btn danger" onclick="deleteCategory(\\\${category.id})">删除</button>
+                                            <span class="status-badge \\\${category.status === 'active' ? 'status-success' : 'status-danger'}">
+                                                \\\${category.status === 'active' ? '启用' : '禁用'}
+                                            </span>
+                                        </td>
+                                        <td>\\\${category.created_at}</td>
+                                        <td>
+                                            <div class="action-buttons">
+                                                <button class="btn btn-sm btn-primary" onclick="categoryManager.showEditDialog(\\\${category.id})" title="编辑">
+                                                    ✏️
+                                                </button>
+                                                <button class="btn btn-sm btn-danger" onclick="categoryManager.deleteCategory(\\\${category.id}, '\\\${category.name}')" title="删除">
+                                                    🗑️
+                                                </button>
+                                            </div>
                                         </td>
                                     </tr>
                                 \\\`).join('')}
@@ -99,20 +112,7 @@
             adminLayout.setPageContent(content);
         }
 
-        function addCategory() {
-            alert('添加分类功能');
-        }
-
-        function editCategory(id) {
-            alert(\`编辑分类 \${id}\`);
-        }
-
-        function deleteCategory(id) {
-            if (confirm('确定要删除这个分类吗？')) {
-                alert(\`分类 \${id} 已删除\`);
-                initCategoriesPage();
-            }
-        }
+        // 分类管理功能现在由 categoryManager 处理
     </script>
 </body>
 </html>

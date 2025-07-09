@@ -46,10 +46,28 @@ class Table {
 
   static async create(tableData) {
     try {
-      const { table_number, name, capacity, location, status = 'available' } = tableData;
+      const {
+        table_number,
+        name,
+        capacity,
+        location,
+        status = 'available'
+      } = tableData;
+
+      // 将undefined转换为null或默认值，确保数据库兼容性
+      const params = [
+        table_number || null,
+        name || null,
+        parseInt(capacity) || 4,
+        location || null,
+        status || 'available'
+      ];
+
+      console.log('创建桌台参数:', params);
+
       const [result] = await pool.execute(
         'INSERT INTO tables (table_number, name, capacity, location, status) VALUES (?, ?, ?, ?, ?)',
-        [table_number, name, capacity, location, status]
+        params
       );
       return result.insertId;
     } catch (error) {
@@ -59,10 +77,29 @@ class Table {
 
   static async update(id, tableData) {
     try {
-      const { table_number, name, capacity, location, status } = tableData;
+      const {
+        table_number,
+        name,
+        capacity,
+        location,
+        status = 'available'
+      } = tableData;
+
+      // 将undefined转换为null或默认值，确保数据库兼容性
+      const params = [
+        table_number || null,
+        name || null,
+        parseInt(capacity) || 4,
+        location || null,
+        status || 'available',
+        parseInt(id)
+      ];
+
+      console.log('更新桌台参数:', params);
+
       const [result] = await pool.execute(
         'UPDATE tables SET table_number = ?, name = ?, capacity = ?, location = ?, status = ? WHERE id = ?',
-        [table_number, name, capacity, location, status, id]
+        params
       );
       return result.affectedRows > 0;
     } catch (error) {

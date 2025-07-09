@@ -243,20 +243,42 @@ class AdminManager {
 
     // 渲染菜品表格
     renderMenuItems(items) {
+        // 如果有新的菜品管理器，使用它来渲染
+        if (window.menuItemManager && menuItemManager.renderMenuItems) {
+            menuItemManager.renderMenuItems(items);
+            return;
+        }
+
+        // 否则使用原有的渲染方式
         const tbody = document.querySelector('#menu-items tbody');
         if (!tbody) return;
 
         tbody.innerHTML = items.map(item => `
             <tr>
                 <td>${item.id}</td>
-                <td>${item.name}</td>
-                <td>${item.category_name || '未分类'}</td>
-                <td>¥${item.price}</td>
-                <td>${item.stock_quantity || 0}${item.unit || '份'}</td>
-                <td>${item.status === 'available' ? '上架' : '下架'}</td>
                 <td>
-                    <button class="btn btn-primary" onclick="adminManager.editMenuItem(${item.id})">编辑</button>
-                    <button class="btn btn-danger" onclick="adminManager.deleteMenuItem(${item.id})">删除</button>
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        ${item.image_url ? `<img src="${item.image_url}" alt="${item.name}" style="width: 40px; height: 40px; border-radius: 4px; object-fit: cover;">` : '📷'}
+                        <span>${item.name}</span>
+                    </div>
+                </td>
+                <td>${item.category_name || '未分类'}</td>
+                <td>¥${parseFloat(item.price || 0).toFixed(2)}</td>
+                <td>${item.stock_quantity || 0} ${item.unit || '份'}</td>
+                <td>
+                    <span class="status-badge ${item.status === 'available' ? 'status-success' : 'status-danger'}">
+                        ${item.status === 'available' ? '上架' : '下架'}
+                    </span>
+                </td>
+                <td>
+                    <div class="action-buttons">
+                        <button class="btn btn-sm btn-primary" onclick="adminManager.editMenuItem(${item.id})" title="编辑">
+                            ✏️
+                        </button>
+                        <button class="btn btn-sm btn-danger" onclick="adminManager.deleteMenuItem(${item.id}, '${item.name}')" title="删除">
+                            🗑️
+                        </button>
+                    </div>
                 </td>
             </tr>
         `).join('');
@@ -339,7 +361,12 @@ class AdminManager {
                 <td>${new Date(order.created_at).toLocaleString()}</td>
                 <td>
                     <button class="btn btn-primary" onclick="adminManager.viewOrder(${order.id})">查看</button>
-                    <button class="btn btn-success" onclick="adminManager.updateOrderStatus(${order.id})">更新状态</button>
+                    ${order.status === 'preparing' ?
+                        `<button class="btn btn-success" onclick="adminManager.completeOrder(${order.id})">标记完成</button>` :
+                        order.status === 'completed' || order.status === 'ready' ?
+                        `<span class="text-success">已完成</span>` :
+                        `<button class="btn btn-warning" onclick="adminManager.updateOrderStatus(${order.id})">更新状态</button>`
+                    }
                 </td>
             </tr>
         `).join('');
@@ -454,21 +481,29 @@ class AdminManager {
 
     // 添加分类
     addCategory() {
-        this.showAddCategoryModal();
+        if (window.categoryManager) {
+            categoryManager.showAddDialog();
+        } else {
+            this.showAddCategoryModal();
+        }
     }
 
     // 编辑分类
     async editCategory(id) {
-        try {
-            const result = await MenuCategoryAPI.getById(id);
-            if (result.success) {
-                this.showEditCategoryModal(result.data.category);
+        if (window.categoryManager) {
+            await categoryManager.showEditDialog(id);
+        } else {
+            try {
+                const result = await MenuCategoryAPI.getById(id);
+                if (result.success) {
+                    this.showEditCategoryModal(result.data.category);
+                }
+            } catch (error) {
+                console.error('获取分类信息失败:', error);
+                // 使用模拟数据显示编辑框
+                const mockCategory = { id: id, name: '川菜', icon: '🌶️', description: '四川菜系', status: 'active' };
+                this.showEditCategoryModal(mockCategory);
             }
-        } catch (error) {
-            console.error('获取分类信息失败:', error);
-            // 使用模拟数据显示编辑框
-            const mockCategory = { id: id, name: '川菜', icon: '🌶️', description: '四川菜系', status: 'active' };
-            this.showEditCategoryModal(mockCategory);
         }
     }
 
@@ -489,72 +524,94 @@ class AdminManager {
 
     // 添加菜品
     addMenuItem() {
-        this.showAddMenuItemModal();
+        if (window.menuItemManager) {
+            menuItemManager.showAddDialog();
+        } else {
+            console.warn('MenuItemManager 未加载，使用备用方案');
+            this.showAddMenuItemModal();
+        }
     }
 
     // 编辑菜品
     async editMenuItem(id) {
-        try {
-            const result = await MenuItemAPI.getById(id);
-            if (result.success) {
-                this.showEditMenuItemModal(result.data.item);
+        if (window.menuItemManager) {
+            await menuItemManager.showEditDialog(id);
+        } else {
+            console.warn('MenuItemManager 未加载，使用备用方案');
+            try {
+                const result = await MenuItemAPI.getById(id);
+                if (result.success) {
+                    this.showEditMenuItemModal(result.data.item);
+                }
+            } catch (error) {
+                console.error('获取菜品信息失败:', error);
+                // 使用模拟数据显示编辑框
+                const mockItem = {
+                    id: id,
+                    name: '宫保鸡丁',
+                    category_id: 1,
+                    price: 28.00,
+                    stock_quantity: 50,
+                    unit: '份',
+                    description: '经典川菜',
+                    status: 'available'
+                };
+                this.showEditMenuItemModal(mockItem);
             }
-        } catch (error) {
-            console.error('获取菜品信息失败:', error);
-            // 使用模拟数据显示编辑框
-            const mockItem = {
-                id: id,
-                name: '宫保鸡丁',
-                category_id: 1,
-                price: 28.00,
-                stock_quantity: 50,
-                unit: '份',
-                description: '经典川菜',
-                status: 'available'
-            };
-            this.showEditMenuItemModal(mockItem);
         }
     }
 
     // 删除菜品
-    async deleteMenuItem(id) {
-        if (!confirm('确定要删除这个菜品吗？')) return;
-        
-        try {
-            const result = await MenuItemAPI.delete(id);
-            if (result.success) {
-                alert('删除成功');
-                await this.loadMenuItems();
+    async deleteMenuItem(id, name = '该菜品') {
+        if (window.menuItemManager) {
+            await menuItemManager.deleteMenuItem(id, name);
+        } else {
+            if (!confirm('确定要删除这个菜品吗？')) return;
+
+            try {
+                const result = await MenuItemAPI.delete(id);
+                if (result.success) {
+                    alert('删除成功');
+                    await this.loadMenuItems();
+                }
+            } catch (error) {
+                this.showError('删除失败: ' + error.message);
             }
-        } catch (error) {
-            this.showError('删除失败: ' + error.message);
         }
     }
 
     // 添加桌台
     addTable() {
-        this.showAddTableModal();
+        if (window.tableManager) {
+            tableManager.showAddDialog();
+        } else {
+            this.showAddTableModal();
+        }
     }
 
     // 编辑桌台
     async editTable(id) {
-        try {
-            const result = await TableAPI.getById(id);
-            if (result.success) {
-                this.showEditTableModal(result.data.table);
+        if (window.tableManager) {
+            await tableManager.showEditDialog(id);
+        } else {
+            try {
+                const result = await TableAPI.getById(id);
+                if (result.success) {
+                    this.showEditTableModal(result.data.table);
+                }
+            } catch (error) {
+                console.error('获取桌台信息失败:', error);
+                // 使用模拟数据显示编辑框
+                const mockTable = {
+                    id: id,
+                    table_number: 'T001',
+                    name: '桌台01',
+                    capacity: 4,
+                    location: '大厅',
+                    status: 'available'
+                };
+                this.showEditTableModal(mockTable);
             }
-        } catch (error) {
-            console.error('获取桌台信息失败:', error);
-            // 使用模拟数据显示编辑框
-            const mockTable = {
-                id: id,
-                table_number: 'T001',
-                name: '桌台01',
-                capacity: 4,
-                location: '大厅',
-                status: 'available'
-            };
-            this.showEditTableModal(mockTable);
         }
     }
 
@@ -574,15 +631,179 @@ class AdminManager {
     }
 
     // 查看订单
-    viewOrder(id) {
-        // TODO: 实现查看订单详情功能
-        console.log('查看订单:', id);
+    async viewOrder(id) {
+        try {
+            console.log('查看订单:', id);
+
+            // 获取订单详情
+            const result = await OrderAPI.getById(id);
+            if (result.success) {
+                this.showOrderDetailModal(result.data.order);
+            } else {
+                throw new Error(result.message || '获取订单详情失败');
+            }
+        } catch (error) {
+            console.error('查看订单失败:', error);
+            alert('查看订单失败: ' + error.message);
+        }
     }
 
+    // 显示订单详情弹窗
+    showOrderDetailModal(order) {
+        const orderDetailHTML = this.getOrderDetailHTML(order);
+
+        // 创建自定义弹窗，不使用createModal以避免自动添加按钮
+        const modal = document.createElement('div');
+        modal.id = 'admin-modal';
+        modal.className = 'modal';
+        modal.style.display = 'block';
+
+        modal.innerHTML = `
+            <div class="modal-content" style="max-width: 500px; margin: 50px auto;">
+                <div class="modal-header">
+                    <h2>订单详情</h2>
+                    <span class="close" onclick="document.getElementById('admin-modal').remove()">&times;</span>
+                </div>
+                <div class="modal-body">
+                    ${orderDetailHTML}
+                </div>
+            </div>
+        `;
+
+        // 点击外部区域关闭弹窗
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                modal.remove();
+            }
+        });
+
+        // ESC键关闭弹窗
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && document.getElementById('admin-modal')) {
+                document.getElementById('admin-modal').remove();
+            }
+        });
+
+        document.body.appendChild(modal);
+    }
+
+    // 生成订单详情HTML - 仅显示基本信息
+    getOrderDetailHTML(order) {
+        const statusMap = {
+            'pending': '待处理',
+            'preparing': '制作中',
+            'ready': '已完成',
+            'completed': '已完成',
+            'cancelled': '已取消'
+        };
+
+        return `
+            <div class="order-detail-container" style="max-width: 500px; padding: 20px;">
+                <div class="order-basic-info">
+                    <h3 style="color: #333; margin-bottom: 15px; font-size: 18px;">📋 订单基本信息</h3>
+                    <div style="line-height: 1.8; font-size: 14px;">
+                        <div style="margin-bottom: 8px;">
+                            <strong>订单号:</strong>
+                            <span style="color: #007bff;">${order.order_number}</span>
+                        </div>
+                        <div style="margin-bottom: 8px;">
+                            <strong>订单状态:</strong>
+                            <span style="color: ${order.status === 'completed' || order.status === 'ready' ? '#28a745' : order.status === 'preparing' ? '#ffc107' : '#6c757d'}; font-weight: bold;">
+                                ${statusMap[order.status] || order.status}
+                            </span>
+                        </div>
+                        <div style="margin-bottom: 8px;">
+                            <strong>桌台:</strong>
+                            <span>${order.table_id ? `${order.table_id}号桌` : '无'}</span>
+                        </div>
+                        <div style="margin-bottom: 8px;">
+                            <strong>总金额:</strong>
+                            <span style="color: #dc3545; font-size: 16px; font-weight: bold;">¥${order.total_amount}</span>
+                        </div>
+                        <div style="margin-bottom: 8px;">
+                            <strong>客户姓名:</strong>
+                            <span>${order.customer_name || '未提供'}</span>
+                        </div>
+                        <div style="margin-bottom: 8px;">
+                            <strong>联系电话:</strong>
+                            <span>${order.customer_phone || '未提供'}</span>
+                        </div>
+                        <div style="margin-bottom: 8px;">
+                            <strong>下单时间:</strong>
+                            <span>${new Date(order.created_at).toLocaleString()}</span>
+                        </div>
+                        ${order.delivery_address ? `
+                        <div style="margin-bottom: 8px;">
+                            <strong>配送地址:</strong>
+                            <span style="color: #28a745;">${order.delivery_address}</span>
+                        </div>
+                        ` : ''}
+                        ${order.notes ? `
+                        <div style="margin-top: 15px; padding: 10px; background: #f8f9fa; border-radius: 4px; border-left: 3px solid #007bff;">
+                            <strong>备注:</strong> ${order.notes}
+                        </div>
+                        ` : ''}
+                    </div>
+                </div>
+            </div>
+        `;
+    }
+
+
+
     // 更新订单状态
-    updateOrderStatus(id) {
-        // TODO: 实现更新订单状态功能
-        console.log('更新订单状态:', id);
+    async updateOrderStatus(id) {
+        try {
+            const result = await OrderAPI.getById(id);
+            if (result.success) {
+                const order = result.data.order;
+
+                // 检查订单状态是否可以更新
+                if (order.status === 'completed' || order.status === 'ready') {
+                    alert('订单已完成，无法再次更新状态');
+                    return;
+                }
+
+                this.showUpdateOrderStatusModal(order);
+            } else {
+                throw new Error(result.message || '获取订单信息失败');
+            }
+        } catch (error) {
+            console.error('获取订单信息失败:', error);
+            alert('获取订单信息失败: ' + error.message);
+        }
+    }
+
+    // 完成订单（从制作中更新为完成）
+    async completeOrder(id) {
+        try {
+            console.log('完成订单:', id);
+
+            // 确认操作
+            if (!confirm('确定要将此订单标记为完成吗？')) {
+                return;
+            }
+
+            // 调用API更新状态为completed
+            const result = await OrderAPI.updateStatus(id, 'completed');
+            if (result.success) {
+                alert('订单已标记为完成');
+
+                // 关闭弹窗
+                const modal = document.getElementById('admin-modal');
+                if (modal) {
+                    modal.remove();
+                }
+
+                // 刷新订单列表
+                await this.loadOrders();
+            } else {
+                throw new Error(result.message || '更新失败');
+            }
+        } catch (error) {
+            console.error('完成订单失败:', error);
+            alert('完成订单失败: ' + error.message);
+        }
     }
 
     // 编辑用户
@@ -665,16 +886,109 @@ class AdminManager {
         });
     }
 
-    // 显示订单详情模态框
-    showOrderDetailModal(order) {
-        this.createModal('订单详情', this.getOrderDetailHTML(order), null, false);
-    }
+
 
     // 显示更新订单状态模态框
     showUpdateOrderStatusModal(order) {
         this.createModal('更新订单状态', this.getOrderStatusFormHTML(order), () => {
             this.saveOrderStatus(order.id);
         });
+    }
+
+    // 生成订单状态更新表单HTML
+    getOrderStatusFormHTML(order) {
+        const statusOptions = [
+            { value: 'pending', label: '待处理' },
+            { value: 'preparing', label: '制作中' },
+            { value: 'ready', label: '已完成' },
+            { value: 'completed', label: '已完成' },
+            { value: 'cancelled', label: '已取消' }
+        ];
+
+        // 根据当前状态限制可选择的状态
+        let availableStatuses = [];
+        switch (order.status) {
+            case 'pending':
+                availableStatuses = ['preparing', 'cancelled'];
+                break;
+            case 'preparing':
+                availableStatuses = ['ready', 'completed', 'cancelled'];
+                break;
+            case 'ready':
+                availableStatuses = ['completed'];
+                break;
+            case 'completed':
+                availableStatuses = []; // 已完成不能再更新
+                break;
+            case 'cancelled':
+                availableStatuses = []; // 已取消不能再更新
+                break;
+            default:
+                availableStatuses = ['preparing', 'ready', 'completed', 'cancelled'];
+        }
+
+        if (availableStatuses.length === 0) {
+            return `
+                <div class="form-group">
+                    <p style="text-align: center; color: #6c757d; padding: 20px;">
+                        当前订单状态为"${order.status === 'completed' ? '已完成' : '已取消'}"，无法再次更新
+                    </p>
+                </div>
+            `;
+        }
+
+        return `
+            <div class="form-group">
+                <label>当前状态: <strong>${order.status === 'pending' ? '待处理' : order.status === 'preparing' ? '制作中' : order.status === 'ready' ? '已完成' : order.status === 'completed' ? '已完成' : '已取消'}</strong></label>
+            </div>
+            <div class="form-group">
+                <label for="order-status">更新为:</label>
+                <select id="order-status" class="form-control" required>
+                    <option value="">请选择新状态</option>
+                    ${availableStatuses.map(status => {
+                        const option = statusOptions.find(opt => opt.value === status);
+                        return `<option value="${status}">${option ? option.label : status}</option>`;
+                    }).join('')}
+                </select>
+            </div>
+        `;
+    }
+
+    // 保存订单状态
+    async saveOrderStatus(id) {
+        try {
+            const statusElement = document.getElementById('order-status');
+            if (!statusElement) {
+                throw new Error('找不到状态选择元素');
+            }
+
+            const newStatus = statusElement.value;
+            if (!newStatus) {
+                alert('请选择新的订单状态');
+                return;
+            }
+
+            console.log('更新订单状态:', id, '新状态:', newStatus);
+
+            const result = await OrderAPI.updateStatus(id, newStatus);
+            if (result.success) {
+                alert('订单状态更新成功');
+
+                // 关闭弹窗
+                const modal = document.getElementById('admin-modal');
+                if (modal) {
+                    modal.remove();
+                }
+
+                // 刷新订单列表
+                await this.loadOrders();
+            } else {
+                throw new Error(result.message || '更新失败');
+            }
+        } catch (error) {
+            console.error('更新订单状态失败:', error);
+            alert('更新订单状态失败: ' + error.message);
+        }
     }
 
     // 创建模态框
@@ -1096,9 +1410,7 @@ class AdminManager {
                 }
             } catch (apiError) {
                 console.error('API调用失败:', apiError);
-                alert('桌台添加成功（模拟）');
-                document.getElementById('admin-modal').remove();
-                await this.loadTables();
+                alert('添加失败: ' + (apiError.message || '网络错误，请检查服务器连接'));
             }
         } catch (error) {
             this.showError('添加桌台失败: ' + error.message);
@@ -1149,12 +1461,12 @@ class AdminManager {
                     alert('桌台更新成功');
                     document.getElementById('admin-modal').remove();
                     await this.loadTables();
+                } else {
+                    throw new Error(result.message || '更新失败');
                 }
             } catch (apiError) {
                 console.error('API调用失败:', apiError);
-                alert('桌台更新成功（模拟）');
-                document.getElementById('admin-modal').remove();
-                await this.loadTables();
+                alert('更新失败: ' + (apiError.message || '网络错误，请检查服务器连接'));
             }
         } catch (error) {
             this.showError('更新桌台失败: ' + error.message);

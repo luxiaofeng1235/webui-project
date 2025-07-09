@@ -10,6 +10,9 @@
 </head>
 <body>
     <script src="../js/admin-layout.js"></script>
+    <script src="../js/api.js"></script>
+    <script src="../js/admin-dialog.js"></script>
+    <script src="../js/admin-menu-items.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             setTimeout(() => {
@@ -47,11 +50,66 @@
                         <h2 class="admin-content-card-title">🍽️ 菜品管理</h2>
                     </div>
                     <div class="admin-content-card-body">
-                        <p>菜品管理功能正在开发中...</p>
+                        <div class="admin-toolbar">
+                            <div class="admin-toolbar-left">
+                                <div class="admin-search-box">
+                                    <span class="admin-search-icon">🔍</span>
+                                    <input class="admin-search-input" type="text" placeholder="搜索菜品...">
+                                </div>
+                            </div>
+                            <div class="admin-toolbar-right">
+                                <button class="btn btn-success" onclick="menuItemManager.showAddDialog()">➕ 添加菜品</button>
+                            </div>
+                        </div>
+
+                        <table class="admin-data-table" id="menu-items">
+                            <thead>
+                                <tr>
+                                    <th>菜品ID</th>
+                                    <th>菜品名称</th>
+                                    <th>分类</th>
+                                    <th>价格</th>
+                                    <th>库存</th>
+                                    <th>状态</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                \${dishes.map(dish => \\\`
+                                    <tr>
+                                        <td>\\\${dish.id}</td>
+                                        <td>
+                                            <div style="display: flex; align-items: center; gap: 10px;">
+                                                <span style="font-size: 20px;">🍽️</span>
+                                                <strong>\\\${dish.name}</strong>
+                                            </div>
+                                        </td>
+                                        <td>\\\${dish.category}</td>
+                                        <td>¥\\\${parseFloat(dish.price || 0).toFixed(2)}</td>
+                                        <td>\\\${dish.stock || 0}</td>
+                                        <td>
+                                            <span class="status-badge \\\${dish.status === 'active' ? 'status-success' : 'status-danger'}">
+                                                \\\${dish.status === 'active' ? '上架' : '下架'}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <div class="action-buttons">
+                                                <button class="btn btn-sm btn-primary" onclick="menuItemManager.showEditDialog(\\\${dish.id})" title="编辑">
+                                                    ✏️
+                                                </button>
+                                                <button class="btn btn-sm btn-danger" onclick="menuItemManager.deleteMenuItem(\\\${dish.id}, '\\\${dish.name}')" title="删除">
+                                                    🗑️
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                \\\`).join('')}
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             \`;
-            
+
             adminLayout.setPageContent(content);
         }
     </script>

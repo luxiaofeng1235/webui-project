@@ -90,7 +90,7 @@
                 <div class="admin-page-header">
                     <h2 class="admin-page-title">菜品管理</h2>
                     <div class="admin-page-actions">
-                        <button class="btn btn-success" onclick="adminManager.addMenuItem()">添加菜品</button>
+                        <button class="btn btn-success" onclick="adminManager.addMenuItem()">➕ 添加菜品</button>
                     </div>
                 </div>
                 <table class="admin-table">
@@ -247,8 +247,11 @@
     <!-- 引入API和管理脚本 -->
     <script src="js/api.js"></script>
     <script src="js/cookie-utils.js"></script>
+    <script src="js/admin-dialog.js"></script>
+    <script src="js/admin-menu-items.js"></script>
+    <script src="js/admin-categories.js"></script>
+    <script src="js/admin-tables.js"></script>
     <script src="js/admin.js"></script>
-    <script src="admin-edit-test.js"></script>
 
     <!-- 调试和测试脚本 -->
     <script>
@@ -367,5 +370,81 @@
         console.log('   Ctrl + T: 运行全部测试');
         console.log('   Ctrl + H: 显示/隐藏测试面板');
     </script>
+
+    <!-- Dialog 弹窗 -->
+    <!-- 菜品管理弹窗现在通过 admin-menu-items.js 动态生成 -->
+
+    <!-- 菜品分类弹窗 -->
+    <dialog id="category-dialog" class="admin-dialog">
+        <div class="admin-dialog-header">
+            <h3 id="category-dialog-title">添加分类</h3>
+            <button type="button" class="admin-dialog-close" onclick="closeDialog('category-dialog')">&times;</button>
+        </div>
+        <div class="admin-dialog-body">
+            <form id="category-form" class="admin-form">
+                <div class="admin-form-group">
+                    <label class="admin-form-label">分类名称</label>
+                    <input type="text" id="category-name" class="admin-form-control" required>
+                </div>
+                <div class="admin-form-group">
+                    <label class="admin-form-label">分类图标</label>
+                    <input type="text" id="category-icon" class="admin-form-control" placeholder="🍽️">
+                </div>
+                <div class="admin-form-group">
+                    <label class="admin-form-label">排序</label>
+                    <input type="number" id="category-sort" class="admin-form-control" min="0" value="0">
+                </div>
+                <div class="admin-form-group">
+                    <label class="admin-form-label">状态</label>
+                    <select id="category-status" class="admin-form-control">
+                        <option value="active">启用</option>
+                        <option value="inactive">禁用</option>
+                    </select>
+                </div>
+            </form>
+        </div>
+        <div class="admin-dialog-footer">
+            <button type="button" class="btn btn-secondary" onclick="closeDialog('category-dialog')">取消</button>
+            <button type="button" class="btn btn-primary" onclick="saveCategory()">保存</button>
+        </div>
+    </dialog>
+
+    <!-- 桌台管理弹窗 -->
+    <dialog id="table-dialog" class="admin-dialog">
+        <div class="admin-dialog-header">
+            <h3 id="table-dialog-title">添加桌台</h3>
+            <button type="button" class="admin-dialog-close" onclick="closeDialog('table-dialog')">&times;</button>
+        </div>
+        <div class="admin-dialog-body">
+            <form id="table-form" class="admin-form">
+                <div class="admin-form-group">
+                    <label class="admin-form-label">桌台编号</label>
+                    <input type="text" id="table-number" class="admin-form-control" required>
+                </div>
+                <div class="admin-form-group">
+                    <label class="admin-form-label">桌台名称</label>
+                    <input type="text" id="table-name" class="admin-form-control">
+                </div>
+                <div class="admin-form-group">
+                    <label class="admin-form-label">座位数</label>
+                    <input type="number" id="table-seats" class="admin-form-control" min="1" value="4">
+                </div>
+                <div class="admin-form-group">
+                    <label class="admin-form-label">状态</label>
+                    <select id="table-status" class="admin-form-control">
+                        <option value="available">可用</option>
+                        <option value="occupied">占用</option>
+                        <option value="reserved">预订</option>
+                        <option value="maintenance">维护</option>
+                    </select>
+                </div>
+            </form>
+        </div>
+        <div class="admin-dialog-footer">
+            <button type="button" class="btn btn-secondary" onclick="closeDialog('table-dialog')">取消</button>
+            <button type="button" class="btn btn-primary" onclick="saveTable()">保存</button>
+        </div>
+    </dialog>
+
 </body>
 </html>

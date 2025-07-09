@@ -218,18 +218,18 @@
                         if (migrated) {
                             console.log('✅ 成功迁移localStorage数据到Cookie');
                             updateStatus('登录信息已更新');
-                            redirectTo('admin.html', '登录状态已恢复');
+                            redirectTo('/admin/', '登录状态已恢复');
                             return;
                         } else {
                             console.log('⚠️ 迁移未执行，但localStorage状态有效');
                             updateStatus('使用本地登录信息');
-                            redirectTo('admin.html', '已登录');
+                            redirectTo('/admin/', '已登录');
                             return;
                         }
                     } catch (migrateError) {
                         console.warn('⚠️ 迁移失败，但仍然跳转到后台:', migrateError);
                         updateStatus('使用本地登录信息');
-                        redirectTo('admin.html', '已登录');
+                        redirectTo('/admin/', '已登录');
                         return;
                     }
                 } else {
@@ -242,7 +242,7 @@
                 
                 // 没有有效的登录信息
                 updateStatus('未检测到登录信息');
-                redirectTo('login.html', '需要登录');
+                redirectTo('/admin/', '需要登录');
                 
             } catch (error) {
                 console.error('登录状态检查失败:', error);

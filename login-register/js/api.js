@@ -14,20 +14,40 @@ class API {
     // 通用请求方法
     static async request(url, options = {}) {
         try {
-            const response = await fetch(this.baseURL + url, {
-                headers: this.getAuthHeaders(),
+            const fullUrl = this.baseURL + url;
+            const headers = this.getAuthHeaders();
+
+            console.log('🌐 API请求详情:');
+            console.log('  URL:', fullUrl);
+            console.log('  方法:', options.method || 'GET');
+            console.log('  请求头:', headers);
+            console.log('  请求体:', options.body);
+
+            const response = await fetch(fullUrl, {
+                headers: headers,
                 ...options
             });
 
+            console.log('📡 响应详情:');
+            console.log('  状态码:', response.status);
+            console.log('  状态文本:', response.statusText);
+            console.log('  响应头:', Object.fromEntries(response.headers.entries()));
+
             const data = await response.json();
+            console.log('📦 响应数据:', data);
 
             if (!response.ok) {
-                throw new Error(data.message || '请求失败');
+                console.error('❌ 请求失败:', {
+                    status: response.status,
+                    statusText: response.statusText,
+                    data: data
+                });
+                throw new Error(data.message || `请求失败 (${response.status})`);
             }
 
             return data;
         } catch (error) {
-            console.error('API请求错误:', error);
+            console.error('❌ API请求错误:', error);
             throw error;
         }
     }
@@ -125,7 +145,12 @@ class MenuItemAPI {
     }
 
     static async update(id, data) {
-        return API.put(`/api/menu-items/${id}`, data);
+        console.log('🔄 MenuItemAPI.update 被调用:');
+        console.log('  ID:', id, '(类型:', typeof id, ')');
+        console.log('  数据:', data);
+        const url = `/api/menu-items/${id}`;
+        console.log('  构造的URL:', url);
+        return API.put(url, data);
     }
 
     static async delete(id) {
@@ -146,11 +171,35 @@ class TableAPI {
     }
 
     static async create(data) {
-        return API.post('/api/tables', data);
+        // 清理数据，确保没有undefined值
+        const cleanData = {
+            table_number: data.table_number || '',
+            name: data.name || '',
+            capacity: parseInt(data.capacity) || 4,
+            location: data.location || '',
+            status: data.status || 'available'
+        };
+
+        console.log('TableAPI.create - 原始数据:', data);
+        console.log('TableAPI.create - 清理后数据:', cleanData);
+
+        return API.post('/api/tables', cleanData);
     }
 
     static async update(id, data) {
-        return API.put(`/api/tables/${id}`, data);
+        // 清理数据，确保没有undefined值
+        const cleanData = {
+            table_number: data.table_number || '',
+            name: data.name || '',
+            capacity: parseInt(data.capacity) || 4,
+            location: data.location || '',
+            status: data.status || 'available'
+        };
+
+        console.log('TableAPI.update - 原始数据:', data);
+        console.log('TableAPI.update - 清理后数据:', cleanData);
+
+        return API.put(`/api/tables/${id}`, cleanData);
     }
 
     static async delete(id) {
@@ -223,6 +272,32 @@ class UserAPI {
     }
 }
 
+// 顾客API
+class CustomerAPI {
+    static async getAll(page = 1, limit = 20, status = null, search = null) {
+        let url = '/api/customers';
+        const params = new URLSearchParams();
+        params.append('page', page);
+        params.append('limit', limit);
+        if (status !== null) params.append('status', status);
+        if (search) params.append('search', search);
+        url += '?' + params.toString();
+        return API.get(url);
+    }
+
+    static async getById(id) {
+        return API.get(`/api/customers/${id}`);
+    }
+
+    static async updateStatus(id, status) {
+        return API.patch(`/api/customers/${id}/status`, { status });
+    }
+
+    static async getStats() {
+        return API.get('/api/customers/stats');
+    }
+}
+
 // 系统设置API
 class SettingAPI {
     static async getAll() {
@@ -250,4 +325,5 @@ window.MenuItemAPI = MenuItemAPI;
 window.TableAPI = TableAPI;
 window.OrderAPI = OrderAPI;
 window.UserAPI = UserAPI;
+window.CustomerAPI = CustomerAPI;
 window.SettingAPI = SettingAPI;

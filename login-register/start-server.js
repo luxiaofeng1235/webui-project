@@ -7,7 +7,6 @@ require('dotenv').config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-
 // 中间件
 app.use(cors());
 app.use(bodyParser.json());
@@ -15,6 +14,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // 静态文件服务
 app.use(express.static(path.join(__dirname)));
+
+// 专门为images文件夹提供静态文件服务
+app.use('/images', express.static(path.join(__dirname, 'images')));
 
 // API路由
 app.use('/api/auth', require('./src/routes/auth'));
@@ -24,6 +26,7 @@ app.use('/api/orders', require('./src/routes/orders'));
 app.use('/api/users', require('./src/routes/users'));
 app.use('/api/tables', require('./src/routes/tables'));
 app.use('/api/settings', require('./src/routes/settings'));
+app.use('/api/upload', require('./src/routes/upload'));
 
 // 默认路由 - 重定向到登录页面
 app.get('/', (req, res) => {
